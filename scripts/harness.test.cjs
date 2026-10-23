@@ -1,0 +1,18 @@
+const assert=require('node:assert/strict');
+const {evaluate}=require('./harness.cjs');
+const current={digest:'a',files:{'index.html':'a'}};
+const run={version:1,...current,stable:true,checks:[{name:'contract',passed:true},{name:'harness',passed:true}]};
+const reviews=['Claude','Codex'].map(reviewer=>({reviewer,recordedBy:'manual',digest:'a',verdict:'no-further-changes',scope:'동일 버전의 코드와 검증 결과에 대한 검토',evidence:'실제 교차검토 응답에 대한 충분한 길이의 근거 기록'}));
+assert.equal(evaluate(current,null,[]),'STALE_OR_MISSING_RUN');
+assert.equal(evaluate({...current,digest:'b'},run,reviews),'STALE_OR_MISSING_RUN');
+assert.equal(evaluate(current,{...run,files:{}},reviews),'STALE_OR_MISSING_RUN');
+assert.equal(evaluate(current,{...run,stable:false},reviews),'CHECKS_FAILED');
+assert.equal(evaluate(current,{...run,checks:[]},reviews),'CHECKS_FAILED');
+assert.equal(evaluate(current,{...run,checks:[{name:'contract',passed:false},run.checks[1]]},reviews),'CHECKS_FAILED');
+assert.equal(evaluate(current,run,[]),'REVIEW_PENDING');
+assert.equal(evaluate(current,run,[reviews[0],reviews[0]]),'REVIEW_PENDING');
+assert.equal(evaluate(current,run,[reviews[0],{...reviews[1],digest:'old'}]),'REVIEW_PENDING');
+assert.equal(evaluate(current,run,[reviews[0],{...reviews[1],evidence:''}]),'REVIEW_PENDING');
+assert.equal(evaluate(current,run,reviews),'AWAITING_HUMAN_APPROVAL');
+assert.equal(evaluate(current,run,[...reviews,{...reviews[0],verdict:'changes'}]),'REVIEW_PENDING');
+console.log('PASS 하네스 상태 전이 12개: 누락·변경·실패·미검토·승인 대기');

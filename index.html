@@ -1,0 +1,124 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BridgeCheck · 웹과 앱 사이, 변경을 확인하세요</title>
+<style>
+:root{font-family:system-ui,sans-serif;color:#172c35;background:#f2f5f4}*{box-sizing:border-box}body{margin:0}header,main{max-width:1280px;margin:auto;padding:28px}header{padding-bottom:8px}.brand{color:#00776b;font-weight:800;letter-spacing:2px}h1{font-size:34px;margin:14px 0}p{line-height:1.65}.muted{color:#566b73;font-size:14px}.notice{background:#e1efeb;padding:14px 18px;border-radius:12px}.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}.panel{background:white;border:1px solid #d7e2df;border-radius:16px;padding:22px;margin-bottom:18px}h2{font-size:19px;margin:0 0 14px}label{display:block;font-weight:650;margin-bottom:10px}textarea{width:100%;height:280px;resize:vertical;border:1px solid #bacdc7;border-radius:8px;padding:12px;font:13px/1.6 ui-monospace,monospace;background:#fbfdfc;color:#20342f}select,button{font:inherit;padding:10px 15px;border:1px solid #b4cac3;border-radius:8px;background:white;color:#17463c}button{cursor:pointer}button:hover{background:#edf4f1}button.primary{background:#00776b;color:white;border-color:#00776b}.actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}.policies{margin-top:18px}.policies select{width:100%}.summary{display:flex;gap:12px;flex-wrap:wrap}.badge{display:inline-block;padding:5px 9px;border-radius:6px;background:#e8efed;font-size:13px;font-weight:650}.오류{background:#ffe7e4;color:#a22d21}.오류가능{background:#fff0da;color:#8a5000}.확인필요{background:#e9edff;color:#394e9d}.계약상호환{background:#dff4e9;color:#256445}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;vertical-align:top;padding:14px 10px;border-bottom:1px solid #e2eae7;white-space:pre-wrap;overflow-wrap:anywhere;min-width:110px}th{color:#526c64;background:#f6f9f7}td.path{min-width:190px}#report{height:320px}#status{font-weight:600;color:#9e352b}details{padding:12px 0;border-bottom:1px solid #e2eae7}summary{cursor:pointer;font-weight:600}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f4f7f6;padding:14px;border-radius:8px}.empty{padding:28px;text-align:center;color:#64796f}footer{text-align:center;padding:25px;color:#71867e;font-size:12px}@media(max-width:760px){.grid{grid-template-columns:1fr}header,main{padding:18px}h1{font-size:26px}.panel{padding:16px}}
+.proposal{padding:16px 0;border-bottom:1px solid #d7e2df}.proposal select{margin:8px 0}.proposal p{font-size:14px;line-height:1.6}</style>
+<header><div class="brand">BRIDGECHECK / CONTRACT REVIEW</div><h1>웹은 바뀌어도, 구버전 앱은 남습니다.</h1><p>이전·새 연동 규칙을 비교하고, 배포 전에 확인할 변경을 찾아보세요.</p><div class="notice"><strong>실제 앱 동작 검증이 아닙니다.</strong><br>최신 웹 × 구버전 앱만 점검합니다. 구버전 웹(앱 내장 번들·캐시)은 범위에서 제외합니다.</div></header>
+<main><section class="panel"><h2>처음이라면 · 샘플로 빠르게 체험</h2><p>예를 들어 웹이 새 카메라 화질 값을 보내면, 구버전 앱은 그 값을 모를 수 있습니다. 변경 근거를 확인하고 앱·웹 담당자에게 전달할 보고서를 만들어 보세요.</p><label for="demoCase">체험할 변경</label><select id="demoCase"><option value="enum">새 화질 값 추가 · 오류 가능 1건</option><option value="compatible">선택 응답 필드 추가 · 계약상 호환 1건</option><option value="full">전체 샘플 · 7개 변경 / 결과 8행</option></select><div class="actions"><button class="primary" id="demo">샘플로 바로 점검</button><a href="#reportTarget">보고서 전달 설정으로 이동</a></div><p class="muted">가상 데이터입니다. 실행하면 입력·결과·대응 제안을 샘플로 바꾸고 파서 정책은 미확인, 전달 대상은 공통으로 설정합니다. 결과는 실제 비교 로직으로 계산합니다.</p></section><section class="panel"><h2>01 · 비교할 계약</h2><p class="muted">팀 자체 단일 action 계약입니다. 원본 입력창에는 민감한 원문이 남습니다. 입력은 저장·전송하지 않습니다.</p><div class="grid"><div><label for="old">이전 계약 · 구앱</label><textarea id="old" spellcheck="false" placeholder="이전 계약 JSON을 붙여 넣으세요"></textarea></div><div><label for="new">새 계약 · 최신 웹</label><textarea id="new" spellcheck="false" placeholder="새 계약 JSON을 붙여 넣으세요"></textarea></div></div><div class="grid policies"><div><label for="requestPolicy">구앱 요청 파서 · 모르는 필드 처리</label><select id="requestPolicy"><option value="unknown">미확인</option value="ignore">무시</option><option value="reject">거부</option></select></div><div><label for="responsePolicy">신웹 응답 파서 · 모르는 필드 처리</label><select id="responsePolicy"><option value="unknown">미확인</option><option value="ignore">무시</option><option value="reject">거부</option></select></div></div><div class="actions"><button class="primary" id="compare">변경 점검하기</button><button id="sample">샘플 넣기</button><button id="reset">초기화</button></div><p id="status" role="status" aria-live="polite"></p></section>
+<section class="panel"><h2>02 · 변경과 방향별 영향</h2><div id="summary" class="summary"></div><div id="results" class="table-wrap"><p class="empty">계약을 입력하거나 샘플을 넣고 점검해 보세요.</p></div></section>
+<section class="panel"><h2>03 · 재검수와 테스트 예시</h2><p>구앱의 미지 키·enum 처리, 신웹의 누락 필드·자료형·구 event 수신 처리, 실제 구현과 계약의 일치 여부를 확인하세요. 변경 유예, 기존 형식 유지, 구형 응답 수용, 최소 앱 버전 게이팅을 검토할 수 있습니다. 필요한 최소 앱 버전은 사람이 결정합니다.</p><p class="muted">생성 예시는 실행 결과가 아닙니다. 민감 키의 값은 마스킹합니다. 모든 개인정보를 탐지하지는 않으므로 공유 전 검토하세요.</p><div id="examples"></div></section>
+<section class="panel"><h2>04 · 공유할 점검 보고서</h2><label for="reportTarget">보고서 전달 대상</label><select id="reportTarget"><option value="common">공통</option><option value="android">Android</option><option value="ios">iPhone (iOS)</option></select><p class="muted">전달 대상 선택이며 OS별 판정이 아닙니다. 플랫폼별 계약·파서가 다르면 각각 입력해 재점검하세요.</p><h3>담당자에게 전달할 대응 제안</h3><p class="muted">오류·오류 가능·확인 필요 항목에만 제안을 선택합니다. 선택은 승인이나 수정 완료를 뜻하지 않습니다. 앱 변경은 업데이트를 설치한 앱에만 적용됩니다.</p><div id="proposals"></div><div class="actions"><button id="copy">보고서 복사</button><button id="download">Markdown 다운로드 (.md)</button></div><label for="report" class="muted">복사가 안 되면 아래 내용을 직접 선택해 복사하세요.</label><textarea id="report" readonly></textarea><p id="copyStatus" role="status"></p></section></main><footer>BridgeCheck · 판단의 근거를 정리하고, 최종 승인은 사람이 합니다.</footer>
+<script>
+'use strict';
+// 모든 입력값은 텍스트로만 출력합니다. 파싱·비교·예시·화면 출력을 분리합니다.
+const $=id=>document.getElementById(id), own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k), obj=v=>v!==null&&typeof v==='object'&&!Array.isArray(v), sensitive=s=>/password|token|authorization|secret|apikey/i.test(s), short=s=>{const a=Array.from(String(s));return a.length>100?a.slice(0,100).join('')+'… [생략]':a.join('')}, show=(v,key='')=>sensitive(key)?'[MASKED]':Array.isArray(v)?`array (${v.length}개)`:obj(v)?`object (${Object.keys(v).length}개)`:short(v), groups=['requestFields','successFields','errorFields'], directions={requestFields:'요청 · 최신 웹 → 구앱',successFields:'성공 응답 · 구앱 → 최신 웹',errorFields:'오류 응답 · 구앱 → 최신 웹'}, policyNames={unknown:'미확인',ignore:'무시',reject:'거부'};
+class InputError extends Error {}
+function parse(text,label){const fail=m=>{throw new InputError(label+': '+m)};if(new TextEncoder().encode(text).length>1048576)fail('입력은 UTF-8 1 MiB 이하여야 합니다.');let c;try{c=JSON.parse(text.replace(/^\uFEFF/,'').trim())}catch{fail('올바른 JSON을 입력하세요.')}if(!obj(c))fail('최상위는 object여야 합니다.');for(const k of ['contractVersion','action','responseEvent'])if(!own(c,k)||typeof c[k]!=='string'||!c[k].trim())fail(k+'는 비공백 문자열이어야 합니다.');for(const g of groups){if(!own(c,g)||!Array.isArray(c[g]))fail(g+' 배열이 필요합니다.');const seen=new Set;for(const [i,f] of c[g].entries()){const loc=g+'['+i+']';if(!obj(f))fail(loc+' 규칙은 object여야 합니다.');for(const k of Object.keys(f))if(!['name','type','required','enum'].includes(k))fail(loc+' 미지원 속성: '+short(k));if(!own(f,'name')||typeof f.name!=='string'||!f.name.trim()||/[.\[\]]/.test(f.name)||['__proto__','prototype','constructor'].includes(f.name))fail(loc+'에 지원하는 필드명이 필요합니다.');if(seen.has(f.name))fail(loc+' 필드명이 중복됩니다.');seen.add(f.name);if(!own(f,'type')||!['string','number','boolean','object','array'].includes(f.type))fail(loc+' 자료형이 잘못되었습니다.');if(own(f,'required')&&typeof f.required!=='boolean')fail(loc+' required는 boolean이어야 합니다.');if(own(f,'enum')&&(!['string','number','boolean'].includes(f.type)||!Array.isArray(f.enum)||!f.enum.length||f.enum.some(v=>typeof v!==f.type||(typeof v==='number'&&!Number.isFinite(v)))))fail(loc+' enum은 같은 자료형의 비어 있지 않은 배열이어야 합니다.');}}return c;}
+function rule(f){if(!f)return '없음';return f.type+' / '+(f.required?'필수':'선택')+(own(f,'enum')?' / enum '+(sensitive(f.name)?'[MASKED]':f.enum.map(v=>show(v)).join(', ')):'');}
+function compare(a,b,policies){const rows=[];function add(g,name,kind,before,after,status,reason,oldField,newField){rows.push({g,name,kind,before,after,status,reason,oldField,newField});}for(const [key,g] of [['action','requestFields'],['responseEvent','successFields']])if(a[key]!==b[key]){for(const gg of key==='responseEvent'?['successFields','errorFields']:[g])add(gg,key,'식별자 변경',show(a[key]),show(b[key]),'오류','송신·수신 계약의 식별자가 일치하지 않습니다. 실제 호환 처리는 사람이 확인하세요.');}if(a.contractVersion!==b.contractVersion)add('metadata','contractVersion','메타데이터 변경',show(a.contractVersion),show(b.contractVersion),'정보','계약 버전 문자열은 앱 버전이나 호환성 근거가 아닙니다.');for(const g of groups){const request=g==='requestFields',p=policies[request?'request':'response'],unknown=()=>[p==='ignore'?'계약상 호환':p==='reject'?'오류':'확인 필요','수신 파서 미지 키 정책: '+policyNames[p]+' (해당 필드가 전송되는 경우)'];const am=new Map(a[g].map(f=>[f.name,f])),bm=new Map(b[g].map(f=>[f.name,f]));for(const name of new Set([...am.keys(),...bm.keys()])){const o=am.get(name),n=bm.get(name);const emit=(kind,status,reason)=>add(g,name,kind,rule(o),rule(n),status,reason,o,n);if(!o){const [s,r]=request?unknown():[n.required?'오류':'계약상 호환',n.required?'구앱은 새 필수 응답 필드를 보장하지 않습니다.':'새 필드는 선택이므로 생략을 허용합니다.'];emit('필드 추가',s,r);continue;}if(!n){const [s,r]=request?[o.required?'오류':'계약상 호환',o.required?'구앱이 요구하는 필수 요청 필드가 사라집니다.':'구앱의 선택 요청 필드는 생략 가능합니다.']:unknown();emit('필드 삭제',s,r);continue;}if(!!o.required!==!!n.required)emit(n.required?'선택 → 필수':'필수 → 선택',request?(n.required?'계약상 호환':'오류 가능'):(n.required?'오류':'계약상 호환'),request?(n.required?'신웹이 필드를 제공하는 방향입니다.':'신웹은 구앱이 요구하는 필드를 생략할 수 있습니다.'):(n.required?'구앱은 신웹이 요구하는 필드를 생략할 수 있습니다.':'신웹이 필드 생략을 허용합니다.'));if(o.type!==n.type){emit('자료형 변경','오류','송신 자료형과 수신 기대 자료형이 다릅니다. 실제 크래시를 확정하지 않습니다.');continue;}const oe=own(o,'enum'),ne=own(n,'enum');const expands=oe&&(!ne||n.enum.some(v=>!o.enum.includes(v))),shrinks=ne&&(!oe||o.enum.some(v=>!n.enum.includes(v)));if(expands)emit('허용 범위 확대',request?'오류 가능':'계약상 호환',request?'신웹이 구앱 허용 범위 밖의 값을 보낼 수 있습니다.':'신웹이 구앱의 기존 값 범위를 수용합니다.');if(shrinks)emit('허용 범위 축소',request?'계약상 호환':'오류 가능',request?'신웹이 보내는 값 범위가 좁아집니다.':'구앱이 신웹의 허용 범위 밖 값을 보낼 수 있습니다.');}}return rows;}
+function witness(r,a,b){const f=r.g==='requestFields'?r.newField:r.oldField;let v=f?(own(f,'enum')?f.enum.find(x=>!(f.required&&f.type==='string'&&x==='')):({string:'example',number:0,boolean:false,object:{},array:[]})[f.type]):undefined;const receiver=r.g==='requestFields'?r.oldField:r.newField;if(r.kind.startsWith('허용 범위')&&f&&receiver&&own(f,'enum')&&own(receiver,'enum')){const outside=f.enum.find(x=>!receiver.enum.includes(x)&&!(f.required&&f.type==='string'&&x===''));if(outside!==undefined)v=outside;}const omitted=(r.kind==='필수 → 선택'&&r.g==='requestFields')||(r.kind==='선택 → 필수'&&r.g!=='requestFields')||(r.kind==='필드 추가'&&r.g!=='requestFields')||(r.kind==='필드 삭제'&&r.g==='requestFields');let payload=omitted?'해당 필드 생략':v===undefined?'값 예시를 만들 수 없음 — 유효한 송신값을 사람이 선정':short(r.name)+' = '+show(v,r.name);if(r.kind.startsWith('식별자'))payload=(r.g==='requestFields'?'action = '+show(b.action):'event = '+show(a.responseEvent));if(r.kind==='허용 범위 확대'&&r.g==='requestFields'&&f&&!own(f,'enum'))payload=short(r.name)+' = '+(sensitive(r.name)?'[MASKED]':'구 enum 밖의 같은 자료형 값 선택 (사람 확인)');if(r.kind==='허용 범위 축소'&&r.g!=='requestFields'&&f&&!own(f,'enum'))payload=short(r.name)+' = '+(sensitive(r.name)?'[MASKED]':'신 enum 밖의 같은 자료형 값 선택 (사람 확인)');return '변경을 분리해 확인할 부분 예시: '+payload+'\n기대 판정: '+r.status+' — '+r.reason+'\n실제 송신값·파서 처리·화면 동작은 기기에서 별도 확인하세요. 다른 필수 필드는 계약에 맞게 채우세요.';}
+function el(tag,text,cls){const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e;}
+const targetNames = {common:'공통',android:'Android',ios:'iPhone (iOS)'};
+const proposalNames = {pending:'미정 · 담당자 검토',app:'앱 변경 검토',web:'웹 호환 처리 검토',defer:'변경 유예'};
+const targetNotice = '전달 대상 선택이며 OS별 판정이 아닙니다. 플랫폼별 계약·파서가 다르면 각각 입력해 재점검하세요.';
+const appNotice = '앱 변경은 업데이트를 설치한 앱에만 적용됩니다. 이미 설치된 구앱에는 적용되지 않으므로 웹 호환 처리·변경 유예·지원 범위 제한을 별도로 검토하세요.';
+let reportContext = null;
+function targetKey(){return own(targetNames,$('reportTarget').value)?$('reportTarget').value:'common';}
+function riskRow(r){return ['오류','오류 가능','확인 필요'].includes(r.status);}
+function rowPath(r){return r.kind==='식별자 변경'?short(r.name):r.g+'.'+short(r.name);}
+function guidance(r){
+  const request=r.g==='requestFields';
+  if(r.kind==='식별자 변경')return request?
+    ['새 action을 인식하는 요청 분기와 기존 action 유지 여부를 검토합니다.','구앱에는 기존 action을 전송하는 분기를 검토합니다.']:
+    ['새 응답 event 송신과 기존 event 지원 범위를 검토합니다.','구앱의 기존 event를 수신하는 처리를 검토합니다. 중복 응답 처리도 확인합니다.'];
+  if(r.kind==='자료형 변경')return request?
+    ['새 요청 자료형을 해석하는 수신 모델과 검증 로직을 검토합니다.','구앱에는 기존 자료형으로 전송할 수 있는지 검토합니다. 무조건 형변환하지 말고 값의 의미와 손실을 확인합니다.']:
+    ['새 응답 자료형을 생성하는 모델과 직렬화 로직을 검토합니다.','구앱의 기존 응답 자료형도 수용할 수 있는지 검토합니다. 무조건 형변환하지 말고 값의 의미와 손실을 확인합니다.'];
+  if(r.kind==='필드 추가')return request?
+    ['추가 요청 필드의 수신·활용 여부와 미지 키 정책을 확인합니다. 확인 필요는 앱 수정 확정이 아닙니다.','구앱 파서가 거부하거나 정책을 모르면 해당 필드 전송 유예 또는 지원 확인 후 전송을 검토합니다.']:
+    ['새 필수 응답 필드를 생성하여 송신할 수 있는지 검토합니다.','구앱의 응답에는 필드가 없을 수 있습니다. 누락 수용·기능 제한·변경 유예 중 업무 의미에 맞는 방안을 검토합니다.'];
+  if(r.kind==='필드 삭제')return request?
+    ['기존 필수 요청 필드 없이 처리할 수 있는지 검토합니다.','구앱에는 기존 필수 필드를 계속 전송하거나 변경을 유예하는 방안을 검토합니다.']:
+    ['기존 응답 필드의 송신 현황을 확인합니다. 신웹 수신 정책을 먼저 검토하며 앱의 송신 중단을 필수로 단정하지 않습니다.','구앱이 보내는 잔여 필드를 수용하는 수신 정책을 검토합니다.'];
+  if(r.kind==='필수 → 선택')return ['요청 필드가 생략되어도 처리할 수 있는지 검토합니다.','구앱이 요구하는 필수 요청 필드는 생략하지 않는 방안을 검토합니다.'];
+  if(r.kind==='선택 → 필수')return ['응답 필드를 모든 해당 응답 경로에서 보장할 수 있는지 검토합니다.','구앱의 응답 필드 생략을 수용하거나 기능을 제한하는 방안을 검토합니다. 기본값은 업무 규칙 확인 후 결정합니다.'];
+  if(r.kind==='허용 범위 확대')return ['새 요청 허용값 또는 제약 제거에 맞는 처리가 가능한지 검토합니다.','구앱에는 기존 허용 범위의 값만 전송하는 방안을 검토합니다. 값 대체는 의미 보존 여부를 확인한 뒤 결정합니다.'];
+  if(r.kind==='허용 범위 축소')return ['새 응답 허용 범위 밖의 값이 생성되는 경로를 확인합니다.','구앱이 보내는 기존 값을 수용하거나 해당 기능 변경을 유예하는 방안을 검토합니다.'];
+  return ['계약과 실제 앱 구현의 일치 여부를 확인합니다.','기존 계약과 호환되는 웹 처리를 검토합니다.'];
+}
+function renderProposals(){
+  $('proposals').replaceChildren();
+  if(!reportContext)return;
+  const risks=reportContext.rows.map((r,i)=>({r,i})).filter(({r})=>riskRow(r));
+  if(!risks.length){$('proposals').append(el('p','선택할 위험 항목이 없습니다. 호환·정보 항목은 앱 수정 필수로 취급하지 않습니다.'));return;}
+  for(const {r,i} of risks){
+    const box=el('div',undefined,'proposal'),label=el('label',(directions[r.g]||'')+' / '+rowPath(r)+' / '+r.kind+' / '+r.status),select=el('select');
+    select.id='proposal-'+i;label.htmlFor=select.id;
+    for(const [key,name] of Object.entries(proposalNames)){const option=el('option',name);option.value=key;select.append(option);}
+    select.value=reportContext.choices[i]||'pending';
+    select.onchange=()=>{if(!reportContext)return;reportContext.choices[i]=own(proposalNames,select.value)?select.value:'pending';refreshReport();};
+    const [app,web]=guidance(r);
+    box.append(label,select,el('p','앱 측 검토: '+app+' '+appNotice),el('p','React 웹 측 대안: '+web));$('proposals').append(box);
+  }
+}
+function refreshReport(){
+  $('copyStatus').textContent='';
+  if(!reportContext){$('report').value='';return;}
+  const {base,rows,choices}=reportContext,target=targetNames[targetKey()],risks=rows.filter(riskRow);
+  const lines=['BridgeCheck 전달 보고서 · '+target,'전달 대상: '+target,targetNotice,'요약: 오류 '+rows.filter(r=>r.status==='오류').length+' / 오류 가능 '+rows.filter(r=>r.status==='오류 가능').length+' / 확인 필요 '+rows.filter(r=>r.status==='확인 필요').length,'대응 제안은 담당자 검토용이며 승인·수정 완료·문제 해결을 의미하지 않습니다.','',base,'','변경별 대응 제안 (미승인)'];
+  rows.forEach((r,i)=>{if(!riskRow(r))return;const [app,web]=guidance(r);lines.push((directions[r.g]||'')+' / '+rowPath(r)+' / '+r.kind,'현재 판정: '+r.status+' — '+r.reason,'선택한 제안: '+(proposalNames[choices[i]]||proposalNames.pending),'앱 측 검토: '+app,appNotice,'React 웹 측 대안: '+web,'변경 유예: 기존 계약 유지 가능 여부와 재개 조건을 담당자가 결정합니다.','');});
+  if(!risks.length)lines.push('대응 제안 대상 없음. 계약상 호환·정보는 앱 수정 필수가 아닙니다.');
+  const platforms=targetKey()==='common'?['Android','iPhone (iOS)']:[target];
+  lines.push('QA 체크리스트 (미실행)');
+  for(const platform of platforms)lines.push('[ ] '+platform+': 실제 사용 중인 브리지의 요청 해석·검증과 성공/오류 응답 직렬화·event 전달을 확인합니다.','[ ] '+platform+': 최신 웹 × 미업데이트 구앱, 최신 웹 × 업데이트 설치 앱을 각각 실행하고 앱 버전·입력·기대값·실제값을 기록합니다.');
+  lines.push('[ ] 각 위험 항목의 테스트 부분 예시를 실제 메시지로 완성해 재현합니다.','[ ] 앱 변경만 선택해도 구앱 대응은 별도로 결정합니다. 최소 앱 버전은 도구가 추정하지 않습니다.','[ ] 구버전 웹(앱 내장 번들·캐시)은 이번 점검 범위 밖이므로 별도 확인합니다.','','사람의 판단: 수정 파일·API·코드는 실제 소스를 확인한 담당자가 결정합니다. 공유 전 마스킹과 내용, 배포 전 실제 앱 검증을 확인하세요.');
+  $('report').value=lines.join('\n');
+}
+$('reportTarget').onchange=refreshReport;
+
+function clear(){reportContext=null;$('proposals').replaceChildren(); $('summary').replaceChildren();$('results').replaceChildren();$('examples').replaceChildren();$('report').value='';$('copyStatus').textContent='';}
+function run(){clear();$('status').textContent='';try{const a=parse($('old').value,'이전 계약'),b=parse($('new').value,'새 계약'),p={request:$('requestPolicy').value,response:$('responsePolicy').value},rows=compare(a,b,p);for(const s of ['오류','오류 가능','확인 필요','계약상 호환','정보'])$('summary').append(el('p',s+' '+rows.filter(r=>r.status===s).length+'건','badge '+s.replaceAll(' ','')));const table=el('table'),head=el('tr');for(const h of ['방향 / 필드','변경','이전 → 새 규칙','판정 / 근거'])head.append(el('th',h));const thead=el('thead');thead.append(head);table.append(thead);const body=el('tbody');const lines=['BridgeCheck 점검 보고서','이전 계약: '+show(a.contractVersion)+' / action '+show(a.action)+' / event '+show(a.responseEvent),'새 계약: '+show(b.contractVersion)+' / action '+show(b.action)+' / event '+show(b.responseEvent),'최신 웹 × 구버전 앱. 구버전 웹(앱 내장 번들·캐시)은 범위 제외.','실제 앱 동작 검증이 아닙니다. 오류는 계약상 비호환 가능성입니다.','파서: 구앱 요청 '+policyNames[p.request]+' / 신웹 응답 '+policyNames[p.response],'','변경 목록과 방향별 영향'];for(const r of rows){const path=(directions[r.g]||'메타데이터')+'\n'+(r.kind==='식별자 변경'?short(r.name):r.g+'.'+short(r.name)),tr=el('tr');tr.append(el('td',path,'path'),el('td',r.kind),el('td',r.before+'\n→ '+r.after));const cell=el('td');cell.append(el('span',r.status,'badge '+r.status.replaceAll(' ','')),el('p',r.reason));tr.append(cell);body.append(tr);lines.push(path+' | '+r.kind+' | '+r.before+' → '+r.after+' | '+r.status+' | '+r.reason);}table.append(body);$('results').append(rows.length?table:el('p','의미 있는 계약 변경이 없습니다. 실제 앱 정상 동작을 보증하지 않습니다.','empty'));lines.push('','방향별 요약');for(const g of groups){const list=rows.filter(r=>r.g===g);lines.push(directions[g]+': '+(list.length?['오류','오류 가능','확인 필요','계약상 호환'].map(s=>s+' '+list.filter(r=>r.status===s).length).join(', '):'변경 없음'));}lines.push('','재검수: 구앱 미지 키·enum 처리 / 신웹 누락 필드·타입·구 event 처리 / 실제 계약과 구현 일치.','대응: 변경 유예, 기존 형식 유지, 구형 응답 수용, 최소 앱 버전 게이팅. 버전 번호는 사람이 결정.','','테스트 부분 예시 (미실행)');for(const r of rows.filter(r=>r.g!=='metadata')){const text=witness(r,a,b),d=el('details');d.append(el('summary',(directions[r.g]||'')+' / '+short(r.name)+' / '+r.kind),el('pre',text));$('examples').append(d);lines.push((r.kind==='식별자 변경'?short(r.name):r.g+'.'+short(r.name))+' / '+r.kind,text);}lines.push('','사람의 판단: 실제 앱 검증과 배포 승인은 담당자가 수행합니다. 예시는 실행 증거가 아닙니다. 키 기반 마스킹은 모든 개인정보를 탐지하지 않으므로 공유 전 검토하세요.');reportContext={base:lines.join('\n'),rows,choices:{}};renderProposals();refreshReport();$('status').textContent='점검 완료 · '+rows.length+'개 변경 항목 (정보 포함 · event 변경은 성공·오류 응답에 각각 표시)';}catch(e){clear();$('status').textContent=e instanceof InputError?e.message:'점검 중 문제가 발생했습니다. 입력을 확인하세요.';}}
+$('compare').onclick=run;$('reset').onclick=()=>{clear();$('old').value='';$('new').value='';$('reportTarget').value='common';$('status').textContent='초기화했습니다.';$('requestPolicy').value='unknown';$('responsePolicy').value='unknown';};for(const id of ['old','new','requestPolicy','responsePolicy'])$(id).addEventListener('input',()=>{clear();$('status').textContent='입력이 변경되었습니다. 다시 점검하세요.';});$('copy').onclick=async()=>{if(!$('report').value){$('copyStatus').textContent='먼저 점검을 실행하세요.';return;}try{await navigator.clipboard.writeText($('report').value);$('copyStatus').textContent='보고서를 복사했습니다.';}catch{$('report').focus();$('report').select();$('copyStatus').textContent='자동 복사가 지원되지 않습니다. 선택된 내용을 직접 복사하세요.';}};
+
+// 입력 문자열이 Markdown 문법이나 HTML로 해석되지 않도록 길이가 충분한 코드 블록에 넣습니다.
+function reportMarkdown(text) {
+  const runs = text.match(/`+/g) || [];
+  const fence = '`'.repeat(runs.reduce((max, run) => Math.max(max, run.length + 1), 3));
+  return '# BridgeCheck 점검 보고서\n\n' + fence + 'text\n' + text + '\n' + fence + '\n';
+}
+$('download').onclick = () => {
+  const report = $('report').value;
+  if (!report) { $('copyStatus').textContent = '먼저 점검을 실행하세요.'; return; }
+  let url, link;
+  try {
+    const blob = new Blob([reportMarkdown(report)], {type: 'text/markdown;charset=utf-8'});
+    url = URL.createObjectURL(blob);
+    link = document.createElement('a');
+    link.href = url;
+    link.download = 'bridgecheck-report-'+targetKey()+'.md';
+    document.body.append(link);
+    link.click();
+    $('copyStatus').textContent = '다운로드를 요청했습니다: '+link.download;
+  } catch {
+    $('copyStatus').textContent = '다운로드하지 못했습니다. 보고서를 직접 복사하세요.';
+  } finally {
+    if (link) link.remove();
+    if (url) setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+};
+
+const sampleA={"contractVersion": "1.0", "action": "openCamera", "responseEvent": "cameraResult", "requestFields": [{"name": "quality", "type": "string", "required": true, "enum": ["low", "high"]}, {"name": "saveToAlbum", "type": "boolean", "required": false}], "successFields": [{"name": "photoId", "type": "string", "required": true}], "errorFields": [{"name": "code", "type": "string", "required": true}, {"name": "message", "type": "string", "required": true}]};
+const sampleB={"contractVersion": "1.0", "action": "openCamera", "responseEvent": "cameraResultV2", "requestFields": [{"name": "quality", "type": "string", "required": true, "enum": ["low", "high", "medium"]}, {"name": "saveToAlbum", "type": "boolean", "required": true}, {"name": "timeoutMs", "type": "number", "required": false}], "successFields": [{"name": "photoId", "type": "number", "required": true}, {"name": "thumbnailUrl", "type": "string", "required": true}], "errorFields": [{"name": "code", "type": "string", "required": true}]};
+$('sample').onclick=()=>{clear();$('old').value=JSON.stringify(sampleA,null,2);$('new').value=JSON.stringify(sampleB,null,2);$('status').textContent='샘플을 넣었습니다. 변경 점검하기를 누르세요.';};
+function loadDemo(kind){
+  const before=JSON.parse(JSON.stringify(sampleA));
+  let after=JSON.parse(JSON.stringify(sampleA));
+  if(kind==='full')after=JSON.parse(JSON.stringify(sampleB));
+  else if(kind==='compatible')after.successFields.push({name:'thumbnailUrl',type:'string',required:false});
+  else after.requestFields[0].enum.push('medium');
+  $('old').value=JSON.stringify(before,null,2);
+  $('new').value=JSON.stringify(after,null,2);
+  $('requestPolicy').value='unknown';$('responsePolicy').value='unknown';$('reportTarget').value='common';
+  run();
+}
+$('demo').onclick=()=>{loadDemo($('demoCase').value);$('summary').scrollIntoView?.({block:'start'});};
+</script></html>
