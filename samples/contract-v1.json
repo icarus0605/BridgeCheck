@@ -1,0 +1,16 @@
+{
+  "contractVersion": "1.0",
+  "action": "openCamera",
+  "responseEvent": "cameraResult",
+  "requestFields": [
+    {"name":"quality","type":"string","required":true,"enum":["low","high"]},
+    {"name":"saveToAlbum","type":"boolean","required":false}
+  ],
+  "successFields": [
+    {"name":"photoId","type":"string","required":true}
+  ],
+  "errorFields": [
+    {"name":"code","type":"string","required":true},
+    {"name":"message","type":"string","required":true}
+  ]
+}

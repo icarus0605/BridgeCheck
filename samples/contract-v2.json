@@ -1,0 +1,46 @@
+{
+  "contractVersion": "1.0",
+  "action": "openCamera",
+  "responseEvent": "cameraResultV2",
+  "requestFields": [
+    {
+      "name": "quality",
+      "type": "string",
+      "required": true,
+      "enum": [
+        "low",
+        "high",
+        "medium"
+      ]
+    },
+    {
+      "name": "saveToAlbum",
+      "type": "boolean",
+      "required": true
+    },
+    {
+      "name": "timeoutMs",
+      "type": "number",
+      "required": false
+    }
+  ],
+  "successFields": [
+    {
+      "name": "photoId",
+      "type": "number",
+      "required": true
+    },
+    {
+      "name": "thumbnailUrl",
+      "type": "string",
+      "required": true
+    }
+  ],
+  "errorFields": [
+    {
+      "name": "code",
+      "type": "string",
+      "required": true
+    }
+  ]
+}

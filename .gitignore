@@ -1,0 +1,14 @@
+# 운영체제 및 편집기 파일
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 로컬 비밀값과 임시 출력
+.env
+.env.*
+!.env.example
+*.log
+.tmp/
