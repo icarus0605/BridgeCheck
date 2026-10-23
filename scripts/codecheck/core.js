@@ -75,8 +75,8 @@ function analyze(spec,files){
  function row(action,p,kind,name,extra=false){const all=extracted[p].flatMap(x=>x.evidence),found=all.filter(e=>e.kind===kind&&e.name===name);const anchors=extracted[p].flatMap(x=>x.anchors).slice(0,3);
  const similar=found.length?[]:all.filter(e=>e.kind===kind&&e.name.replace(/[_\s]/g,'').toLowerCase()===name.replace(/[_\s]/g,'').toLowerCase());
  const excluded=extracted[p].length>0&&extracted[p].every(x=>x.warnings.length);
- const result=excluded?'분석 제외·확인 필요':extra?'명세 외 후보':found.length?'이름 발견·검토 필요':similar.length?'유사 이름·확인 필요':'미발견·확인 필요';
- const position=found.length?found.map(e=>`${e.path}:${e.line} (${e.pattern})`).join('\n'):similar.length?similar.map(e=>`${e.path}:${e.line} (유사 이름: ${e.name})`).join('\n'):anchors.length?'검토 시작 위치(수정 확정 아님): '+anchors.map(a=>`${a.path}:${a.line}`).join(', '):'관련 위치를 찾지 못함 — Bridge 파일 범위를 확인하세요';
+ const result=excluded?'분석 못 함·직접 확인':extra?'명세에 없음':found.length?'코드에 있음·동작 미확인':similar.length?'이름 불일치·오타 의심':'코드에 없음·누락 의심';
+ const position=found.length?found.map(e=>`${e.path}:${e.line} (${e.pattern})`).join('\n'):similar.length?similar.map(e=>`${e.path}:${e.line} (비슷한 이름: ${e.name})`).join('\n'):anchors.length?'검토 시작 위치(수정 확정 아님): '+anchors.map(a=>`${a.path}:${a.line}`).join(', '):'관련 위치를 찾지 못함 — Bridge 파일 범위를 확인하세요';
  const advice=extra?'명세에 없는 이름입니다. Bridge 기능인지 확인한 뒤 명세 추가 또는 불필요한 코드 제거를 검토하세요.':found.length?'이름을 참조하는 코드 후보입니다. 실제 등록·호출 경로, 요청/응답 필드 및 실행 결과를 확인하세요.':`${p}에서 ${kind==='action'?'기능 처리/호출':'이벤트 발신/수신'} 이름 “${name}”을 찾지 못했습니다. 누락·이름 변경·동적 이름·업로드 범위를 확인하세요.`;
  rows.push({'항목 키':JSON.stringify([action,p,kind,name,extra?'extra':'spec']),'분석 ID':'','기능명':action,'플랫폼':p,'점검 대상':`${kind==='action'?'기능':'응답 이벤트'}: ${name}`,'결과':result,'수정 위치':position,'검토 제안':advice,'담당자':'','수정 내용':'','개발 예정일':'','QA 예정일':'','운영 예정일':'','진행 상태':'미정'});
  }

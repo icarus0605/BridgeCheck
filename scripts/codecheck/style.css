@@ -3,3 +3,4 @@
 input[type=checkbox]{display:inline-block;width:auto;margin-right:8px}#previewRows p{white-space:pre-wrap}
 
 .owner-panel{padding:20px;border:1px solid #d6e1de;border-radius:12px;margin:18px 0;background:#fafcfb}.owner-panel h3{margin-top:0}.owner-add{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap}.owner-add label{flex:1 1 240px;margin:0}.owner-add input{margin-bottom:4px}#ownerList{list-style:none;padding:0;margin:12px 0;display:flex;flex-wrap:wrap;gap:8px}#ownerList li{display:flex;gap:4px;align-items:center}#ownerList button{margin:0;padding:8px 14px;background:white;color:#1e635c}#ownerList button[aria-pressed="true"]{background:#08796e;color:white}#ownerList button.remove{padding:8px 10px;border-color:#c9d6d2;color:#64766e}#ownerStatus:empty{display:none}
+.sample-links{font-size:14px;margin:14px 0 0;color:#40564f}

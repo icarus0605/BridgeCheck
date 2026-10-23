@@ -10,11 +10,11 @@ img{width:100%;border-radius:12px;border:1px solid #d6e1de}.n{border-left:4px so
 </style></head><body>
 <section class="s"><div class="k">BRIDGECHECK · 문제와 해결</div><h1>명세와 Android·iOS·React 코드의<br>Bridge 이름 불일치를 배포 전에 찾습니다.</h1>
 <div class="g"><div class="c"><h2>지금의 문제</h2><ul><li>웹이 부르는 Bridge 기능을 앱 한쪽이 빠뜨리면 배포 후에야 발견됩니다.</li><li>명세 표와 세 플랫폼 코드를 사람이 눈으로 대조합니다.</li><li>누가 언제 고칠지가 메신저와 메모로 흩어집니다.</li></ul></div>
-<div class="c"><h2>BridgeCheck</h2><ul><li>Bridge 명세서와 코드 파일을 브라우저에 올립니다.</li><li>누락·유사 이름·명세 외 후보를 파일과 줄로 보여 줍니다.</li><li>담당자·수정 내용·개발/QA/운영 일정을 엑셀로 주고받습니다.</li></ul></div></div>
+<div class="c"><h2>BridgeCheck</h2><ul><li>Bridge 명세서와 코드 파일을 브라우저에 올립니다.</li><li>‘코드에 없음’·‘이름 불일치’·‘명세에 없음’을 파일과 줄로 보여 줍니다.</li><li>담당자·수정 내용·개발/QA/운영 일정을 엑셀로 주고받습니다.</li></ul></div></div>
 <div class="flow"><div>1. 명세 + 코드 업로드</div><div>2. 누락 후보 확인</div><div>3. 담당자 지정</div><div>4. 엑셀·공유폴더 전달</div></div>
 <div class="f"><span>https://bridgecheck.vercel.app</span><span>1 / 3</span></div></section>
 <section class="s"><div class="k">BRIDGECHECK · 시연</div><h1>발표용 샘플로 바로 따라 할 수 있습니다.</h1>
-<div class="g"><div class="c"><h2>샘플 위치: samples/demo/</h2><p>1_Bridge명세.xlsx · AndroidBridge.kt · IOSBridge.swift · web.tsx를 올리고 점검합니다.</p><table><tr><td>전체 점검 항목</td><td>29</td></tr><tr><td>미발견 (Android getLocation, iOS login)</td><td>4</td></tr><tr><td>유사 이름 (share_result ↔ shareResult)</td><td>1</td></tr><tr><td>명세 외 후보 (openSettings 등)</td><td>2</td></tr></table><p style="margin-top:14px">이어서 2_담당자_일정_불러오기용.xlsx를 불러오면 담당자와 일정이 반영됩니다.</p></div>
+<div class="g"><div class="c"><h2>샘플 위치: samples/demo/</h2><p>사이트의 <b>샘플 적용</b> 버튼을 누르면 명세 엑셀과 세 플랫폼 코드가 자동으로 들어가 바로 점검됩니다.</p><table><tr><td>전체 점검 항목</td><td>29</td></tr><tr><td>코드에 없음 (Android getLocation, iOS login)</td><td>4</td></tr><tr><td>이름 불일치 (share_result ↔ shareResult)</td><td>1</td></tr><tr><td>명세에 없음 (openSettings 등)</td><td>2</td></tr></table><p style="margin-top:14px">이어서 2_담당자_일정_불러오기용.xlsx를 불러오면 담당자와 일정이 반영됩니다.</p></div>
 <div><img src="owner-list-local.png" alt="담당자 목록 화면"></div></div>
 <div class="f"><span>코드 하나만 올려도 점검합니다. 올리지 않은 플랫폼은 ‘미업로드·미검증’으로 표시합니다.</span><span>2 / 3</span></div></section>
 <section class="s"><div class="k">BRIDGECHECK · 담당자 관리와 한계</div><h1>담당자별로 모아 보고, 정직하게 한계를 밝힙니다.</h1>

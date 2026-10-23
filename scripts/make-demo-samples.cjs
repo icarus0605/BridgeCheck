@@ -9,6 +9,6 @@ const files=[['Android','AndroidBridge.kt'],['iOS','IOSBridge.swift'],['React','
 const id=crypto.createHash('sha256').update(JSON.stringify({spec,files})).digest('hex');
 const rows=B.analyze(spec,files).map(r=>({...r,'분석 ID':id}));
 const plan={Android:['김안드','2026-10-27','2026-10-29','2026-11-03'],iOS:['이아이','2026-10-28','2026-10-30','2026-11-04'],React:['박리액트','2026-10-26','2026-10-28','2026-11-02']};
-for(const r of rows){if(r['결과'].startsWith('이름 발견'))continue;const [o,d,q,p]=plan[r['플랫폼']];Object.assign(r,{'담당자':o,'수정 내용':`${r['점검 대상']} 처리 확인·수정`,'개발 예정일':d,'QA 예정일':q,'운영 예정일':p,'진행 상태':'검토 중'});}
+for(const r of rows){if(r['결과'].startsWith('코드에 있음'))continue;const [o,d,q,p]=plan[r['플랫폼']];Object.assign(r,{'담당자':o,'수정 내용':`${r['점검 대상']} 처리 확인·수정`,'개발 예정일':d,'QA 예정일':q,'운영 예정일':p,'진행 상태':'검토 중'});}
 const ws=X.utils.aoa_to_sheet([B.columns,...rows.map(r=>B.columns.map(k=>String(r[k]??'')))]);const out=X.utils.book_new();X.utils.book_append_sheet(out,ws,'수정 일정');fs.writeFileSync(path.join(dir,'2_담당자_일정_불러오기용.xlsx'),X.write(out,{type:'buffer',bookType:'xlsx'}));
 console.log(rows.length+'행',rows.filter(r=>r['담당자']).length+'행 담당자 지정',[...new Set(rows.map(r=>r['결과']))].join(', '));
