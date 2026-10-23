@@ -7,6 +7,7 @@ Android·iOS·React Bridge 코드와 명세의 **이름 참조 후보**를 대�
 - 명세: XLSX/CSV에서 시트·기능명·응답 이벤트 열 선택, 또는 JSON의 action/responseEvent. 엑셀 양식 다운로드 제공.
 - 결과: 발견 근거 파일·행, 미발견/유사 이름/명세 외 후보, 검토 시작 위치와 제안. 선택한 한 항목의 상세만 표시.
 - 일정: 담당자·수정 내용·개발/QA/운영 예정일·진행 상태. 엑셀 다운로드→수정→미리보기→확인 후 반영.
+- 담당자 목록: 이름을 추가하고 항목마다 목록에서 선택합니다. 빈 이름과 대소문자만 다른 중복은 막고, 담당자별·미지정 건수와 해당 항목만 보기를 제공합니다. 기존 입력과 엑셀에서 불러온 담당자도 목록에 반영합니다. 목록과 일정은 탭 메모리에만 있어 새로고침하면 사라지며, 엑셀에는 배정된 담당자만 저장됩니다.
 - 공유폴더: 데스크톱 Chrome/Edge에서 PC가 접근 가능한 폴더를 직접 선택. 담당자 하위폴더에 고유 파일명 XLSX 저장. 미지원 브라우저는 다운로드 후 직접 공유폴더로 이동.
 - 기존 이전↔새 JSON 계약 비교는 `contracts.html`에 보존했습니다.
 
@@ -25,6 +26,8 @@ python3 -m http.server 8769 --bind 127.0.0.1
 node scripts/harness.cjs check
 node scripts/harness.cjs status
 ```
+
+발표용 시연 세트는 `samples/demo/`입니다. `1_Bridge명세.xlsx`와 세 코드 파일을 올려 점검한 뒤 `2_담당자_일정_불러오기용.xlsx`를 불러오면 담당자 목록과 일정이 채워집니다. `node scripts/make-demo-samples.cjs`로 엑셀을 다시 만들 수 있습니다. 3장 발표 자료는 `output/pdf/bridgecheck-presentation-3p.pdf`입니다.
 
 `samples/codecheck/`는 의도적으로 getLocation 네이티브 처리가 빠진 정적 점검용 예제입니다. 컴파일 가능한 앱 프로젝트가 아닙니다. 예제 버튼으로도 같은 흐름을 체험할 수 있습니다.
 

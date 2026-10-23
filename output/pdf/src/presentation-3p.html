@@ -1,0 +1,25 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>BridgeCheck 발표</title><style>
+@page{size:1280px 720px;margin:0}html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}*{box-sizing:border-box}body{margin:0;font-family:"Apple SD Gothic Neo",system-ui,sans-serif;color:#1f3540}
+.s{width:1280px;height:720px;padding:56px 72px;background:#f3f6f5;page-break-after:always;position:relative;overflow:hidden}.s:last-child{page-break-after:auto}
+.k{color:#08796e;font-weight:800;letter-spacing:.08em;font-size:16px}h1{font-size:44px;margin:14px 0 26px;line-height:1.25}h2{font-size:22px;margin:0 0 10px;color:#08796e}
+p,li{font-size:21px;line-height:1.6;margin:0 0 8px}.g{display:grid;grid-template-columns:1fr 1fr;gap:28px}.c{background:white;border:1px solid #d6e1de;border-radius:16px;padding:24px 28px}
+.flow{display:flex;gap:12px;margin-top:20px}.flow div{flex:1;background:#08796e;color:white;border-radius:12px;padding:16px;font-size:19px;font-weight:700;text-align:center}
+.f{position:absolute;bottom:26px;left:72px;right:72px;font-size:14px;color:#64766e;display:flex;justify-content:space-between}
+table{border-collapse:collapse;width:100%;font-size:19px}td{padding:8px 4px;border-bottom:1px solid #e0e8e5}td:last-child{text-align:right;font-weight:800}
+img{width:100%;border-radius:12px;border:1px solid #d6e1de}.n{border-left:4px solid #b28737;padding-left:14px;font-size:18px}ul{padding-left:24px;margin:0}
+</style></head><body>
+<section class="s"><div class="k">BRIDGECHECK · 문제와 해결</div><h1>명세와 Android·iOS·React 코드의<br>Bridge 이름 불일치를 배포 전에 찾습니다.</h1>
+<div class="g"><div class="c"><h2>지금의 문제</h2><ul><li>웹이 부르는 Bridge 기능을 앱 한쪽이 빠뜨리면 배포 후에야 발견됩니다.</li><li>명세 표와 세 플랫폼 코드를 사람이 눈으로 대조합니다.</li><li>누가 언제 고칠지가 메신저와 메모로 흩어집니다.</li></ul></div>
+<div class="c"><h2>BridgeCheck</h2><ul><li>Bridge 명세서와 코드 파일을 브라우저에 올립니다.</li><li>누락·유사 이름·명세 외 후보를 파일과 줄로 보여 줍니다.</li><li>담당자·수정 내용·개발/QA/운영 일정을 엑셀로 주고받습니다.</li></ul></div></div>
+<div class="flow"><div>1. 명세 + 코드 업로드</div><div>2. 누락 후보 확인</div><div>3. 담당자 지정</div><div>4. 엑셀·공유폴더 전달</div></div>
+<div class="f"><span>https://bridgecheck.vercel.app</span><span>1 / 3</span></div></section>
+<section class="s"><div class="k">BRIDGECHECK · 시연</div><h1>발표용 샘플로 바로 따라 할 수 있습니다.</h1>
+<div class="g"><div class="c"><h2>샘플 위치: samples/demo/</h2><p>1_Bridge명세.xlsx · AndroidBridge.kt · IOSBridge.swift · web.tsx를 올리고 점검합니다.</p><table><tr><td>전체 점검 항목</td><td>29</td></tr><tr><td>미발견 (Android getLocation, iOS login)</td><td>4</td></tr><tr><td>유사 이름 (share_result ↔ shareResult)</td><td>1</td></tr><tr><td>명세 외 후보 (openSettings 등)</td><td>2</td></tr></table><p style="margin-top:14px">이어서 2_담당자_일정_불러오기용.xlsx를 불러오면 담당자와 일정이 반영됩니다.</p></div>
+<div><img src="owner-list-local.png" alt="담당자 목록 화면"></div></div>
+<div class="f"><span>코드 하나만 올려도 점검합니다. 올리지 않은 플랫폼은 ‘미업로드·미검증’으로 표시합니다.</span><span>2 / 3</span></div></section>
+<section class="s"><div class="k">BRIDGECHECK · 담당자 관리와 한계</div><h1>담당자별로 모아 보고, 정직하게 한계를 밝힙니다.</h1>
+<div class="g"><div class="c"><h2>담당자 목록</h2><ul><li>이름을 추가하고 항목마다 목록에서 선택합니다.</li><li>빈 이름과 대소문자만 다른 중복 등록을 막습니다.</li><li>담당자별 배정 건수와 미지정 건수를 보여 줍니다.</li><li>이름을 누르면 그 담당자 항목만 봅니다.</li><li>엑셀에서 불러온 담당자도 목록에 자동 반영됩니다.</li><li>공유폴더에 담당자별 하위폴더로 엑셀을 저장합니다.</li></ul></div>
+<div class="c"><h2>한계</h2><ul><li>기능명·응답 이벤트 이름 대조입니다. 실제 앱 실행 통과를 보장하지 않습니다.</li><li>필드·자료형·동적 이름은 분석하지 않습니다.</li><li>담당자 목록과 일정은 탭 메모리에만 있어 새로고침하면 사라집니다. 엑셀로 저장하세요.</li><li>실제 회사 공유폴더 저장은 아직 검증하지 못했습니다.</li></ul></div></div>
+<p class="n" style="margin-top:22px">자동 검증: 계약 24묶음 + 코드 점검 13묶음 + 하네스 12상태 통과 · 실제 브라우저에서 샘플 흐름 확인</p>
+<div class="f"><span>BridgeCheck · 근거를 확인하고, 담당자가 결정합니다.</span><span>3 / 3</span></div></section>
+</body></html>

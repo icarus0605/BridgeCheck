@@ -91,13 +91,18 @@ function validateSchedule(r){for(const k of editable){if(typeof r[k]!=='string'|
 }
 function importSchedule(current,incoming){
  if(!incoming.length||incoming.length>5000)throw Error('일정 행은 1~5000개여야 합니다.');const map=new Map(current.map(r=>[r['항목 키'],r])),seen=new Set(),changes=[];let stale=0;
- for(const r of incoming){const key=r['항목 키'];if(seen.has(key)||!map.has(key))throw Error('중복 항목 키 또는 현재 결과에 없는 항목입니다. 현재 보고서에서 다시 작성하세요.');seen.add(key);const old=map.get(key);validateSchedule(r);if(r['분석 ID']!==old['분석 ID'])stale++;const update={...old};for(const k of editable)update[k]=r[k];changes.push(update);}
+ for(const r of incoming){const key=r['항목 키'];if(seen.has(key)||!map.has(key))throw Error('중복 항목 키 또는 현재 결과에 없는 항목입니다. 현재 보고서에서 다시 작성하세요.');seen.add(key);const old=map.get(key);if(typeof r['담당자']==='string')r['담당자']=ownerKey(r['담당자']);validateSchedule(r);if(r['분석 ID']!==old['분석 ID'])stale++;const update={...old};for(const k of editable)update[k]=r[k];changes.push(update);}
  return {changes,stale,rows:current.map(r=>changes.find(c=>c['항목 키']===r['항목 키'])||r)};
 }
+const ownerKey=name=>String(name??'').normalize('NFC').trim();
+function addOwner(list,name){const s=ownerKey(name);if(!s)throw Error('담당자 이름을 입력하세요.');if(list.length>=200)throw Error('담당자는 최대 200명까지 등록할 수 있습니다.');folderName(s);const same=list.find(x=>x.toLocaleLowerCase()===s.toLocaleLowerCase());if(same)throw Error(`이미 목록에 있는 담당자입니다: ${same}`);return [...list,s];}
+function mergeOwners(list,rows){const out=[...list];for(const r of rows){const s=ownerKey(r['담당자']);if(s&&!out.includes(s))out.push(s);}return out;}
+function ownerSummary(list,rows){const names=mergeOwners(list,rows);return {owners:names.map(name=>({name,count:rows.filter(r=>ownerKey(r['담당자'])===name).length})),unassigned:rows.filter(r=>!ownerKey(r['담당자'])).length};}
+function rowsForOwner(rows,filter){if(!filter||filter==='all')return rows;if(filter==='none')return rows.filter(r=>!ownerKey(r['담당자']));if(filter.startsWith('o:'))return rows.filter(r=>ownerKey(r['담당자'])===filter.slice(2));return rows;}
 function folderName(owner){const s=owner.normalize('NFC').trim();if(!s)return '미지정';if(s.length>60||/[<>:"/\\|?*\x00-\x1f]/.test(s)||/[. ]$/.test(s)||/^\./.test(s)||/^(con|prn|aux|nul|com[0-9]|lpt[0-9])(\.|$)/i.test(s))throw Error(`담당자 이름을 폴더명으로 사용할 수 없습니다: ${s}`);return s;}
 function groupOwners(rows){const groups=new Map(),names=new Map();for(const r of rows){validateSchedule(r);const name=folderName(r['담당자']),canonical=name.toLocaleLowerCase();if(names.has(canonical)&&names.get(canonical)!==name)throw Error('대소문자만 다른 담당자 이름을 통일하세요.');names.set(canonical,name);if(!groups.has(name))groups.set(name,[]);groups.get(name).push(r);}return [...groups].map(([name,rows])=>({name,rows}));}
 async function saveGroups(directory,groups,makeWorkbook,filename){
  const results=[];for(const group of groups){let stream;try{const sub=await directory.getDirectoryHandle(group.name,{create:true});try{await sub.getFileHandle(filename);throw Error('같은 파일이 있어 저장하지 않았습니다. 다시 저장하세요.');}catch(e){if(e.name!=='NotFoundError')throw e;}const data=makeWorkbook(group.rows);const handle=await sub.getFileHandle(filename,{create:true});stream=await handle.createWritable();await stream.write(data);await stream.close();stream=null;results.push({name:group.name,ok:true});}catch(e){if(stream)try{await stream.abort();}catch(_){}results.push({name:group.name,ok:false,error:e.message});}}return results;
 }
-return {platforms,statuses,editable,columns,tokens,extract,specRows,analyze,validateSchedule,importSchedule,groupOwners,saveGroups,folderName};
+return {platforms,statuses,editable,columns,tokens,extract,specRows,analyze,validateSchedule,importSchedule,groupOwners,saveGroups,folderName,ownerKey,addOwner,mergeOwners,ownerSummary,rowsForOwner};
 });
