@@ -46,5 +46,37 @@
     "verdict": "no-further-changes",
     "scope": "시트1 A2:A6 용어·첫 안내·협업 일정·보고서 요약·규격 통일·메모 수명·검증·문서",
     "evidence": "2026-10-23 해당 최종본 추가 수정사항 없습니다. 17묶음+하네스12상태 통과. 실제 Android/iOS MD 다운로드, 플랫폼별 담당자 분리/규격공유, 재점검 메모 유지, 화면과 접근성 확인. textarea.type 브라우저 오류 수정 및 VM회귀 보강."
+  },
+  {
+    "reviewer": "Claude",
+    "recordedBy": "manual",
+    "digest": "8a7c72fb16f1f79cfebaf307943bd3e8ddb72b7052b32f19fb88a20030fb213b",
+    "verdict": "no-further-changes",
+    "scope": "시트 A7:A10 단계별 배포 달력·담당자 일괄 적용·링크·요약 밀도·검증·문서",
+    "evidence": "2026-10-23 실제 채팅에서 동일 digest 최종본 추가 수정사항 없음 확인. 날짜 연산·달력·일괄담당자·요약정렬·지표·전체항목 유지 검토. PRD와 실기기 안내 불일치 지적 후 수정 확인. 실행은 직접 하지 않았으며 Codex 결과 보고에 근거. https://claude.ai/chat/3c3274be-264e-4f83-971f-d07602fd88e4"
+  },
+  {
+    "reviewer": "Codex",
+    "recordedBy": "manual",
+    "digest": "8a7c72fb16f1f79cfebaf307943bd3e8ddb72b7052b32f19fb88a20030fb213b",
+    "verdict": "no-further-changes",
+    "scope": "시트 A7:A10 단계별 배포 달력·담당자 일괄 적용·링크·요약 밀도·검증·문서",
+    "evidence": "2026-10-23 같은 최종본 추가 수정사항 없습니다. 21묶음·하네스12상태, 브라우저6일정/월전환/날짜필터/담당자보존/역전경고/실제 MD 전체월출력, 링크48px/키보드이동/focus, 요약3항목·전체7항목 유지 확인."
+  },
+  {
+    "reviewer": "Claude",
+    "recordedBy": "manual",
+    "digest": "b947589fb73c59c4688fd20dcad10de9e675512cb3226933bc962b09c2f2e2cd",
+    "verdict": "no-further-changes",
+    "scope": "A7:A13 달력·링크·요약·선택 담당자·단순화·3화면 분리·문서·검증",
+    "evidence": "2026-10-23 실제 채팅에서 동일 digest 최종본 추가 수정사항 없음 명시. A11 선택 적용 플래너·취소·가드, A12 단순화, A13 화면 전환·DOM보존·접근차단 검토. sticky footer 지적 후 bottom:0 수정 확인. 실행은 직접 수행하지 않고 Codex 증거를 대조. https://claude.ai/chat/3c3274be-264e-4f83-971f-d07602fd88e4"
+  },
+  {
+    "reviewer": "Codex",
+    "recordedBy": "manual",
+    "digest": "b947589fb73c59c4688fd20dcad10de9e675512cb3226933bc962b09c2f2e2cd",
+    "verdict": "no-further-changes",
+    "scope": "A7:A13 달력·링크·요약·선택 담당자·단순화·3화면 분리·문서·검증",
+    "evidence": "2026-10-23 동일 최종본 추가 수정사항 없습니다. 23검증 묶음+하네스12상태 통과. 실제 브라우저 Escape 초안폐기·포커스복귀·두 항목만 Android 적용·고급설정 접힘·변경수와 버튼 표시·화면이동 메모유지·원본오류시 보고서 접근차단·제목가림 방지 확인."
   }
 ]

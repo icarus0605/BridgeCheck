@@ -11,7 +11,7 @@ function node() {
     append(...items) { this.children.push(...items); },
     replaceChildren(...items) { this.children = items; },
     addEventListener(event, handler) { this.events[event] = handler; },
-    focus() {}, select() {}, remove() {}
+    focus() {}, select() {}, remove() {}, showModal() { this.open=true; }, close() { this.open=false; }
   };
 }
 const context = {
@@ -160,6 +160,63 @@ check('초기화·샘플 취소 보존 및 확정 시 메모 제거', `
  confirm=()=>false;loadDemo('full');assert.equal(reportContext.coordination[0].androidOwner,'KEEP');$('reset').onclick();assert.ok(reportContext);
  confirm=()=>true;$('reset').onclick();assert.equal(memoCache,null);assert.equal(reportContext,null);assert.equal($('specForm').children.length,0);
  loadDemo('enum');assert.equal(reportContext.coordination[0].androidOwner,undefined);
+`);
+check('일괄 담당자 빈칸·전체 변경·취소·새 행과 scope 수명', `
+ loadDemo('full');const rows=JSON.stringify(reportContext.rows);
+ reportContext.owners={android:'A_DEFAULT',ios:'I_DEFAULT',coordinator:'C_DEFAULT'};
+ reportContext.coordination[0].androidOwner='INDIVIDUAL';applyOwners('empty');
+ assert.equal(reportContext.coordination[0].androidOwner,'INDIVIDUAL');assert.equal(reportContext.coordination[0].iosOwner,'I_DEFAULT');assert.equal(reportContext.spec.coordinator,'C_DEFAULT');
+ assert.ok(Object.values(reportContext.coordination).every(d=>d.iosOwner==='I_DEFAULT'));
+ confirm=()=>false;applyOwners('all');assert.equal(reportContext.coordination[0].androidOwner,'INDIVIDUAL');confirm=()=>true;applyOwners('all');assert.equal(reportContext.coordination[0].androidOwner,'A_DEFAULT');assert.equal(JSON.stringify(reportContext.rows),rows);
+ reportContext.owners.android='';applyOwners('all');assert.equal(reportContext.coordination[0].androidOwner,'A_DEFAULT');
+ reportContext.owners.android='A_DEFAULT';const b=JSON.parse($('new').value);b.requestFields.push({name:'fresh',type:'string'});$('new').value=JSON.stringify(b);run();const fresh=reportContext.rows.findIndex(r=>r.name==='fresh');assert.equal(reportContext.coordination[fresh].androidOwner,undefined);assert.equal(reportContext.owners.android,'A_DEFAULT');
+ b.action='newScope';$('new').value=JSON.stringify(b);run();assert.equal(Object.keys(reportContext.owners).length,0);
+ loadDemo('enum');assert.equal(Object.keys(reportContext.owners).length,0);reportContext.owners.android='DRAFT_ONLY';run();assert.equal(reportContext.inherited,false);assert.ok(!$('report').value.includes('DRAFT_ONLY'));
+`);
+check('일정 날짜 검증·경계·플랫폼 필터·역전 미보정·전체월 보고서', `
+ assert.equal(validDate('2028-02-29'),true);assert.equal(validDate('2026-02-29'),false);assert.equal(validDate('2100-02-29'),false);assert.equal(validDate('2000-02-29'),true);
+ for(const d of ['2026-13-01','2026-04-31','0999-01-01','10000-01-01','2026-1-01'])assert.equal(validDate(d),false);
+ loadDemo('enum');const data=reportContext.coordination[0];Object.assign(data,{androidDevDate:'2026-10-31',androidQaDate:'2026-11-01',androidDate:'2026-10-30',iosDevDate:'2026-12-01',iosDate:'2026-12-03'});
+ $('reportTarget').value='android';$('calendarMonth').value='2026-10';refreshReport();
+ assert.equal(scheduleEvents().length,3);assert.ok(scheduleEvents().every(e=>e.platform==='android'));assert.equal(scheduleWarnings().length,1);assert.equal(data.androidDate,'2026-10-30');assert.ok($('report').value.includes('2026-11-01'));assert.ok(!$('report').value.includes('2026-12-01'));
+ assert.ok($('scheduleWarnings').children.length===1);assert.ok($('report').value.includes('담당자 확인 필요'));
+ const october=$('scheduleCalendar').children[0];const firstWeek=october.children[2].children[0];assert.equal(firstWeek.children[4].children[0].children[0].textContent,'1');
+ assert.ok($('scheduleStatus').textContent.includes('2026-10 2건'));changeMonth(1);assert.equal($('calendarMonth').value,'2026-11');assert.ok($('scheduleStatus').textContent.includes('2026-11 1건'));
+ $('reportTarget').value='ios';refreshReport();assert.equal(scheduleEvents().length,2);assert.equal(scheduleWarnings().length,0);$('firstSchedule').onclick();assert.equal($('calendarMonth').value,'2026-12');
+ $('calendarMonth').value='9999-12';changeMonth(1);assert.equal($('calendarMonth').value,'9999-12');$('calendarMonth').value='1000-01';changeMonth(-1);assert.equal($('calendarMonth').value,'1000-01');
+`);
+check('달력 선택일·월 전체·무효화 및 날짜 입력 거부', `
+ loadDemo('enum');reportContext.coordination[0].androidDate='2026-10-23';$('calendarMonth').value='2026-10';refreshReport();
+ const table=$('scheduleCalendar').children[0],button=table.children[2].children[3].children[5].children[0];button.onclick();assert.equal(selectedDay,'2026-10-23');assert.equal($('scheduleList').children.length,2);$('wholeMonth').onclick();assert.equal(selectedDay,'');
+ const form=$('proposals').children[0].children[2],dateField=form.children[2].children[2].children[0];dateField.value='2026-02-30';dateField.oninput();assert.equal(reportContext.coordination[0].androidDevDate,undefined);assert.ok($('copyStatus').textContent.includes('올바른 날짜'));
+ $('old').events.input();assert.equal($('schedulePanel').hidden,true);assert.equal($('scheduleList').children.length,0);assert.equal($('ownerForm').children.length,0);
+`);
+check('요약 우선3건·전체내용 유지·선택플랫폼 담당자 빈칸 수', `
+ loadDemo('full');let stats=briefStats();assert.equal(stats.risks.length,7);assert.equal(stats.pending,7);assert.equal(stats.missing,14);assert.ok(stats.risks.slice(0,3).every(({r})=>r.status==='오류'));
+ let digest=briefDigestLines().join('\\n');assert.equal(digest.split('• ').length-1,3);assert.ok(digest.includes('전체 7건'));assert.equal(reportContext.rows.length,8);
+ const box=$('reportBrief'),list=box.children.find(n=>n.className==='brief-toplist');assert.equal(list.children.length,3);const detail=box.children.find(n=>n.children?.[0]?.textContent==='전체 7건 · 이유·담당자·운영 일정 보기');assert.ok(detail);assert.ok(!detail.open);
+ const allDetails=detail.children.map(n=>n.textContent||'').join('');const reportPart3=$('report').value.split('3. 변경별 대응 제안')[1].split('4. 상세 비교 근거')[0];assert.equal(reportPart3.split('선택한 제안:').length-1,7);for(const {r} of stats.risks){assert.ok(allDetails.includes(briefLabel(r)));assert.ok(reportPart3.includes((directions[r.g]||'')+' / '+rowPath(r)));}assert.notEqual(briefLabel(stats.risks[0].r),briefLabel(stats.risks[1].r));
+ reportContext.owners.android='A_OWNER';applyOwners('empty');$('reportTarget').value='android';refreshReport();assert.equal(briefStats().missing,0);$('reportTarget').value='ios';refreshReport();assert.equal(briefStats().missing,7);
+ const last=stats.risks[6];assert.ok($('report').value.includes(rowPath(last.r)));reportContext.choices[last.i]='web';refreshReport();assert.equal(briefStats().pending,6);
+ loadDemo('compatible');assert.equal(briefStats().risks.length,0);assert.equal(briefStats().missing,0);assert.ok(briefDigestLines().join('').includes('실제 앱 검증'));
+`);
+check('화면 전환·메모 보존·무효 결과 접근 차단', `
+ loadDemo('full');assert.equal(currentScreen,'Result');assert.equal($('screenInput').hidden,true);assert.equal($('navReport').disabled,false);
+ reportContext.coordination[0]={androidOwner:'KEEP'};const before=$('old').value;showScreen('Report');assert.equal($('screenReport').hidden,false);showScreen('Input');assert.equal(reportContext.coordination[0].androidOwner,'KEEP');assert.equal($('old').value,before);
+ $('resultReportLink').onclick({preventDefault(){}});assert.equal(currentScreen,'Report');clear();assert.equal(currentScreen,'Input');assert.equal($('navReport').disabled,true);showScreen('Report');assert.equal(currentScreen,'Input');
+ $('old').value='invalid';run();assert.equal(currentScreen,'Input');assert.equal(reportContext,null);
+`);
+check('선택창 담당자 적용 범위·취소·입력검증·context 무효화', `
+ loadDemo('full');reportContext.owners.android='BASE';reportContext.spec.coordinator='COORD';openOwnerPicker();assert.equal(ownerPickerRows.length,7);assert.equal($('ownerPicker').open,true);assert.equal($('pickerApply').disabled,true);
+ $('pickerAndroid').value='DRAFT';$('pickerCancel').onclick();assert.equal(reportContext.owners.android,'BASE');assert.equal(reportContext.coordination[0].androidOwner,undefined);
+ openOwnerPicker();$('pickerAndroid').value='DRAFT';$('ownerPicker').oncancel({preventDefault(){}});assert.equal($('ownerPicker').open,false);assert.equal(reportContext.owners.android,'BASE');
+ openOwnerPicker();applySelectedOwners();assert.ok($('pickerStatus').textContent.includes('하나 이상'));$('pickerAll').onclick();assert.equal(ownerPickerRows.filter(x=>x.checkbox.checked).length,7);$('pickerNone').onclick();assert.equal(ownerPickerRows.filter(x=>x.checkbox.checked).length,0);
+ ownerPickerRows[0].checkbox.checked=true;ownerPickerRows[2].checkbox.checked=true;const indices=ownerPickerRows.filter(x=>x.checkbox.checked).map(x=>x.i);
+ $('pickerAndroid').value='';$('pickerIos').value='';applySelectedOwners();assert.ok($('pickerStatus').textContent.includes('담당자를 입력'));$('pickerAndroid').value='x'.repeat(121);applySelectedOwners();assert.ok($('pickerStatus').textContent.includes('120자'));$('pickerAndroid').value='SELECTED';applySelectedOwners();
+ assert.equal($('ownerPicker').open,false);assert.equal(reportContext.owners.android,'SELECTED');assert.equal(reportContext.spec.coordinator,'COORD');for(const [i,d] of Object.entries(reportContext.coordination))assert.equal(d.androidOwner,indices.includes(+i)?'SELECTED':undefined);
+ openOwnerPicker();ownerPickerRows[0].checkbox.checked=true;$('pickerAndroid').value='OVERWRITE';$('pickerMode').value='empty';applySelectedOwners();assert.equal(reportContext.coordination[0].androidOwner,'SELECTED');$('pickerMode').value='all';pickerCount();assert.ok($('pickerStatus').textContent.includes('기존 개별 입력 1곳'));assert.equal($('pickerApply').disabled,false);applySelectedOwners();assert.equal(reportContext.coordination[0].androidOwner,'OVERWRITE');assert.equal(reportContext.coordination[indices[1]].androidOwner,'SELECTED');
+ openOwnerPicker();$('old').events.input();assert.equal($('ownerPicker').open,false);assert.equal(ownerPickerContext,null);applySelectedOwners();assert.equal(reportContext,null);
+ loadDemo('compatible');openOwnerPicker();assert.equal($('ownerPicker').open,false);
 `);
 (async()=>{
   await vm.runInContext(`(async()=>{
