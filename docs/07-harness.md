@@ -5,7 +5,7 @@
 ## 실행
 
 1. PRD를 기준으로 수정합니다.
-2. `node scripts/harness.cjs check`: 계약 검증 10묶음과 하네스 상태 검증을 각각 최대 15초 실행합니다. 실패하면 원인을 고치고 다시 실행합니다. 자동 코드 수정이나 무한 재시도는 하지 않습니다.
+2. `node scripts/harness.cjs check`: 계약·사용성 검증 14묶음과 하네스 상태 검증을 각각 최대 15초 실행합니다. 실패하면 원인을 고치고 다시 실행합니다. 자동 코드 수정이나 무한 재시도는 하지 않습니다.
 3. 출력의 digest와 같은 파일을 Claude·Codex가 교차검토합니다. 구체적인 지적을 수정하고 2단계부터 반복합니다. 같은 최종본에 둘 다 추가 수정사항 없음을 명시해야 합니다.
 4. 실제 응답을 확인한 작업자가 `output/harness/reviews.json`에 recordedBy(manual), reviewer(Claude/Codex), digest, verdict(no-further-changes), scope(검토 범위), evidence(실제 응답·출처)를 전사합니다. 미수신 답변은 작성하지 않습니다.
 5. `node scripts/harness.cjs status`: 검사 실패, 변경, 검토 누락을 구분합니다. 모두 충족해도 AWAITING_HUMAN_APPROVAL에서 멈춥니다. 종료코드 1은 보류, 2는 하네스 자체 오류입니다. 종료코드 0은 기술 검토 증거 충족이며 배포 허가가 아닙니다.
@@ -20,4 +20,4 @@ output/harness/<실행 UUID>.json은 실행마다 새로 만들고 latest.json�
 
 자동 검사는 최소 DOM 대역 기반입니다. 실제 브라우저 다운로드·복사·화면과 실기기 검증을 대신하지 않습니다. 브라우저 실행 증거는 docs/05-implementation-check.md에서 별도로 확인합니다. 제품 코드 변경 시 관련 브라우저 검증도 다시 수행합니다.
 
-실행 JSON은 .gitignore로 제외하며 reviews.json은 저장소 증거로 남길 수 있게 제외하지 않습니다(현재 커밋 금지 유지). 각 검토자의 마지막 기록만 사용하므로 이후 수정 요청이 이전 합의를 덮어씁니다. 자식 검사 출력은 상한 64KiB이며 초과 오류·잘림을 기록하고 실패로 처리합니다.
+실행 JSON은 .gitignore로 제외하며 reviews.json은 저장소 증거로 남길 수 있게 제외하지 않습니다(실제 커밋·배포는 사용자의 해당 작업 지시에 따름). 각 검토자의 마지막 기록만 사용하므로 이후 수정 요청이 이전 합의를 덮어씁니다. 자식 검사 출력은 상한 64KiB이며 초과 오류·잘림을 기록하고 실패로 처리합니다.

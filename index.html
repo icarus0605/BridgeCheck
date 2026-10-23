@@ -1,12 +1,17 @@
 <!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BridgeCheck · 웹과 앱 사이, 변경을 확인하세요</title>
 <style>
 :root{font-family:system-ui,sans-serif;color:#172c35;background:#f2f5f4}*{box-sizing:border-box}body{margin:0}header,main{max-width:1280px;margin:auto;padding:28px}header{padding-bottom:8px}.brand{color:#00776b;font-weight:800;letter-spacing:2px}h1{font-size:34px;margin:14px 0}p{line-height:1.65}.muted{color:#566b73;font-size:14px}.notice{background:#e1efeb;padding:14px 18px;border-radius:12px}.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}.panel{background:white;border:1px solid #d7e2df;border-radius:16px;padding:22px;margin-bottom:18px}h2{font-size:19px;margin:0 0 14px}label{display:block;font-weight:650;margin-bottom:10px}textarea{width:100%;height:280px;resize:vertical;border:1px solid #bacdc7;border-radius:8px;padding:12px;font:13px/1.6 ui-monospace,monospace;background:#fbfdfc;color:#20342f}select,button{font:inherit;padding:10px 15px;border:1px solid #b4cac3;border-radius:8px;background:white;color:#17463c}button{cursor:pointer}button:hover{background:#edf4f1}button.primary{background:#00776b;color:white;border-color:#00776b}.actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}.policies{margin-top:18px}.policies select{width:100%}.summary{display:flex;gap:12px;flex-wrap:wrap}.badge{display:inline-block;padding:5px 9px;border-radius:6px;background:#e8efed;font-size:13px;font-weight:650}.오류{background:#ffe7e4;color:#a22d21}.오류가능{background:#fff0da;color:#8a5000}.확인필요{background:#e9edff;color:#394e9d}.계약상호환{background:#dff4e9;color:#256445}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;vertical-align:top;padding:14px 10px;border-bottom:1px solid #e2eae7;white-space:pre-wrap;overflow-wrap:anywhere;min-width:110px}th{color:#526c64;background:#f6f9f7}td.path{min-width:190px}#report{height:320px}#status{font-weight:600;color:#9e352b}details{padding:12px 0;border-bottom:1px solid #e2eae7}summary{cursor:pointer;font-weight:600}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f4f7f6;padding:14px;border-radius:8px}.empty{padding:28px;text-align:center;color:#64796f}footer{text-align:center;padding:25px;color:#71867e;font-size:12px}@media(max-width:760px){.grid{grid-template-columns:1fr}header,main{padding:18px}h1{font-size:26px}.panel{padding:16px}}
-.proposal{padding:16px 0;border-bottom:1px solid #d7e2df}.proposal select{margin:8px 0}.proposal p{font-size:14px;line-height:1.6}</style>
+.proposal{padding:16px 0;border-bottom:1px solid #d7e2df}.proposal select{margin:8px 0}.proposal p{font-size:14px;line-height:1.6}
+input:not([type=checkbox]){width:100%;padding:10px;border:1px solid #bacdc7;border-radius:8px;font:inherit;min-width:0}input[type=file]{font-size:13px}button:disabled{opacity:.45;cursor:not-allowed}.steps{display:flex;flex-wrap:wrap;gap:12px;color:#00776b;font-weight:650}.helper{background:#f6faf8;border:1px solid #d7e2df;border-radius:10px;padding:16px;margin:16px 0}.field-row{display:grid;grid-template-columns:1.4fr 1fr .7fr 1.6fr auto;gap:10px;align-items:end;padding:12px 0;border-bottom:1px solid #d7e2df}.field-row label{font-size:13px;margin:0}.field-row select{width:100%}.field-row textarea{height:65px}.helper h3{font-size:16px}.helper input{margin-top:6px}#nextStep{line-height:1.7}.next-link{display:inline-block;padding:8px 0}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #4085cf;outline-offset:3px}@media(max-width:760px){.field-row{grid-template-columns:1fr 1fr}.field-row label:nth-child(4){grid-column:1/-1}.steps{font-size:14px}}
+</style>
 <header><div class="brand">BRIDGECHECK / CONTRACT REVIEW</div><h1>웹은 바뀌어도, 구버전 앱은 남습니다.</h1><p>이전·새 연동 규칙을 비교하고, 배포 전에 확인할 변경을 찾아보세요.</p><div class="notice"><strong>실제 앱 동작 검증이 아닙니다.</strong><br>최신 웹 × 구버전 앱만 점검합니다. 구버전 웹(앱 내장 번들·캐시)은 범위에서 제외합니다.</div></header>
-<main><section class="panel"><h2>처음이라면 · 샘플로 빠르게 체험</h2><p>예를 들어 웹이 새 카메라 화질 값을 보내면, 구버전 앱은 그 값을 모를 수 있습니다. 변경 근거를 확인하고 앱·웹 담당자에게 전달할 보고서를 만들어 보세요.</p><label for="demoCase">체험할 변경</label><select id="demoCase"><option value="enum">새 화질 값 추가 · 오류 가능 1건</option><option value="compatible">선택 응답 필드 추가 · 계약상 호환 1건</option><option value="full">전체 샘플 · 7개 변경 / 결과 8행</option></select><div class="actions"><button class="primary" id="demo">샘플로 바로 점검</button><a href="#reportTarget">보고서 전달 설정으로 이동</a></div><p class="muted">가상 데이터입니다. 실행하면 입력·결과·대응 제안을 샘플로 바꾸고 파서 정책은 미확인, 전달 대상은 공통으로 설정합니다. 결과는 실제 비교 로직으로 계산합니다.</p></section><section class="panel"><h2>01 · 비교할 계약</h2><p class="muted">팀 자체 단일 action 계약입니다. 원본 입력창에는 민감한 원문이 남습니다. 입력은 저장·전송하지 않습니다.</p><div class="grid"><div><label for="old">이전 계약 · 구앱</label><textarea id="old" spellcheck="false" placeholder="이전 계약 JSON을 붙여 넣으세요"></textarea></div><div><label for="new">새 계약 · 최신 웹</label><textarea id="new" spellcheck="false" placeholder="새 계약 JSON을 붙여 넣으세요"></textarea></div></div><div class="grid policies"><div><label for="requestPolicy">구앱 요청 파서 · 모르는 필드 처리</label><select id="requestPolicy"><option value="unknown">미확인</option value="ignore">무시</option><option value="reject">거부</option></select></div><div><label for="responsePolicy">신웹 응답 파서 · 모르는 필드 처리</label><select id="responsePolicy"><option value="unknown">미확인</option><option value="ignore">무시</option><option value="reject">거부</option></select></div></div><div class="actions"><button class="primary" id="compare">변경 점검하기</button><button id="sample">샘플 넣기</button><button id="reset">초기화</button></div><p id="status" role="status" aria-live="polite"></p></section>
-<section class="panel"><h2>02 · 변경과 방향별 영향</h2><div id="summary" class="summary"></div><div id="results" class="table-wrap"><p class="empty">계약을 입력하거나 샘플을 넣고 점검해 보세요.</p></div></section>
+<main><section class="panel"><h2>처음이라면 · 샘플로 빠르게 체험</h2><p>예를 들어 웹이 새 카메라 화질 값을 보내면, 구버전 앱은 그 값을 모를 수 있습니다. 변경 근거를 확인하고 앱·웹 담당자에게 전달할 보고서를 만들어 보세요.</p><label for="demoCase">체험할 변경</label><select id="demoCase"><option value="enum">새 화질 값 추가 · 오류 가능 1건</option><option value="compatible">선택 응답 필드 추가 · 계약상 호환 1건</option><option value="full">전체 샘플 · 7개 변경 / 결과 8행</option></select><div class="actions"><button class="primary" id="demo">샘플로 바로 점검</button><a href="#reportTarget">보고서 전달 설정으로 이동</a></div><p class="muted">가상 데이터입니다. 실행하면 입력·결과·대응 제안을 샘플로 바꾸고 파서 정책은 미확인, 전달 대상은 공통으로 설정합니다. 결과는 실제 비교 로직으로 계산합니다.</p></section><section class="panel"><h2>01 · 비교할 계약</h2><div class="steps"><span>① 기존 규칙 준비</span><span>② 바뀐 부분 수정</span><span>③ 점검하고 보고서 전달</span></div>
+<details class="helper" open><summary>입력값은 어디서 가져오나요?</summary><p>웹·앱 담당자가 사용하는 <strong>브리지 연동 명세</strong>나 실제 소스의 요청·응답 정의에서 가져옵니다. 실제 전송 데이터 한 건만으로는 필수 여부와 모든 허용값을 알 수 없습니다.</p><p><strong>기존 앱이 주고받는 규칙</strong>을 이전 계약에, <strong>변경할 웹이 사용하는 규칙</strong>을 새 계약에 넣으세요. 기존 계약만 있다면 복사한 뒤 바뀐 부분만 수정하면 됩니다.</p><p class="muted">처음 작성한다면 아래 작성 도우미를 쓰거나 담당자에게 action·응답 event·요청/성공/오류 필드별 이름·자료형·필수 여부·허용값을 요청하세요. 이 도구가 소스에서 자동 추출하지는 않습니다.</p></details>
+<details class="helper" id="builder"><summary>계약 작성 도우미 · 항목별로 입력하기</summary><p>필드 이름과 자료형을 선택하면 계약 JSON을 만듭니다. <strong>입력창에 반영</strong>을 눌러야 비교 대상이 바뀝니다. 도우미에도 원문이 표시되며 페이지를 닫으면 사라집니다.</p><label for="builderTarget">작성할 계약</label><select id="builderTarget"><option value="old">이전 계약 · 구앱</option><option value="new">새 계약 · 최신 웹</option></select><div class="actions"><button id="builderLoad">선택한 입력창에서 불러오기</button><button id="builderBlank">빈 초안으로 시작</button></div>
+<div class="grid"><label for="builderVersion">계약 식별자 (앱 버전 아님)<input id="builderVersion" placeholder="예: 1.0" autocomplete="off"></label><label for="builderAction">요청 이름 (action)<input id="builderAction" placeholder="예: openCamera" autocomplete="off"></label></div><label for="builderEvent">응답 이름 (responseEvent)<input id="builderEvent" placeholder="예: cameraResult" autocomplete="off"></label><p class="muted">string=문자, number=숫자, boolean=참/거짓, object=객체, array=배열. 허용값(enum)은 선택 사항입니다. 정해진 값만 허용할 때 JSON 배열로 입력하세요: ["low","high"], [0,1], [true,false]. 빈칸은 허용값 제한 없음입니다. object/array 내부 구조는 점검하지 않습니다.</p><div id="builderFields"></div><p class="muted">각 영역에 필드가 없으면 빈 배열(제약 없음)로 반영합니다. 실제 명세와 일치하는지 확인하세요.</p><button id="builderApply" class="primary">선택한 입력창에 반영</button><p id="builderStatus" role="status">아직 비교 입력에 반영되지 않은 초안입니다.</p></details><p class="muted">팀 자체 단일 action 계약입니다. 원본 입력창에는 민감한 원문이 남습니다. 입력은 저장·전송하지 않습니다.</p><div class="grid"><div><label for="old">이전 계약 · 구앱</label><textarea id="old" spellcheck="false" placeholder="이전 계약 JSON을 붙여 넣거나 파일을 선택하세요"></textarea><label for="oldFile" class="muted">이전 계약 JSON 파일 불러오기 · 최대 1 MiB</label><input type="file" id="oldFile" accept=".json,application/json"><p id="oldFileStatus" role="status"></p></div><div><label for="new">새 계약 · 최신 웹</label><textarea id="new" spellcheck="false" placeholder="새 계약 JSON을 붙여 넣거나 파일을 선택하세요"></textarea><label for="newFile" class="muted">새 계약 JSON 파일 불러오기 · 최대 1 MiB</label><input type="file" id="newFile" accept=".json,application/json"><p id="newFileStatus" role="status"></p></div></div><div class="actions"><button id="copyOld">이전 계약을 새 계약으로 복사</button></div><p class="muted">모르는 필드 처리 정책을 모르면 아래 설정은 미확인으로 두세요.</p><div class="grid policies"><div><label for="requestPolicy">구앱 요청 파서 · 모르는 필드 처리</label><select id="requestPolicy"><option value="unknown">미확인</option><option value="ignore">무시</option><option value="reject">거부</option></select></div><div><label for="responsePolicy">신웹 응답 파서 · 모르는 필드 처리</label><select id="responsePolicy"><option value="unknown">미확인</option><option value="ignore">무시</option><option value="reject">거부</option></select></div></div><div class="actions"><button class="primary" id="compare">변경 점검하기</button><button id="sample">샘플 넣기</button><button id="reset">초기화</button></div><p id="status" role="status" aria-live="polite"></p></section>
+<section class="panel"><h2>02 · 변경과 방향별 영향</h2><p id="nextStep" role="status">두 계약을 준비하고 변경 점검하기를 눌러주세요.</p><a class="next-link" href="#reportTarget">대응 제안 선택·보고서 다운로드로 이동 ↓</a><div id="summary" class="summary"></div><div id="results" class="table-wrap"><p class="empty">계약을 입력하거나 샘플을 넣고 점검해 보세요.</p></div></section>
 <section class="panel"><h2>03 · 재검수와 테스트 예시</h2><p>구앱의 미지 키·enum 처리, 신웹의 누락 필드·자료형·구 event 수신 처리, 실제 구현과 계약의 일치 여부를 확인하세요. 변경 유예, 기존 형식 유지, 구형 응답 수용, 최소 앱 버전 게이팅을 검토할 수 있습니다. 필요한 최소 앱 버전은 사람이 결정합니다.</p><p class="muted">생성 예시는 실행 결과가 아닙니다. 민감 키의 값은 마스킹합니다. 모든 개인정보를 탐지하지는 않으므로 공유 전 검토하세요.</p><div id="examples"></div></section>
-<section class="panel"><h2>04 · 공유할 점검 보고서</h2><label for="reportTarget">보고서 전달 대상</label><select id="reportTarget"><option value="common">공통</option><option value="android">Android</option><option value="ios">iPhone (iOS)</option></select><p class="muted">전달 대상 선택이며 OS별 판정이 아닙니다. 플랫폼별 계약·파서가 다르면 각각 입력해 재점검하세요.</p><h3>담당자에게 전달할 대응 제안</h3><p class="muted">오류·오류 가능·확인 필요 항목에만 제안을 선택합니다. 선택은 승인이나 수정 완료를 뜻하지 않습니다. 앱 변경은 업데이트를 설치한 앱에만 적용됩니다.</p><div id="proposals"></div><div class="actions"><button id="copy">보고서 복사</button><button id="download">Markdown 다운로드 (.md)</button></div><label for="report" class="muted">복사가 안 되면 아래 내용을 직접 선택해 복사하세요.</label><textarea id="report" readonly></textarea><p id="copyStatus" role="status"></p></section></main><footer>BridgeCheck · 판단의 근거를 정리하고, 최종 승인은 사람이 합니다.</footer>
+<section class="panel"><h2>04 · 공유할 점검 보고서</h2><label for="reportTarget">보고서 전달 대상</label><select id="reportTarget"><option value="common">공통</option><option value="android">Android</option><option value="ios">iPhone (iOS)</option></select><p class="muted">전달 대상 선택이며 OS별 판정이 아닙니다. 플랫폼별 계약·파서가 다르면 각각 입력해 재점검하세요.</p><h3>담당자에게 전달할 대응 제안</h3><p class="muted">오류·오류 가능·확인 필요 항목에만 제안을 선택합니다. 선택은 승인이나 수정 완료를 뜻하지 않습니다. 앱 변경은 업데이트를 설치한 앱에만 적용됩니다.</p><div id="proposals"></div><div class="actions"><button id="copy" disabled>보고서 복사</button><button id="download" disabled>Markdown 다운로드 (.md)</button></div><label for="report" class="muted">복사가 안 되면 아래 내용을 직접 선택해 복사하세요.</label><textarea id="report" readonly></textarea><p id="copyStatus" role="status"></p></section></main><footer>BridgeCheck · 판단의 근거를 정리하고, 최종 승인은 사람이 합니다.</footer>
 <script>
 'use strict';
 // 모든 입력값은 텍스트로만 출력합니다. 파싱·비교·예시·화면 출력을 분리합니다.
@@ -71,13 +76,15 @@ function refreshReport(){
   lines.push('QA 체크리스트 (미실행)');
   for(const platform of platforms)lines.push('[ ] '+platform+': 실제 사용 중인 브리지의 요청 해석·검증과 성공/오류 응답 직렬화·event 전달을 확인합니다.','[ ] '+platform+': 최신 웹 × 미업데이트 구앱, 최신 웹 × 업데이트 설치 앱을 각각 실행하고 앱 버전·입력·기대값·실제값을 기록합니다.');
   lines.push('[ ] 각 위험 항목의 테스트 부분 예시를 실제 메시지로 완성해 재현합니다.','[ ] 앱 변경만 선택해도 구앱 대응은 별도로 결정합니다. 최소 앱 버전은 도구가 추정하지 않습니다.','[ ] 구버전 웹(앱 내장 번들·캐시)은 이번 점검 범위 밖이므로 별도 확인합니다.','','사람의 판단: 수정 파일·API·코드는 실제 소스를 확인한 담당자가 결정합니다. 공유 전 마스킹과 내용, 배포 전 실제 앱 검증을 확인하세요.');
-  $('report').value=lines.join('\n');
+  $('report').value=lines.join('\n');$('copy').disabled=false;$('download').disabled=false;
+  $('nextStep').textContent=risks.length&&risks.every(r=>r.status==='확인 필요')?'수신 파서가 모르는 필드를 어떻게 처리하는지 담당자에게 확인하고, 정책을 선택해 다시 점검하세요.':risks.length?'확인할 변경 '+risks.length+'건입니다. 아래 근거를 확인하고 전달 대상·대응 제안을 선택한 뒤 보고서를 내려받으세요.':'위험으로 분류된 변경이 없습니다. 실제 앱 동작 보증은 아니며 기기에서 재검수하세요.';
 }
 $('reportTarget').onchange=refreshReport;
 
-function clear(){reportContext=null;$('proposals').replaceChildren(); $('summary').replaceChildren();$('results').replaceChildren();$('examples').replaceChildren();$('report').value='';$('copyStatus').textContent='';}
+let inputRevision=0;
+function clear(){inputRevision++;$('copy').disabled=true;$('download').disabled=true;$('nextStep').textContent='입력이 바뀌면 다시 점검한 뒤 보고서를 전달하세요.';reportContext=null;$('proposals').replaceChildren(); $('summary').replaceChildren();$('results').replaceChildren();$('examples').replaceChildren();$('report').value='';$('copyStatus').textContent='';}
 function run(){clear();$('status').textContent='';try{const a=parse($('old').value,'이전 계약'),b=parse($('new').value,'새 계약'),p={request:$('requestPolicy').value,response:$('responsePolicy').value},rows=compare(a,b,p);for(const s of ['오류','오류 가능','확인 필요','계약상 호환','정보'])$('summary').append(el('p',s+' '+rows.filter(r=>r.status===s).length+'건','badge '+s.replaceAll(' ','')));const table=el('table'),head=el('tr');for(const h of ['방향 / 필드','변경','이전 → 새 규칙','판정 / 근거'])head.append(el('th',h));const thead=el('thead');thead.append(head);table.append(thead);const body=el('tbody');const lines=['BridgeCheck 점검 보고서','이전 계약: '+show(a.contractVersion)+' / action '+show(a.action)+' / event '+show(a.responseEvent),'새 계약: '+show(b.contractVersion)+' / action '+show(b.action)+' / event '+show(b.responseEvent),'최신 웹 × 구버전 앱. 구버전 웹(앱 내장 번들·캐시)은 범위 제외.','실제 앱 동작 검증이 아닙니다. 오류는 계약상 비호환 가능성입니다.','파서: 구앱 요청 '+policyNames[p.request]+' / 신웹 응답 '+policyNames[p.response],'','변경 목록과 방향별 영향'];for(const r of rows){const path=(directions[r.g]||'메타데이터')+'\n'+(r.kind==='식별자 변경'?short(r.name):r.g+'.'+short(r.name)),tr=el('tr');tr.append(el('td',path,'path'),el('td',r.kind),el('td',r.before+'\n→ '+r.after));const cell=el('td');cell.append(el('span',r.status,'badge '+r.status.replaceAll(' ','')),el('p',r.reason));tr.append(cell);body.append(tr);lines.push(path+' | '+r.kind+' | '+r.before+' → '+r.after+' | '+r.status+' | '+r.reason);}table.append(body);$('results').append(rows.length?table:el('p','의미 있는 계약 변경이 없습니다. 실제 앱 정상 동작을 보증하지 않습니다.','empty'));lines.push('','방향별 요약');for(const g of groups){const list=rows.filter(r=>r.g===g);lines.push(directions[g]+': '+(list.length?['오류','오류 가능','확인 필요','계약상 호환'].map(s=>s+' '+list.filter(r=>r.status===s).length).join(', '):'변경 없음'));}lines.push('','재검수: 구앱 미지 키·enum 처리 / 신웹 누락 필드·타입·구 event 처리 / 실제 계약과 구현 일치.','대응: 변경 유예, 기존 형식 유지, 구형 응답 수용, 최소 앱 버전 게이팅. 버전 번호는 사람이 결정.','','테스트 부분 예시 (미실행)');for(const r of rows.filter(r=>r.g!=='metadata')){const text=witness(r,a,b),d=el('details');d.append(el('summary',(directions[r.g]||'')+' / '+short(r.name)+' / '+r.kind),el('pre',text));$('examples').append(d);lines.push((r.kind==='식별자 변경'?short(r.name):r.g+'.'+short(r.name))+' / '+r.kind,text);}lines.push('','사람의 판단: 실제 앱 검증과 배포 승인은 담당자가 수행합니다. 예시는 실행 증거가 아닙니다. 키 기반 마스킹은 모든 개인정보를 탐지하지 않으므로 공유 전 검토하세요.');reportContext={base:lines.join('\n'),rows,choices:{}};renderProposals();refreshReport();$('status').textContent='점검 완료 · '+rows.length+'개 변경 항목 (정보 포함 · event 변경은 성공·오류 응답에 각각 표시)';}catch(e){clear();$('status').textContent=e instanceof InputError?e.message:'점검 중 문제가 발생했습니다. 입력을 확인하세요.';}}
-$('compare').onclick=run;$('reset').onclick=()=>{clear();$('old').value='';$('new').value='';$('reportTarget').value='common';$('status').textContent='초기화했습니다.';$('requestPolicy').value='unknown';$('responsePolicy').value='unknown';};for(const id of ['old','new','requestPolicy','responsePolicy'])$(id).addEventListener('input',()=>{clear();$('status').textContent='입력이 변경되었습니다. 다시 점검하세요.';});$('copy').onclick=async()=>{if(!$('report').value){$('copyStatus').textContent='먼저 점검을 실행하세요.';return;}try{await navigator.clipboard.writeText($('report').value);$('copyStatus').textContent='보고서를 복사했습니다.';}catch{$('report').focus();$('report').select();$('copyStatus').textContent='자동 복사가 지원되지 않습니다. 선택된 내용을 직접 복사하세요.';}};
+$('compare').onclick=()=>{run();$('status').scrollIntoView?.({block:'center'});};$('reset').onclick=()=>{clear();resetBuilder();for(const id of ['old','new']){$(id+'File').value='';$(id+'FileStatus').textContent='';}$('old').value='';$('new').value='';$('reportTarget').value='common';$('status').textContent='초기화했습니다.';$('requestPolicy').value='unknown';$('responsePolicy').value='unknown';};for(const id of ['old','new','requestPolicy','responsePolicy'])$(id).addEventListener('input',()=>{clear();$('status').textContent='입력이 변경되었습니다. 다시 점검하세요.';});$('copy').onclick=async()=>{if(!$('report').value){$('copyStatus').textContent='먼저 점검을 실행하세요.';return;}try{await navigator.clipboard.writeText($('report').value);$('copyStatus').textContent='보고서를 복사했습니다.';}catch{$('report').focus();$('report').select();$('copyStatus').textContent='자동 복사가 지원되지 않습니다. 선택된 내용을 직접 복사하세요.';}};
 
 // 입력 문자열이 Markdown 문법이나 HTML로 해석되지 않도록 길이가 충분한 코드 블록에 넣습니다.
 function reportMarkdown(text) {
@@ -121,4 +128,81 @@ function loadDemo(kind){
   run();
 }
 $('demo').onclick=()=>{loadDemo($('demoCase').value);$('summary').scrollIntoView?.({block:'start'});};
+
+/* 입력 도우미는 계약을 추정하지 않으며 기존 parse를 공통 검증기로 사용합니다. */
+const inputNames={old:'이전 계약',new:'새 계약'};
+const fieldGroupNames={requestFields:'요청 필드',successFields:'성공 응답 필드',errorFields:'오류 응답 필드'};
+const fileTickets={old:0,new:0};
+function inputMessage(error){return error instanceof InputError?error.message:'처리하지 못했습니다. 입력을 확인하고 다시 시도하세요.';}
+function replaceInput(id,text){
+  parse(text,inputNames[id]);
+  if($(id).value && $(id).value!==text && !confirm(inputNames[id]+' 입력을 바꾸면 기존 결과와 대응 제안이 지워집니다. 바꾸시겠습니까?'))return false;
+  clear();$(id).value=text;$(id+'FileStatus').textContent='';
+  $('status').textContent=inputNames[id]+'을 준비했습니다. 바뀐 부분을 확인하고 변경 점검하기를 누르세요.';
+  return true;
+}
+$('copyOld').onclick=()=>{try{parse($('old').value,'이전 계약');replaceInput('new',$('old').value);}catch(e){$('status').textContent=inputMessage(e);}};
+async function importContract(id,file){
+  if(!file)return;
+  const ticket=++fileTickets[id],revision=inputRevision,initial=$(id).value;
+  $(id+'FileStatus').textContent='파일을 읽는 중입니다.';
+  try{
+    if(file.size>1048576)throw new InputError('파일은 1 MiB 이하여야 합니다.');
+    const text=await file.text();
+    if(ticket!==fileTickets[id])return;
+    if(revision!==inputRevision||initial!==$(id).value){$(id+'FileStatus').textContent='읽는 동안 입력이나 결과가 바뀌어 취소했습니다. 다시 선택하세요.';return;}
+    parse(text,inputNames[id]);
+    const done=replaceInput(id,text);
+    $(id+'FileStatus').textContent=done?'파일을 불러왔습니다. 기존 결과는 지워졌습니다.':'파일 반영을 취소했습니다. 기존 입력을 유지합니다.';
+  }catch(e){if(ticket===fileTickets[id]&&revision===inputRevision)$(id+'FileStatus').textContent=inputMessage(e);}
+  finally{if(ticket===fileTickets[id])$(id+'File').value='';}
+}
+for(const id of ['old','new'])$(id+'File').onchange=()=>importContract(id,$(id+'File').files[0]);
+let builderBase={},builderRows={},builderCounter=0,builderDirty=false;
+function markDraft(){builderDirty=true;$('builderStatus').textContent='초안이 변경됐습니다. 입력창에 반영해야 점검에 사용됩니다.';}
+function labeled(labelText,control){const label=el('label',labelText);label.htmlFor=control.id;label.append(control);return label;}
+function addBuilderRow(group,field={name:'',type:'string',required:false}){
+  if(Object.values(builderRows).reduce((n,list)=>n+list.length,0)>=150)throw new InputError('작성 도우미는 최대 150개 필드까지 지원합니다. 더 큰 계약은 JSON 입력창을 사용하세요.');
+  const id='bf-'+(++builderCounter),box=el('div',undefined,'field-row');
+  const name=el('input'),type=el('select'),required=el('input'),values=el('textarea'),remove=el('button','삭제');
+  name.id=id+'-name';name.value=field.name;type.id=id+'-type';required.id=id+'-required';required.type='checkbox';required.checked=!!field.required;
+  values.id=id+'-enum';values.value=own(field,'enum')?JSON.stringify(field.enum):'';values.placeholder='예: ["low","high"]';
+  for(const key of ['string','number','boolean','object','array']){const option=el('option',key);option.value=key;type.append(option);}type.value=field.type;
+  const record={box,name,type,required,values};builderRows[group].push(record);
+  remove.onclick=()=>{builderRows[group]=builderRows[group].filter(r=>r!==record);box.remove();markDraft();};
+  for(const control of [name,type,required,values])control.oninput=markDraft;
+  box.append(labeled('필드 이름',name),labeled('자료형',type),labeled('필수',required),labeled('허용값 · 선택',values),remove);
+  $('builder-'+group).append(box);
+}
+function fillBuilder(contract){
+  if(groups.reduce((n,g)=>n+contract[g].length,0)>150)throw new InputError('작성 도우미는 최대 150개 필드까지 지원합니다. JSON 입력창을 사용하세요.');
+  builderBase=JSON.parse(JSON.stringify(contract));builderRows={};$('builderFields').replaceChildren();
+  $('builderVersion').value=contract.contractVersion;$('builderAction').value=contract.action;$('builderEvent').value=contract.responseEvent;
+  for(const group of groups){
+    builderRows[group]=[];const section=el('section'),list=el('div'),add=el('button','필드 추가');list.id='builder-'+group;
+    section.append(el('h3',fieldGroupNames[group]),list,add);$('builderFields').append(section);
+    add.onclick=()=>{try{addBuilderRow(group);markDraft();}catch(e){$('builderStatus').textContent=inputMessage(e);}};
+    for(const field of contract[group])addBuilderRow(group,field);
+  }
+  builderDirty=false;$('builderStatus').textContent='초안을 준비했습니다. 수정 후 선택한 입력창에 반영하세요.';
+}
+function resetBuilder(){fillBuilder({contractVersion:'',action:'',responseEvent:'',requestFields:[],successFields:[],errorFields:[]});$('builderTarget').value='old';}
+function builderContract(){
+  const contract={...builderBase,contractVersion:$('builderVersion').value,action:$('builderAction').value,responseEvent:$('builderEvent').value};
+  for(const group of groups)contract[group]=builderRows[group].map((r,i)=>{
+    const f={name:r.name.value,type:r.type.value,required:!!r.required.checked};
+    if(r.values.value.trim()){
+      try{f.enum=JSON.parse(r.values.value);}catch{throw new InputError(fieldGroupNames[group]+' '+(i+1)+'번째 필드: 허용값은 JSON 배열로 입력하세요. 예: ["low","high"]');}
+    }
+    return f;
+  });
+  return parse(JSON.stringify(contract),'작성 도우미');
+}
+$('builderLoad').onclick=()=>{try{const id=$('builderTarget').value,contract=parse($(id).value,inputNames[id]);if(builderDirty&&!confirm('작성 중인 초안을 선택한 입력 내용으로 바꾸시겠습니까?'))return;fillBuilder(contract);}catch(e){$('builderStatus').textContent=inputMessage(e);}};
+$('builderBlank').onclick=()=>{if(builderDirty&&!confirm('작성 중인 초안을 지우시겠습니까?'))return;const target=$('builderTarget').value;resetBuilder();$('builderTarget').value=target;};
+$('builderApply').onclick=()=>{try{const id=$('builderTarget').value,text=JSON.stringify(builderContract(),null,2);if(replaceInput(id,text)){builderDirty=false;$('builderStatus').textContent=inputNames[id]+'에 반영했습니다. 변경 점검하기를 누르세요.';}else $('builderStatus').textContent='반영을 취소했습니다. 초안은 유지됩니다.';}catch(e){$('builderStatus').textContent=inputMessage(e);}};
+$('builderTarget').onchange=()=>{$('builderStatus').textContent='반영 대상만 변경했습니다. 초안 내용은 유지됩니다. 필요한 경우 선택한 입력창에서 불러오세요.';};
+for(const id of ['builderVersion','builderAction','builderEvent'])$(id).oninput=markDraft;
+resetBuilder();
+
 </script></html>

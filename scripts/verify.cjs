@@ -11,16 +11,21 @@ function node() {
     append(...items) { this.children.push(...items); },
     replaceChildren(...items) { this.children = items; },
     addEventListener(event, handler) { this.events[event] = handler; },
-    focus() {}, select() {}
+    focus() {}, select() {}, remove() {}
   };
 }
 const context = {
-  TextEncoder, assert,
+  TextEncoder, assert, confirm:()=>true,
   document: { getElementById: id => nodes[id] ??= node(), createElement: node },
   navigator: {},
   externalA: JSON.parse(fs.readFileSync(path.join(root, 'samples/contract-v1.json'))),
   externalB: JSON.parse(fs.readFileSync(path.join(root, 'samples/contract-v2.json')))
 };
+for(const id of ['requestPolicy','responsePolicy']){
+  const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
+  const select=html.split('<select id="'+id+'">')[1].split('</select>')[0];
+  assert.deepEqual([...select.matchAll(/<option value="([^"]+)">[^<]+<\/option>/g)].map(m=>m[1]),['unknown','ignore','reject']);
+}
 vm.createContext(context);
 const source = fs.readFileSync(path.join(root, 'index.html'), 'utf8').split('<script>')[1].split('</script>')[0];
 vm.runInContext(source, context);
@@ -99,4 +104,45 @@ check('예상 밖 예외의 내부 문자열 비노출', `
   const saved=compare;compare=()=>{throw new Error('PRIVATE_DETAIL')};run();compare=saved;
   assert.equal($('status').textContent,'점검 중 문제가 발생했습니다. 입력을 확인하세요.');assert.equal($('report').value,'');
 `);
-console.log(`${passed} 검증 묶음 통과. 브라우저·실기기 검증을 대체하지 않습니다.`);
+
+
+check('이전 계약 복사·취소·잘못된 원본 보존', `
+  loadDemo('full');const old=$('old').value,newer=$('new').value;
+  confirm=()=>false;$('copyOld').onclick();assert.equal($('new').value,newer);assert.ok(reportContext);
+  confirm=()=>true;$('copyOld').onclick();assert.equal($('new').value,old);assert.equal(reportContext,null);
+  $('old').value='{';$('copyOld').onclick();assert.equal($('new').value,old);
+`);
+check('도우미 왕복·enum 타입 검증·실패시 원본 보존', `
+  fillBuilder(sampleA);assert.equal(JSON.stringify(builderContract()),JSON.stringify(sampleA));
+  $('builderTarget').value='new';const before=$('new').value;
+  builderRows.requestFields[0].values.value='PRIVATE_RAW';$('builderApply').onclick();
+  assert.equal($('new').value,before);assert.ok(!$('builderStatus').textContent.includes('PRIVATE_RAW'));
+  builderRows.requestFields[0].values.value='[0]';assert.throws(()=>builderContract(),/enum/);
+  builderRows.requestFields[0].values.value='["low","high","medium"]';confirm=()=>false;$('builderApply').onclick();assert.equal($('new').value,before);assert.ok($('builderStatus').textContent.includes('취소'));confirm=()=>true;
+  builderRows.requestFields[0].values.value='["low","high","medium"]';$('builderApply').onclick();
+  assert.equal(JSON.parse($('new').value).requestFields[0].enum.length,3);assert.equal(reportContext,null);
+  builderRows.requestFields[0].name.value='__proto__';assert.throws(()=>builderContract());
+  const large=JSON.parse(JSON.stringify(sampleA));large.requestFields=Array.from({length:151},(_,i)=>({name:'f'+i,type:'string'}));
+  assert.throws(()=>fillBuilder(large),/150/);
+`);
+check('결과 버튼·다음 행동·초기화 시 도우미 제거', `
+  clear();assert.equal($('copy').disabled,true);assert.equal($('download').disabled,true);
+  loadDemo('enum');assert.equal($('download').disabled,false);assert.ok($('nextStep').textContent.includes('확인할 변경 1건'));
+  $('reset').onclick();assert.equal($('download').disabled,true);assert.equal($('builderAction').value,'');assert.equal(builderRows.requestFields.length,0);
+`);
+(async()=>{
+  await vm.runInContext(`(async()=>{
+    const valid=JSON.stringify(sampleA);$('old').value=valid;
+    await importContract('old',{size:3,text:async()=>'{'});assert.equal($('old').value,valid);
+    let read=false;await importContract('old',{size:1048577,text:async()=>{read=true;return valid;}});assert.equal(read,false);
+    await importContract('new',{size:valid.length,text:async()=>valid});assert.equal($('new').value,valid);
+    let finish;const pending=importContract('new',{size:1,text:()=>new Promise(resolve=>finish=resolve)});
+    $('new').value='MANUAL_EDIT';$('new').events.input();finish(valid);await pending;assert.equal($('new').value,'MANUAL_EDIT');
+    let first;const earlier=importContract('new',{size:1,text:()=>new Promise(resolve=>first=resolve)});
+    await importContract('new',{size:valid.length,text:async()=>valid});first(JSON.stringify(sampleB));await earlier;assert.equal($('new').value,valid);
+    let resetRead;const last=importContract('old',{size:1,text:()=>new Promise(resolve=>resetRead=resolve)});
+    $('reset').onclick();resetRead(valid);await last;assert.equal($('old').value,'');
+  })()`,context);
+  passed++;console.log('PASS 파일 입력 검증·크기 선검사·편집/연속선택/초기화 경합');
+  console.log(`${passed} 검증 묶음 통과. 브라우저·실기기 검증을 대체하지 않습니다.`);
+})().catch(error=>{console.error(error);process.exitCode=1;});

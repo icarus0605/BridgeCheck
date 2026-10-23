@@ -14,5 +14,21 @@
     "verdict": "no-further-changes",
     "scope": "개발 하네스 코드·문서·기존 합의 제품 코드에 대한 교차검토. 브라우저/실기기 신규 검증은 포함하지 않음.",
     "evidence": "2026-10-23 같은 최종본 추가 수정사항 없습니다. 계약10묶음·상태12개 및 격리 CLI 정상/검토누락/소스변경/exit7/15초timeout/출력초과/필수파일누락 검증 완료. Claude의 두 지적은 원본 줄바꿈·번호 및 실제 종료코드로 재검증."
+  },
+  {
+    "reviewer": "Claude",
+    "recordedBy": "manual",
+    "digest": "26cf76e3de3e4e032eb11df167b6a11d9910fc843410abdc5c9a8de49b4d7a96",
+    "verdict": "no-further-changes",
+    "scope": "입력 출처·계약 복사·로컬 파일·작성 도우미·다음 행동 안내 및 정책 선택지 결함 수정, 검증·문서 변경",
+    "evidence": "2026-10-23 실제 채팅에서 해당 digest 최종본에 추가 수정사항 없습니다 명시. 핵심 코드·diff·추가 테스트 대조. requestPolicy ignore option 결함 지적 후 수정 확인. 직접 실행하지 않았으며 실행 증거는 Codex 보고에 근거. https://claude.ai/chat/3c3274be-264e-4f83-971f-d07602fd88e4"
+  },
+  {
+    "reviewer": "Codex",
+    "recordedBy": "manual",
+    "digest": "26cf76e3de3e4e032eb11df167b6a11d9910fc843410abdc5c9a8de49b4d7a96",
+    "verdict": "no-further-changes",
+    "scope": "입력 출처·계약 복사·로컬 파일·작성 도우미·다음 행동 안내 및 정책 선택지 결함 수정, 검증·문서 변경",
+    "evidence": "2026-10-23 해당 최종본 추가 수정사항 없습니다. 14묶음 및 하네스12상태 통과. 파일→복사→도우미수정→비교 브라우저 흐름, 잘못된 파일 원본 보존, iOS보고서 다운로드, 실제 ignore정책 선택과 결과 확인. 취소 경로는 VM검증. 706px 화면 가로 넘침·중복ID·도우미 라벨누락 없음."
   }
 ]
