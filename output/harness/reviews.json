@@ -110,5 +110,21 @@
     "verdict": "no-further-changes",
     "scope": "코드·명세 점검 UI/분석기/엑셀 일정/폴더 저장, 회귀검증 및 README/PRD/context/harness 전환 문서",
     "evidence": "2026-10-23 동일 최종본 추가 수정사항 없음. 기존 회귀 및 새11묶음과 하네스12상태 통과. 실제 브라우저 XLSX 양식/3플랫폼 소스 업로드, 숫자 날짜와 12행 다운로드, 일정 미리보기/덮어쓰기 차단/재점검 보존 확인. 실제 OS 공유폴더와 Excel 앱 직접 편집 미검증을 명시."
+  },
+  {
+    "reviewer": "Claude",
+    "recordedBy": "manual",
+    "digest": "bd5511fc6a8092a6b8b5ac09d58d53c8b84abb2460e1b8e9a235e80603a49bfc",
+    "verdict": "no-further-changes",
+    "scope": "화면·엑셀·문서 Bridge 표기 통일 및 입력 별칭 호환, legacy 링크 경로 보존",
+    "evidence": "실제 Claude 채팅116번째 응답에서 동일 digest 추가 수정사항 없음 확인. diff 검토 후 legacy 링크 경로 지적을 복원하고 재검토. 실행 결과는 Codex 보고 기반. https://claude.ai/chat/3c3274be-264e-4f83-971f-d07602fd88e4"
+  },
+  {
+    "reviewer": "Codex",
+    "recordedBy": "manual",
+    "digest": "bd5511fc6a8092a6b8b5ac09d58d53c8b84abb2460e1b8e9a235e80603a49bfc",
+    "verdict": "no-further-changes",
+    "scope": "화면·엑셀·문서 Bridge 표기 통일 및 입력 별칭 호환, legacy 링크 경로 보존",
+    "evidence": "동일 최종본 추가 수정사항 없음. 하네스 전체 통과, 실제 로컬 브라우저 제목 및 Bridge 명세 표시 확인. 기존 한글 입력 별칭과 원본 파일 경로 보존."
   }
 ]

@@ -35,7 +35,7 @@ function extract(file,platform){
   for(let i=0;i<t.length;i++){
     if(['JavascriptInterface','userContentController','callBridge','invokeBridge','messageHandlers','postMessage'].includes(v(i)))anchors.push({path:file.path,line:t[i].line});
     if(platform==='React'){
-      if(['callBridge','invokeBridge'].includes(v(i))&&v(i+1)==='('&&[',',')'].includes(v(i+3)))add(i+2,'action','브리지 호출 인수 후보');
+      if(['callBridge','invokeBridge'].includes(v(i))&&v(i+1)==='('&&[',',')'].includes(v(i+3)))add(i+2,'action','Bridge 호출 인수 후보');
       if(v(i)==='window'&&v(i+1)==='.'&&v(i+2)==='Android'&&v(i+3)==='.'&&v(i+5)==='(')named(i+4,'action','window.Android 직접 호출');
       if(v(i)==='postMessage'&&v(i+1)==='('&&v(i+2)==='{'){
         for(let j=i+3;j<Math.min(i+30,t.length)&&v(j)!=='}';j++)if(v(j)==='action'&&v(j+1)===':'&&[',','}'].includes(v(j+3)))add(j+2,'action','postMessage action 후보');
@@ -75,8 +75,8 @@ function analyze(spec,files){
  const similar=found.length?[]:all.filter(e=>e.kind===kind&&e.name.replace(/[_\s]/g,'').toLowerCase()===name.replace(/[_\s]/g,'').toLowerCase());
  const excluded=extracted[p].length>0&&extracted[p].every(x=>x.warnings.length);
  const result=excluded?'분석 제외·확인 필요':extra?'명세 외 후보':found.length?'이름 발견·검토 필요':similar.length?'유사 이름·확인 필요':'미발견·확인 필요';
- const position=found.length?found.map(e=>`${e.path}:${e.line} (${e.pattern})`).join('\n'):similar.length?similar.map(e=>`${e.path}:${e.line} (유사 이름: ${e.name})`).join('\n'):anchors.length?'검토 시작 위치(수정 확정 아님): '+anchors.map(a=>`${a.path}:${a.line}`).join(', '):'관련 위치를 찾지 못함 — 브리지 파일 범위를 확인하세요';
- const advice=extra?'명세에 없는 이름입니다. 브리지 기능인지 확인한 뒤 명세 추가 또는 불필요한 코드 제거를 검토하세요.':found.length?'이름을 참조하는 코드 후보입니다. 실제 등록·호출 경로, 요청/응답 필드 및 실행 결과를 확인하세요.':`${p}에서 ${kind==='action'?'기능 처리/호출':'이벤트 발신/수신'} 이름 “${name}”을 찾지 못했습니다. 누락·이름 변경·동적 이름·업로드 범위를 확인하세요.`;
+ const position=found.length?found.map(e=>`${e.path}:${e.line} (${e.pattern})`).join('\n'):similar.length?similar.map(e=>`${e.path}:${e.line} (유사 이름: ${e.name})`).join('\n'):anchors.length?'검토 시작 위치(수정 확정 아님): '+anchors.map(a=>`${a.path}:${a.line}`).join(', '):'관련 위치를 찾지 못함 — Bridge 파일 범위를 확인하세요';
+ const advice=extra?'명세에 없는 이름입니다. Bridge 기능인지 확인한 뒤 명세 추가 또는 불필요한 코드 제거를 검토하세요.':found.length?'이름을 참조하는 코드 후보입니다. 실제 등록·호출 경로, 요청/응답 필드 및 실행 결과를 확인하세요.':`${p}에서 ${kind==='action'?'기능 처리/호출':'이벤트 발신/수신'} 이름 “${name}”을 찾지 못했습니다. 누락·이름 변경·동적 이름·업로드 범위를 확인하세요.`;
  rows.push({'항목 키':JSON.stringify([action,p,kind,name,extra?'extra':'spec']),'분석 ID':'','기능명':action,'플랫폼':p,'점검 대상':`${kind==='action'?'기능':'응답 이벤트'}: ${name}`,'결과':result,'수정 위치':position,'검토 제안':advice,'담당자':'','수정 내용':'','개발 예정일':'','QA 예정일':'','운영 예정일':'','진행 상태':'미정'});
  }
  for(const s of spec)for(const p of platforms){row(s.action,p,'action',s.action);if(s.responseEvent)row(s.action,p,'response',s.responseEvent);}

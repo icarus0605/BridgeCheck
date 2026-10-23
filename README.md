@@ -1,6 +1,6 @@
 # BridgeCheck
 
-Android·iOS·React 브리지 코드와 명세의 **이름 참조 후보**를 대조하고, 담당자별 수정 일정 엑셀로 전달하는 로컬 처리 도구입니다.
+Android·iOS·React Bridge 코드와 명세의 **이름 참조 후보**를 대조하고, 담당자별 수정 일정 엑셀로 전달하는 로컬 처리 도구입니다.
 
 - 실행: https://bridgecheck.vercel.app/
 - 코드: Android Kotlin/Java, iOS Swift, React JS/JSX/TS/TSX. 플랫폼별 여러 파일 선택.

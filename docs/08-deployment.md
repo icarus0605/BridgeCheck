@@ -34,3 +34,9 @@
 - 첫 배포에서 디렉터리 ignore 규칙 때문에 JS/CSS404를 발견하고 즉시 스테이징 whitelist를 수정하여 위 최종 배포로 교체했습니다. 최종 공개 브라우저 예제 실행·엑셀 다운로드 정상 확인.
 - `.env.local`, samples/codecheck/spec.csv, scripts/verify.cjs는404. 런타임 파일만 배포했습니다.
 - 기존 GitHub 업로드/외부 공개 사이트 업데이트 지시 범위로 반영. 실제 OS 공유폴더 저장과 회사 공유 권한은 미검증이며 사용자 환경에서 선택이 필요합니다.
+
+## 2026-10-23 Bridge 표기 수정 배포
+
+- dpl_HSppNtfL3MBKKRzWRWcAf2QoenSb READY. https://bridgecheck.vercel.app
+- 최종 합의 digest bd5511fc6a8092a6b8b5ac09d58d53c8b84abb2460e1b8e9a235e80603a49bfc.
+- 변경된 런타임4파일 HTTP200 및 로컬 바이트 일치. 공개 브라우저 Bridge 제목·명세 입력 라벨 확인.
