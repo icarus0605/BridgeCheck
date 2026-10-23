@@ -78,5 +78,21 @@
     "verdict": "no-further-changes",
     "scope": "A7:A13 달력·링크·요약·선택 담당자·단순화·3화면 분리·문서·검증",
     "evidence": "2026-10-23 동일 최종본 추가 수정사항 없습니다. 23검증 묶음+하네스12상태 통과. 실제 브라우저 Escape 초안폐기·포커스복귀·두 항목만 Android 적용·고급설정 접힘·변경수와 버튼 표시·화면이동 메모유지·원본오류시 보고서 접근차단·제목가림 방지 확인."
+  },
+  {
+    "reviewer": "Claude",
+    "recordedBy": "manual",
+    "digest": "a5bda0d7e89d3efca071a051888e535d5c86ff56f71f3a2cee9f1c8ab355fe4d",
+    "verdict": "no-further-changes",
+    "scope": "제목 포커스 테두리 수정·오류 항목 단일 선택 상세·검증·문서",
+    "evidence": "2026-10-23 실제 채팅 동일 최종 digest 추가 수정사항 없음 명시. 제목 outline 범위·hidden 토글 메모보존·선택유지·무효화·전체 보고서 포함 검토, README 24묶음 정정 확인. 실행은 직접하지 않고 Codex 증거 대조. https://claude.ai/chat/3c3274be-264e-4f83-971f-d07602fd88e4"
+  },
+  {
+    "reviewer": "Codex",
+    "recordedBy": "manual",
+    "digest": "a5bda0d7e89d3efca071a051888e535d5c86ff56f71f3a2cee9f1c8ab355fe4d",
+    "verdict": "no-further-changes",
+    "scope": "제목 포커스 테두리 수정·오류 항목 단일 선택 상세·검증·문서",
+    "evidence": "2026-10-23 동일 최종본 추가 수정사항 없습니다. 24묶음+하네스12상태 통과. 실제 브라우저7옵션·상세1개·5→0→5 담당자유지 및 보고서 포함·제목 포커스유지/outline제거·가로넘침없음 확인."
   }
 ]

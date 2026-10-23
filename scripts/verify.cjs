@@ -200,6 +200,12 @@ check('요약 우선3건·전체내용 유지·선택플랫폼 담당자 빈칸 
  const last=stats.risks[6];assert.ok($('report').value.includes(rowPath(last.r)));reportContext.choices[last.i]='web';refreshReport();assert.equal(briefStats().pending,6);
  loadDemo('compatible');assert.equal(briefStats().risks.length,0);assert.equal(briefStats().missing,0);assert.ok(briefDigestLines().join('').includes('실제 앱 검증'));
 `);
+check('오류 항목 선택·메모 유지·전체 보고서·무효화', `
+ loadDemo('full');assert.equal(proposalPanels.length,7);assert.equal(proposalPanels.filter(x=>!x.box.hidden).length,1);assert.equal(selectedRisk,0);
+ reportContext.coordination[0]={androidOwner:'KEEP'};reportContext.choices[0]='app';selectRisk('5');assert.equal(selectedRisk,5);assert.equal(proposalPanels.find(x=>x.i===5).box.hidden,false);assert.equal(proposalPanels.find(x=>x.i===0).box.hidden,true);
+ renderProposals();assert.equal(selectedRisk,5);selectRisk('0');assert.equal(reportContext.coordination[0].androidOwner,'KEEP');assert.equal(reportContext.choices[0],'app');refreshReport();assert.ok($('report').value.includes('KEEP'));assert.ok($('report').value.includes('thumbnailUrl'));
+ selectRisk('invalid');assert.equal(selectedRisk,0);clear();assert.equal(selectedRisk,null);assert.equal($('riskPicker').hidden,true);loadDemo('compatible');assert.equal($('riskPicker').hidden,true);assert.equal(proposalPanels.length,0);
+`);
 check('화면 전환·메모 보존·무효 결과 접근 차단', `
  loadDemo('full');assert.equal(currentScreen,'Result');assert.equal($('screenInput').hidden,true);assert.equal($('navReport').disabled,false);
  reportContext.coordination[0]={androidOwner:'KEEP'};const before=$('old').value;showScreen('Report');assert.equal($('screenReport').hidden,false);showScreen('Input');assert.equal(reportContext.coordination[0].androidOwner,'KEEP');assert.equal($('old').value,before);
