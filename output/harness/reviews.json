@@ -126,5 +126,21 @@
     "verdict": "no-further-changes",
     "scope": "화면·엑셀·문서 Bridge 표기 통일 및 입력 별칭 호환, legacy 링크 경로 보존",
     "evidence": "동일 최종본 추가 수정사항 없음. 하네스 전체 통과, 실제 로컬 브라우저 제목 및 Bridge 명세 표시 확인. 기존 한글 입력 별칭과 원본 파일 경로 보존."
+  },
+  {
+    "reviewer": "Claude",
+    "recordedBy": "manual",
+    "digest": "51c0fd09825fb302ad7e50159271d6f5587e897f63d1beab024bac3fd04c2782",
+    "verdict": "no-further-changes",
+    "scope": "명세 필수·코드 최소1개·업로드 플랫폼만 결과와 일정 생성, 범위표 및 문서와 회귀 검증",
+    "evidence": "실제 Claude 채팅118번째 응답에서 동일 최종본 추가 수정사항 없음 확인. active필터/7조합/기존 테스트 대조. 브라우저 직접 실행 아님. https://claude.ai/chat/3c3274be-264e-4f83-971f-d07602fd88e4"
+  },
+  {
+    "reviewer": "Codex",
+    "recordedBy": "manual",
+    "digest": "51c0fd09825fb302ad7e50159271d6f5587e897f63d1beab024bac3fd04c2782",
+    "verdict": "no-further-changes",
+    "scope": "명세 필수·코드 최소1개·업로드 플랫폼만 결과와 일정 생성, 범위표 및 문서와 회귀 검증",
+    "evidence": "동일 최종본 추가 수정사항 없음. 전체 하네스 통과. 브라우저 명세없음/코드0개 거부, XLSX 명세+iOS1파일 점검4항목 확인, 실제 다운로드 엑셀 iOS4행만 포함 확인. 미업로드 Android/React는 미검증 표시."
   }
 ]

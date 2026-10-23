@@ -69,6 +69,7 @@ function specRows(rows){
  if(!action||seen.has(action))throw Error(`${i+2}행: 기능명이 없거나 중복됩니다.`);seen.add(action);return {action,responseEvent};});
 }
 function analyze(spec,files){
+ spec=specRows(spec);const active=platforms.filter(p=>files.some(f=>f.platform===p));if(!active.length)throw Error('Android·iOS·React 코드 중 하나 이상을 선택해 주세요.');
  const extracted={};for(const p of platforms)extracted[p]=files.filter(f=>f.platform===p).map(f=>extract(f,p));
  const rows=[];
  function row(action,p,kind,name,extra=false){const all=extracted[p].flatMap(x=>x.evidence),found=all.filter(e=>e.kind===kind&&e.name===name);const anchors=extracted[p].flatMap(x=>x.anchors).slice(0,3);
@@ -79,8 +80,8 @@ function analyze(spec,files){
  const advice=extra?'명세에 없는 이름입니다. Bridge 기능인지 확인한 뒤 명세 추가 또는 불필요한 코드 제거를 검토하세요.':found.length?'이름을 참조하는 코드 후보입니다. 실제 등록·호출 경로, 요청/응답 필드 및 실행 결과를 확인하세요.':`${p}에서 ${kind==='action'?'기능 처리/호출':'이벤트 발신/수신'} 이름 “${name}”을 찾지 못했습니다. 누락·이름 변경·동적 이름·업로드 범위를 확인하세요.`;
  rows.push({'항목 키':JSON.stringify([action,p,kind,name,extra?'extra':'spec']),'분석 ID':'','기능명':action,'플랫폼':p,'점검 대상':`${kind==='action'?'기능':'응답 이벤트'}: ${name}`,'결과':result,'수정 위치':position,'검토 제안':advice,'담당자':'','수정 내용':'','개발 예정일':'','QA 예정일':'','운영 예정일':'','진행 상태':'미정'});
  }
- for(const s of spec)for(const p of platforms){row(s.action,p,'action',s.action);if(s.responseEvent)row(s.action,p,'response',s.responseEvent);}
- for(const p of platforms){const seen=new Set();for(const e of extracted[p].flatMap(x=>x.evidence)){const k=JSON.stringify([e.kind,e.name]);if(seen.has(k))continue;seen.add(k);if(e.kind==='response'&&['message','load','click','resize','scroll','keydown','keyup','DOMContentLoaded','error','focus','blur','change','input','submit','touchstart','touchend','pointerdown','pointerup','mousemove','mousedown','mouseup','beforeunload','unload','popstate','hashchange','storage','visibilitychange','online','offline'].includes(e.name)&&!spec.some(s=>s.responseEvent===e.name))continue;if(!spec.some(s=>(e.kind==='action'?s.action:s.responseEvent)===e.name))row(e.name,p,e.kind,e.name,true);}}
+ for(const s of spec)for(const p of active){row(s.action,p,'action',s.action);if(s.responseEvent)row(s.action,p,'response',s.responseEvent);}
+ for(const p of active){const seen=new Set();for(const e of extracted[p].flatMap(x=>x.evidence)){const k=JSON.stringify([e.kind,e.name]);if(seen.has(k))continue;seen.add(k);if(e.kind==='response'&&['message','load','click','resize','scroll','keydown','keyup','DOMContentLoaded','error','focus','blur','change','input','submit','touchstart','touchend','pointerdown','pointerup','mousemove','mousedown','mouseup','beforeunload','unload','popstate','hashchange','storage','visibilitychange','online','offline'].includes(e.name)&&!spec.some(s=>s.responseEvent===e.name))continue;if(!spec.some(s=>(e.kind==='action'?s.action:s.responseEvent)===e.name))row(e.name,p,e.kind,e.name,true);}}
  return rows;
 }
 function validDate(s){if(!s)return true;if(!/^\d{4}-\d{2}-\d{2}$/.test(s))return false;const d=new Date(s+'T00:00:00Z');return Number.isFinite(+d)&&d.toISOString().slice(0,10)===s&&s>='2000-01-01'&&s<='2100-12-31';}

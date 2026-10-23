@@ -3,7 +3,7 @@
 Android·iOS·React Bridge 코드와 명세의 **이름 참조 후보**를 대조하고, 담당자별 수정 일정 엑셀로 전달하는 로컬 처리 도구입니다.
 
 - 실행: https://bridgecheck.vercel.app/
-- 코드: Android Kotlin/Java, iOS Swift, React JS/JSX/TS/TSX. 플랫폼별 여러 파일 선택.
+- 코드: Android Kotlin/Java, iOS Swift, React JS/JSX/TS/TSX. 명세서는 필수이며, 세 플랫폼 중 코드 파일 하나 이상이면 점검합니다. 미업로드 플랫폼은 미검증으로 표시하고 결과·일정 행을 만들지 않습니다. 플랫폼별 여러 파일 선택도 지원합니다.
 - 명세: XLSX/CSV에서 시트·기능명·응답 이벤트 열 선택, 또는 JSON의 action/responseEvent. 엑셀 양식 다운로드 제공.
 - 결과: 발견 근거 파일·행, 미발견/유사 이름/명세 외 후보, 검토 시작 위치와 제안. 선택한 한 항목의 상세만 표시.
 - 일정: 담당자·수정 내용·개발/QA/운영 예정일·진행 상태. 엑셀 다운로드→수정→미리보기→확인 후 반영.

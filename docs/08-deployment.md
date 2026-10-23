@@ -40,3 +40,9 @@
 - dpl_HSppNtfL3MBKKRzWRWcAf2QoenSb READY. https://bridgecheck.vercel.app
 - 최종 합의 digest bd5511fc6a8092a6b8b5ac09d58d53c8b84abb2460e1b8e9a235e80603a49bfc.
 - 변경된 런타임4파일 HTTP200 및 로컬 바이트 일치. 공개 브라우저 Bridge 제목·명세 입력 라벨 확인.
+
+## 2026-10-23 코드 파일 선택 입력 배포
+
+- dpl_68UsBJiihS8FmVW9xHKjo7wEwPix READY. https://bridgecheck.vercel.app
+- 최종 합의 digest 51c0fd09825fb302ad7e50159271d6f5587e897f63d1beab024bac3fd04c2782.
+- 변경 런타임3파일 HTTP200·로컬 일치. 공개 사이트에서 명세 CSV+React1파일로4행, 미업로드 Android/iOS 미검증 표기와 React만 선택목록에 존재함을 확인했습니다.
