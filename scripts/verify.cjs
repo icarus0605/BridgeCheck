@@ -16,7 +16,7 @@ function node() {
 }
 const context = {
   TextEncoder, assert, confirm:()=>true,
-  document: { getElementById: id => nodes[id] ??= node(), createElement: node },
+  document: { getElementById: id => nodes[id] ??= node(), createElement: tag => { const e=node(); if(tag==='textarea') Object.defineProperty(e,'type',{get:()=>'textarea',set:()=>{throw new TypeError('textarea.type is read-only');}}); return e; } },
   navigator: {},
   externalA: JSON.parse(fs.readFileSync(path.join(root, 'samples/contract-v1.json'))),
   externalB: JSON.parse(fs.readFileSync(path.join(root, 'samples/contract-v2.json')))
@@ -129,6 +129,37 @@ check('결과 버튼·다음 행동·초기화 시 도우미 제거', `
   clear();assert.equal($('copy').disabled,true);assert.equal($('download').disabled,true);
   loadDemo('enum');assert.equal($('download').disabled,false);assert.ok($('nextStep').textContent.includes('확인할 변경 1건'));
   $('reset').onclick();assert.equal($('download').disabled,true);assert.equal($('builderAction').value,'');assert.equal(builderRows.requestFields.length,0);
+`);
+check('협업 메모 대상별 출력·규격 합의·판정 독립', `
+ loadDemo('enum');const before=JSON.stringify(reportContext.rows);
+ const data=reportContext.coordination[0];Object.assign(data,{androidOwner:'A_OWNER',iosOwner:'I_OWNER',androidStatus:'released',iosStatus:'working',androidDate:'2026-11-01',iosDate:'2026-11-02'});
+ Object.assign(reportContext.spec,{androidSpec:'quality:string',iosSpec:'imageQuality:string',commonSpec:'quality:string 공통',coordinator:'SPEC_OWNER',agreement:'agreed'});
+ for(const target of ['android','ios','common']){
+  $('reportTarget').value=target;refreshReport();const text=$('report').value;
+  assert.equal(text.includes('A_OWNER'),target!=='ios');assert.equal(text.includes('I_OWNER'),target!=='android');
+  assert.ok(text.includes('imageQuality:string'));assert.ok(text.includes('SPEC_OWNER'));assert.ok(text.includes('마스킹 미적용'));
+  assert.ok(text.indexOf('1. 먼저 확인할 항목')<text.indexOf('4. 상세 비교 근거'));
+  assert.equal(JSON.stringify(reportContext.rows),before);
+ }
+`);
+check('협업 입력 상한·펜스·재점검 보존·삭제와 재등장 차단', `
+ loadDemo('enum');const form=$('proposals').children[0].children[2];assert.ok(!form.open);
+ const owner=form.children[2].children[0].children[0];owner.value='A_OWNER';owner.oninput();
+ owner.value='x'.repeat(121);owner.oninput();assert.equal(reportContext.coordination[0].androidOwner,'A_OWNER');assert.equal(owner.value,'A_OWNER');
+ const spec=$('specForm').children[0].children[2].children[0].children[0];spec.value=String.fromCharCode(96).repeat(5)+'<img src=x>';spec.oninput();
+ assert.ok(reportMarkdown($('report').value).includes(String.fromCharCode(96).repeat(6)+'text'));
+ spec.value='x'.repeat(1001);spec.oninput();assert.ok(reportContext.spec.androidSpec.length<1001);
+ $('old').events.input();assert.equal($('report').value,'');assert.equal($('download').disabled,true);run();
+ assert.equal(reportContext.coordination[0].androidOwner,'A_OWNER');assert.equal(reportContext.inherited,true);assert.ok($('report').value.includes('재확인 필요'));
+ const changed=JSON.parse($('new').value);changed.requestFields[0].enum=['low','high'];$('new').value=JSON.stringify(changed);run();assert.equal(Object.keys(reportContext.coordination).length,0);
+ changed.requestFields[0].enum.push('medium');$('new').value=JSON.stringify(changed);run();assert.equal(reportContext.coordination[0].androidOwner,undefined);
+ const original=JSON.parse($('old').value);original.action='other';$('old').value=JSON.stringify(original);run();assert.equal(Object.keys(reportContext.spec).length,0);
+`);
+check('초기화·샘플 취소 보존 및 확정 시 메모 제거', `
+ loadDemo('enum');reportContext.coordination[0].androidOwner='KEEP';refreshReport();
+ confirm=()=>false;loadDemo('full');assert.equal(reportContext.coordination[0].androidOwner,'KEEP');$('reset').onclick();assert.ok(reportContext);
+ confirm=()=>true;$('reset').onclick();assert.equal(memoCache,null);assert.equal(reportContext,null);assert.equal($('specForm').children.length,0);
+ loadDemo('enum');assert.equal(reportContext.coordination[0].androidOwner,undefined);
 `);
 (async()=>{
   await vm.runInContext(`(async()=>{

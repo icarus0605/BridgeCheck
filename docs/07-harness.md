@@ -5,7 +5,7 @@
 ## 실행
 
 1. PRD를 기준으로 수정합니다.
-2. `node scripts/harness.cjs check`: 계약·사용성 검증 14묶음과 하네스 상태 검증을 각각 최대 15초 실행합니다. 실패하면 원인을 고치고 다시 실행합니다. 자동 코드 수정이나 무한 재시도는 하지 않습니다.
+2. `node scripts/harness.cjs check`: 계약·사용성 검증 17묶음과 하네스 상태 검증을 각각 최대 15초 실행합니다. 실패하면 원인을 고치고 다시 실행합니다. 자동 코드 수정이나 무한 재시도는 하지 않습니다.
 3. 출력의 digest와 같은 파일을 Claude·Codex가 교차검토합니다. 구체적인 지적을 수정하고 2단계부터 반복합니다. 같은 최종본에 둘 다 추가 수정사항 없음을 명시해야 합니다.
 4. 실제 응답을 확인한 작업자가 `output/harness/reviews.json`에 recordedBy(manual), reviewer(Claude/Codex), digest, verdict(no-further-changes), scope(검토 범위), evidence(실제 응답·출처)를 전사합니다. 미수신 답변은 작성하지 않습니다.
 5. `node scripts/harness.cjs status`: 검사 실패, 변경, 검토 누락을 구분합니다. 모두 충족해도 AWAITING_HUMAN_APPROVAL에서 멈춥니다. 종료코드 1은 보류, 2는 하네스 자체 오류입니다. 종료코드 0은 기술 검토 증거 충족이며 배포 허가가 아닙니다.
