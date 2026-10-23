@@ -1,0 +1,408 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BridgeCheck · 웹과 앱 사이, 변경을 확인하세요</title>
+<style>
+:root{font-family:system-ui,sans-serif;color:#172c35;background:#f2f5f4}*{box-sizing:border-box}body{margin:0}header,main{max-width:1280px;margin:auto;padding:28px}header{padding-bottom:8px}.brand{color:#00776b;font-weight:800;letter-spacing:2px}h1{font-size:34px;margin:14px 0}p{line-height:1.65}.muted{color:#566b73;font-size:14px}.notice{background:#e1efeb;padding:14px 18px;border-radius:12px}.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}.panel{background:white;border:1px solid #d7e2df;border-radius:16px;padding:22px;margin-bottom:18px}h2{font-size:19px;margin:0 0 14px}label{display:block;font-weight:650;margin-bottom:10px}textarea{width:100%;height:280px;resize:vertical;border:1px solid #bacdc7;border-radius:8px;padding:12px;font:13px/1.6 ui-monospace,monospace;background:#fbfdfc;color:#20342f}select,button{font:inherit;padding:10px 15px;border:1px solid #b4cac3;border-radius:8px;background:white;color:#17463c}button{cursor:pointer}button:hover{background:#edf4f1}button.primary{background:#00776b;color:white;border-color:#00776b}.actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}.policies{margin-top:18px}.policies select{width:100%}.summary{display:flex;gap:12px;flex-wrap:wrap}.badge{display:inline-block;padding:5px 9px;border-radius:6px;background:#e8efed;font-size:13px;font-weight:650}.오류{background:#ffe7e4;color:#a22d21}.오류가능{background:#fff0da;color:#8a5000}.확인필요{background:#e9edff;color:#394e9d}.계약상호환{background:#dff4e9;color:#256445}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;vertical-align:top;padding:14px 10px;border-bottom:1px solid #e2eae7;white-space:pre-wrap;overflow-wrap:anywhere;min-width:110px}th{color:#526c64;background:#f6f9f7}td.path{min-width:190px}#report{height:320px}#status{font-weight:600;color:#9e352b}details{padding:12px 0;border-bottom:1px solid #e2eae7}summary{cursor:pointer;font-weight:600}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f4f7f6;padding:14px;border-radius:8px}.empty{padding:28px;text-align:center;color:#64796f}footer{text-align:center;padding:25px;color:#71867e;font-size:12px}@media(max-width:760px){.grid{grid-template-columns:1fr}header,main{padding:18px}h1{font-size:26px}.panel{padding:16px}}
+.proposal{padding:16px 0;border-bottom:1px solid #d7e2df}.proposal select{margin:8px 0}.proposal p{font-size:14px;line-height:1.6}
+input:not([type=checkbox]){width:100%;padding:10px;border:1px solid #bacdc7;border-radius:8px;font:inherit;min-width:0}input[type=file]{font-size:13px}button:disabled{opacity:.45;cursor:not-allowed}.steps{display:flex;flex-wrap:wrap;gap:12px;color:#00776b;font-weight:650}.helper{background:#f6faf8;border:1px solid #d7e2df;border-radius:10px;padding:16px;margin:16px 0}.field-row{display:grid;grid-template-columns:1.4fr 1fr .7fr 1.6fr auto;gap:10px;align-items:end;padding:12px 0;border-bottom:1px solid #d7e2df}.field-row label{font-size:13px;margin:0}.field-row select{width:100%}.field-row textarea{height:65px}.helper h3{font-size:16px}.helper input{margin-top:6px}#nextStep{line-height:1.7}.next-link{display:inline-block;padding:8px 0}button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #4085cf;outline-offset:3px}@media(max-width:760px){.field-row{grid-template-columns:1fr 1fr}.field-row label:nth-child(4){grid-column:1/-1}.steps{font-size:14px}}
+.coordination textarea{height:80px}.coordination select{width:100%}.brief-item{padding:10px 0;border-bottom:1px solid #bacdc7;white-space:pre-wrap;overflow-wrap:anywhere}.proposal>details{margin:10px 0}.proposal label{overflow-wrap:anywhere}
+
+a.jump-link{display:inline-flex;align-items:center;justify-content:space-between;gap:18px;min-height:46px;padding:11px 16px;border:1px solid #92bcb0;border-radius:10px;background:#edf7f2;color:#14594d;font-weight:700;text-decoration:none;line-height:1.5;max-width:100%;overflow-wrap:anywhere}a.jump-link:hover{background:#dceee7;border-color:#00776b}a:focus-visible{outline:3px solid #4085cf;outline-offset:3px}.schedule-panel{border:1px solid #d7e2df;border-radius:12px;padding:18px;margin:20px 0}.calendar-toolbar{margin-top:14px;display:flex;align-items:end;flex-wrap:wrap;gap:8px}.calendar-toolbar label{margin:0}.calendar-toolbar input{display:block}.calendar-toolbar button{min-height:44px}.calendar{table-layout:fixed;width:100%;margin:16px 0}.calendar caption{text-align:left;font-weight:700;padding:10px 0}.calendar th,.calendar td{min-width:0;padding:4px;text-align:center;white-space:normal}.calendar td{height:64px}.calendar button{display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;min-height:56px;border:0;padding:4px;font-size:13px;background:#f0f7f4}.calendar .picked{outline:2px solid #00776b;outline-offset:-2px;background:#d6eee5}.calendar small{font-size:11px;color:#00776b}.schedule-event{border:1px solid #d7e2df;border-left:4px solid #00776b;border-radius:8px;padding:12px;margin:8px 0;overflow-wrap:anywhere}.schedule-event p{margin:6px 0}.stage-dev{border-left-color:#336ab1}.stage-qa{border-left-color:#967219}.stage-prod{border-left-color:#00776b}.schedule-warning{background:#fff0da;padding:12px;border-radius:8px;overflow-wrap:anywhere}.owner-panel{background:#f5faf8;border:1px solid #bfd6cd;border-radius:12px;padding:18px;margin:20px 0}.owner-panel .grid{grid-template-columns:repeat(3,minmax(0,1fr))}@media(max-width:760px){.owner-panel .grid{grid-template-columns:1fr}.calendar th,.calendar td{font-size:12px;padding:2px}.schedule-panel{padding:10px}.calendar-toolbar label{flex:1;min-width:140px}}
+.brief-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0}.brief-metrics>div{background:#fff;border-radius:10px;padding:12px}.brief-metrics span{display:block;font-size:13px;color:#526c64}.brief-metrics strong{display:block;font-size:27px;margin-top:5px}.brief-toplist{padding:0;list-style:none}.brief-toplist li{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:10px 0;border-bottom:1px solid #bfd6cd;overflow-wrap:anywhere}.brief-toplist strong{font-size:14px}.brief-toplist li>span:last-child{font-size:13px;color:#526c64}#reportBrief h3{margin:4px 0}
+dialog{width:min(760px,calc(100vw - 32px));max-height:85vh;overflow:auto;border:1px solid #b4cac3;border-radius:16px;padding:24px;color:#172c35}dialog::backdrop{background:#102d2866}.picker-row{display:flex;align-items:center;gap:12px;padding:14px 10px;margin:0;border-bottom:1px solid #d7e2df;cursor:pointer;overflow-wrap:anywhere}.picker-row input{width:20px;height:20px;flex:0 0 auto}#pickerRows{max-height:22vh;overflow:auto;border:1px solid #d7e2df;border-radius:8px}#pickerFooter{position:sticky;bottom:0;background:white;padding:8px 0;border-top:1px solid #d7e2df}#pickerFooter .actions{margin:8px 0 0}#pickerFooter p{margin:4px 0;font-size:13px}#pickerStatus{color:#9e352b}#pickerCount{font-weight:700}dialog select{width:100%}@media(max-width:760px){dialog{padding:16px}}
+[hidden]{display:none!important}.screen-nav{display:flex;flex-wrap:wrap;gap:8px;position:sticky;top:0;background:#f2f5f4;padding:12px 0;z-index:2}.screen-nav button[aria-current="step"]{background:#00776b;color:white}.screen-nav button:disabled{opacity:.55;cursor:default}.screen-title,#riskPicker{scroll-margin-top:130px}.screen-title:focus{outline:none}</style>
+<header><div class="brand">BRIDGECHECK / CONTRACT REVIEW</div><h1>웹은 바뀌어도, 구버전 앱은 남습니다.</h1><p>기존 앱과 변경할 웹의 연동 규칙을 비교하고, 배포 전에 확인할 변경을 찾아보세요.</p><div class="notice"><strong>실제 앱 동작 검증이 아닙니다.</strong><br>변경할 웹 × 구버전 앱만 점검합니다. 구버전 웹(앱 내장 번들·캐시)은 범위에서 제외합니다.</div></header>
+<main><nav class="screen-nav" aria-label="작업 단계"><button id="navInput" aria-controls="screenInput" aria-current="step">1. 규칙 입력</button><button id="navResult" aria-controls="screenResult" disabled>2. 점검 결과</button><button id="navReport" aria-controls="screenReport" disabled>3. 담당자·보고서</button></nav><div id="screenInput"><h2 id="titleInput" class="screen-title" tabindex="-1">1. 규칙 입력</h2><section class="panel"><h2>웹 배포 전, 기존 앱에서도 잘 될까요?</h2><p>앱 안의 웹 화면에서 카메라·로그인 같은 앱 기능을 호출하는 방식을 바꿀 때 사용하세요. 웹은 바로 바뀌지만 사용자가 앱을 업데이트하지 않으면, 새 요청을 이해하지 못할 수 있습니다.</p><p><strong>예시: 웹에 ‘중간 화질’을 추가했는데 기존 앱은 ‘낮음·높음’만 알고 있는 경우입니다.</strong> 아래 버튼을 누르면 위험한 변경과 이유를 확인하고, 담당자·수정 방향·배포 일정을 적어 보고서로 전달할 수 있습니다. 준비한 파일 없이도 체험할 수 있습니다.</p><label for="demoCase">체험할 변경</label><select id="demoCase"><option value="enum">새 화질 값 추가 · 오류 가능 1건</option><option value="compatible">선택 응답 필드 추가 · 계약상 호환 1건</option><option value="full">전체 샘플 · 7개 변경 / 결과 8행</option></select><div class="actions"><button class="primary" id="demo">샘플로 바로 점검</button><a class="jump-link" id="demoReportLink" href="#reportTarget">담당자 설정·보고서 만들기 <span aria-hidden="true">→</span></a></div><p class="muted">가상 데이터입니다. 실행하면 입력·결과·대응 제안을 샘플로 바꾸고 파서 정책은 미확인, 전달 대상은 공통으로 설정합니다. 결과는 실제 비교 로직으로 계산합니다.</p></section><section class="panel"><h2>01 · 비교할 연동 규칙</h2><div class="steps"><span>① 기존 규칙 준비</span><span>② 바뀐 부분 수정</span><span>③ 점검하고 보고서 전달</span></div>
+<details class="helper" open><summary>입력값은 어디서 가져오나요?</summary><p>웹·앱 담당자가 사용하는 <strong>브리지 연동 명세</strong>나 실제 소스의 요청·응답 정의에서 가져옵니다. 실제 전송 데이터 한 건만으로는 필수 여부와 모든 허용값을 알 수 없습니다.</p><p><strong>기존 앱이 주고받는 규칙</strong>을 기존 앱 연동 규칙에, <strong>변경할 웹이 사용하는 규칙</strong>을 변경할 웹 연동 규칙에 넣으세요. 기존 연동 규칙만 있다면 복사한 뒤 바뀐 부분만 수정하면 됩니다.</p><p class="muted">처음 작성한다면 아래 작성 도우미를 쓰거나 담당자에게 action·응답 event·요청/성공/오류 필드별 이름·자료형·필수 여부·허용값을 요청하세요. 이 도구가 소스에서 자동 추출하지는 않습니다.</p></details>
+<details class="helper" id="builder"><summary>연동 규칙 작성 도우미 · 항목별로 입력하기</summary><p>필드 이름과 자료형을 선택하면 연동 규칙 JSON을 만듭니다. <strong>입력창에 반영</strong>을 눌러야 비교 대상이 바뀝니다. 도우미에도 원문이 표시되며 페이지를 닫으면 사라집니다.</p><label for="builderTarget">작성할 연동 규칙</label><select id="builderTarget"><option value="old">기존 앱 연동 규칙</option><option value="new">변경할 웹 연동 규칙</option></select><div class="actions"><button id="builderLoad">선택한 입력창에서 불러오기</button><button id="builderBlank">빈 초안으로 시작</button></div>
+<div class="grid"><label for="builderVersion">규칙 식별자 (앱 버전 아님)<input id="builderVersion" placeholder="예: 1.0" autocomplete="off"></label><label for="builderAction">요청 이름 (action)<input id="builderAction" placeholder="예: openCamera" autocomplete="off"></label></div><label for="builderEvent">응답 이름 (responseEvent)<input id="builderEvent" placeholder="예: cameraResult" autocomplete="off"></label><p class="muted">string=문자, number=숫자, boolean=참/거짓, object=객체, array=배열. 허용값(enum)은 선택 사항입니다. 정해진 값만 허용할 때 JSON 배열로 입력하세요: ["low","high"], [0,1], [true,false]. 빈칸은 허용값 제한 없음입니다. object/array 내부 구조는 점검하지 않습니다.</p><div id="builderFields"></div><p class="muted">각 영역에 필드가 없으면 빈 배열(제약 없음)로 반영합니다. 실제 명세와 일치하는지 확인하세요.</p><button id="builderApply" class="primary">선택한 입력창에 반영</button><p id="builderStatus" role="status">아직 비교 입력에 반영되지 않은 초안입니다.</p></details><p class="muted">팀 자체 단일 action 계약입니다. 원본 입력창에는 민감한 원문이 남습니다. 입력은 저장·전송하지 않습니다.</p><div class="grid"><div><label for="old">기존 앱 연동 규칙</label><textarea id="old" spellcheck="false" placeholder="기존 앱 연동 규칙 JSON을 붙여 넣거나 파일을 선택하세요"></textarea><label for="oldFile" class="muted">기존 앱 연동 규칙 JSON 파일 불러오기 · 최대 1 MiB</label><input type="file" id="oldFile" accept=".json,application/json"><p id="oldFileStatus" role="status"></p></div><div><label for="new">변경할 웹 연동 규칙</label><textarea id="new" spellcheck="false" placeholder="변경할 웹 연동 규칙 JSON을 붙여 넣거나 파일을 선택하세요"></textarea><label for="newFile" class="muted">변경할 웹 연동 규칙 JSON 파일 불러오기 · 최대 1 MiB</label><input type="file" id="newFile" accept=".json,application/json"><p id="newFileStatus" role="status"></p></div></div><div class="actions"><button id="copyOld">기존 앱 연동 규칙을 변경할 웹 연동 규칙으로 복사</button></div><p class="muted">모르는 필드 처리 정책을 모르면 아래 설정은 미확인으로 두세요.</p><div class="grid policies"><div><label for="requestPolicy">기존 앱 요청 파서 · 모르는 필드 처리</label><select id="requestPolicy"><option value="unknown">미확인</option><option value="ignore">무시</option><option value="reject">거부</option></select></div><div><label for="responsePolicy">변경할 웹 응답 파서 · 모르는 필드 처리</label><select id="responsePolicy"><option value="unknown">미확인</option><option value="ignore">무시</option><option value="reject">거부</option></select></div></div><div class="actions"><button class="primary" id="compare">변경 점검하기</button><button id="sample">샘플 넣기</button><button id="reset">초기화</button></div><p id="status" role="status" aria-live="polite"></p></section>
+</div><div id="screenResult" hidden><h2 id="titleResult" class="screen-title" tabindex="-1">2. 점검 결과</h2><section class="panel"><h2>변경과 방향별 영향</h2><p id="nextStep" role="status">두 연동 규칙을 준비하고 변경 점검하기를 눌러주세요.</p><a class="jump-link" id="resultReportLink" href="#reportTarget">결과를 담당자에게 전달하기 <span aria-hidden="true">↓</span></a><div id="summary" class="summary"></div><div id="results" class="table-wrap"><p class="empty">연동 규칙을 입력하거나 샘플을 넣고 점검해 보세요.</p></div></section>
+<section class="panel"><h2>03 · 재검수와 테스트 예시</h2><p>기존 앱의 미지 키·enum 처리, 변경할 웹의 누락 필드·자료형·구 event 수신 처리, 실제 구현과 계약의 일치 여부를 확인하세요. 변경 유예, 기존 형식 유지, 구형 응답 수용, 최소 앱 버전 게이팅을 검토할 수 있습니다. 필요한 최소 앱 버전은 사람이 결정합니다.</p><p class="muted">생성 예시는 실행 결과가 아닙니다. 민감 키의 값은 마스킹합니다. 모든 개인정보를 탐지하지는 않으므로 공유 전 검토하세요.</p><div id="examples"></div></section>
+</div><div id="screenReport" hidden><h2 id="titleReport" class="screen-title" tabindex="-1">3. 담당자·보고서</h2><section class="panel"><h2>공유할 점검 보고서</h2><label for="reportTarget">보고서 전달 대상</label><select id="reportTarget"><option value="common">공통</option><option value="android">Android</option><option value="ios">iPhone (iOS)</option></select><p class="muted">전달 대상 선택이며 OS별 판정이 아닙니다. 플랫폼별 계약·파서가 다르면 각각 입력해 재점검하세요.</p><h3>담당자에게 전달할 대응 제안</h3><p class="muted">오류·오류 가능·확인 필요 항목에만 제안을 선택합니다. 선택은 승인이나 수정 완료를 뜻하지 않습니다. 앱 변경은 업데이트를 설치한 앱에만 적용됩니다.</p><div id="reportBrief" class="notice"><p>점검하면 여기에 핵심 내용이 표시됩니다.</p></div><p class="muted">담당자·일정·규격 메모는 직접 입력해 보고서로 공유합니다. 자동 수신·알림·공동편집은 지원하지 않습니다. 같은 요청의 같은 변경 항목을 다시 점검하면 메모를 이어받고 재확인 표시를 붙입니다. 초기화·샘플 전환·페이지 종료 시에는 지워지므로 먼저 다운로드하세요. 자유 입력은 자동 마스킹하지 않습니다. 비밀값을 넣지 말고 공유 전 확인하세요.</p><div id="ownerForm"></div><section class="schedule-panel" id="schedulePanel" hidden><h3>앱 배포 일정</h3><p class="muted">개발 환경 → 품질(QA) 환경 → 운영 환경에 반영할 예정일입니다. 담당자에게 확인한 날짜를 아래 항목별로 입력하세요. 자동 수신·알림은 제공하지 않습니다. 보고서는 선택한 플랫폼의 모든 달 일정을 포함합니다.</p><a class="jump-link" href="#riskPicker">항목별 일정 입력 <span aria-hidden="true">↓</span></a><div class="calendar-toolbar"><button id="previousMonth" aria-label="이전 달">←</button><label for="calendarMonth">조회할 월<input id="calendarMonth" type="month" min="1000-01" max="9999-12"></label><button id="nextMonth" aria-label="다음 달">→</button><button id="firstSchedule">첫 일정으로 이동</button><button id="wholeMonth">월 전체 보기</button></div><p id="scheduleStatus" role="status"></p><div id="scheduleCalendar"></div><div id="scheduleWarnings" role="status"></div><div id="scheduleList"></div></section><div id="specForm"></div><div id="riskPicker" hidden><label for="riskSelect">수정할 오류 항목 선택</label><select id="riskSelect" style="width:100%;min-width:0"></select><p class="muted">선택한 항목의 대응·담당자·일정만 표시합니다. 보고서에는 전체 항목이 포함됩니다.</p></div><div id="proposals"></div><div class="actions"><button id="copy" disabled>보고서 복사</button><button id="download" disabled>Markdown 다운로드 (.md)</button></div><details><summary>전체 보고서 원문 보기</summary><label for="report" class="muted">요약 → 담당자·일정 → 대응 → 상세 근거 순서입니다. 직접 선택해 복사할 수도 있습니다.</label><textarea id="report" readonly></textarea></details><p id="copyStatus" role="status"></p></section></div></main><dialog id="ownerPicker" aria-labelledby="ownerPickerTitle"><h2 id="ownerPickerTitle">선택한 항목에 담당자 지정</h2><p class="muted">항목을 고르고 담당자를 입력한 뒤 적용하세요. 입력한 플랫폼만 변경하며, 취소하면 저장하지 않습니다.</p><div class="grid"><label for="pickerAndroid">선택 항목의 Android 담당자<input id="pickerAndroid" maxlength="120" autocomplete="off"></label><label for="pickerIos">선택 항목의 iOS 담당자<input id="pickerIos" maxlength="120" autocomplete="off"></label></div><label for="pickerMode">기존 담당자 처리</label><select id="pickerMode"><option value="empty">빈 담당자만 채우기</option><option value="all">개별 입력한 담당자도 변경</option></select><div class="actions"><button id="pickerAll">모든 항목 선택</button><button id="pickerNone">선택 모두 해제</button></div><p id="pickerCount" role="status"></p><div id="pickerRows"></div><div id="pickerFooter"><p id="pickerStatus" role="status"></p><div class="actions"><button id="pickerApply" class="primary">선택한 항목에 적용</button><button id="pickerCancel">취소</button></div></div></dialog><footer>BridgeCheck · 판단의 근거를 정리하고, 최종 승인은 사람이 합니다.</footer>
+<script>
+'use strict';
+// 모든 입력값은 텍스트로만 출력합니다. 파싱·비교·예시·화면 출력을 분리합니다.
+const $=id=>document.getElementById(id), own=(o,k)=>Object.prototype.hasOwnProperty.call(o,k), obj=v=>v!==null&&typeof v==='object'&&!Array.isArray(v), sensitive=s=>/password|token|authorization|secret|apikey/i.test(s), short=s=>{const a=Array.from(String(s));return a.length>100?a.slice(0,100).join('')+'… [생략]':a.join('')}, show=(v,key='')=>sensitive(key)?'[MASKED]':Array.isArray(v)?`array (${v.length}개)`:obj(v)?`object (${Object.keys(v).length}개)`:short(v), groups=['requestFields','successFields','errorFields'], directions={requestFields:'요청 · 변경할 웹 → 기존 앱',successFields:'성공 응답 · 기존 앱 → 변경할 웹',errorFields:'오류 응답 · 기존 앱 → 변경할 웹'}, policyNames={unknown:'미확인',ignore:'무시',reject:'거부'};
+class InputError extends Error {}
+function parse(text,label){const fail=m=>{throw new InputError(label+': '+m)};if(new TextEncoder().encode(text).length>1048576)fail('입력은 UTF-8 1 MiB 이하여야 합니다.');let c;try{c=JSON.parse(text.replace(/^\uFEFF/,'').trim())}catch{fail('올바른 JSON을 입력하세요.')}if(!obj(c))fail('최상위는 object여야 합니다.');for(const k of ['contractVersion','action','responseEvent'])if(!own(c,k)||typeof c[k]!=='string'||!c[k].trim())fail(k+'는 비공백 문자열이어야 합니다.');for(const g of groups){if(!own(c,g)||!Array.isArray(c[g]))fail(g+' 배열이 필요합니다.');const seen=new Set;for(const [i,f] of c[g].entries()){const loc=g+'['+i+']';if(!obj(f))fail(loc+' 규칙은 object여야 합니다.');for(const k of Object.keys(f))if(!['name','type','required','enum'].includes(k))fail(loc+' 미지원 속성: '+short(k));if(!own(f,'name')||typeof f.name!=='string'||!f.name.trim()||/[.\[\]]/.test(f.name)||['__proto__','prototype','constructor'].includes(f.name))fail(loc+'에 지원하는 필드명이 필요합니다.');if(seen.has(f.name))fail(loc+' 필드명이 중복됩니다.');seen.add(f.name);if(!own(f,'type')||!['string','number','boolean','object','array'].includes(f.type))fail(loc+' 자료형이 잘못되었습니다.');if(own(f,'required')&&typeof f.required!=='boolean')fail(loc+' required는 boolean이어야 합니다.');if(own(f,'enum')&&(!['string','number','boolean'].includes(f.type)||!Array.isArray(f.enum)||!f.enum.length||f.enum.some(v=>typeof v!==f.type||(typeof v==='number'&&!Number.isFinite(v)))))fail(loc+' enum은 같은 자료형의 비어 있지 않은 배열이어야 합니다.');}}return c;}
+function rule(f){if(!f)return '없음';return f.type+' / '+(f.required?'필수':'선택')+(own(f,'enum')?' / enum '+(sensitive(f.name)?'[MASKED]':f.enum.map(v=>show(v)).join(', ')):'');}
+function compare(a,b,policies){const rows=[];function add(g,name,kind,before,after,status,reason,oldField,newField){rows.push({g,name,kind,before,after,status,reason,oldField,newField});}for(const [key,g] of [['action','requestFields'],['responseEvent','successFields']])if(a[key]!==b[key]){for(const gg of key==='responseEvent'?['successFields','errorFields']:[g])add(gg,key,'식별자 변경',show(a[key]),show(b[key]),'오류','송신·수신 계약의 식별자가 일치하지 않습니다. 실제 호환 처리는 사람이 확인하세요.');}if(a.contractVersion!==b.contractVersion)add('metadata','contractVersion','메타데이터 변경',show(a.contractVersion),show(b.contractVersion),'정보','계약 버전 문자열은 앱 버전이나 호환성 근거가 아닙니다.');for(const g of groups){const request=g==='requestFields',p=policies[request?'request':'response'],unknown=()=>[p==='ignore'?'계약상 호환':p==='reject'?'오류':'확인 필요','수신 파서 미지 키 정책: '+policyNames[p]+' (해당 필드가 전송되는 경우)'];const am=new Map(a[g].map(f=>[f.name,f])),bm=new Map(b[g].map(f=>[f.name,f]));for(const name of new Set([...am.keys(),...bm.keys()])){const o=am.get(name),n=bm.get(name);const emit=(kind,status,reason)=>add(g,name,kind,rule(o),rule(n),status,reason,o,n);if(!o){const [s,r]=request?unknown():[n.required?'오류':'계약상 호환',n.required?'기존 앱은 새 필수 응답 필드를 보장하지 않습니다.':'새 필드는 선택이므로 생략을 허용합니다.'];emit('필드 추가',s,r);continue;}if(!n){const [s,r]=request?[o.required?'오류':'계약상 호환',o.required?'기존 앱이 요구하는 필수 요청 필드가 사라집니다.':'기존 앱의 선택 요청 필드는 생략 가능합니다.']:unknown();emit('필드 삭제',s,r);continue;}if(!!o.required!==!!n.required)emit(n.required?'선택 → 필수':'필수 → 선택',request?(n.required?'계약상 호환':'오류 가능'):(n.required?'오류':'계약상 호환'),request?(n.required?'변경할 웹이 필드를 제공하는 방향입니다.':'변경할 웹은 기존 앱이 요구하는 필드를 생략할 수 있습니다.'):(n.required?'기존 앱은 변경할 웹이 요구하는 필드를 생략할 수 있습니다.':'변경할 웹이 필드 생략을 허용합니다.'));if(o.type!==n.type){emit('자료형 변경','오류','송신 자료형과 수신 기대 자료형이 다릅니다. 실제 크래시를 확정하지 않습니다.');continue;}const oe=own(o,'enum'),ne=own(n,'enum');const expands=oe&&(!ne||n.enum.some(v=>!o.enum.includes(v))),shrinks=ne&&(!oe||o.enum.some(v=>!n.enum.includes(v)));if(expands)emit('허용 범위 확대',request?'오류 가능':'계약상 호환',request?'변경할 웹이 기존 앱 허용 범위 밖의 값을 보낼 수 있습니다.':'변경할 웹이 기존 앱의 기존 값 범위를 수용합니다.');if(shrinks)emit('허용 범위 축소',request?'계약상 호환':'오류 가능',request?'변경할 웹이 보내는 값 범위가 좁아집니다.':'기존 앱이 변경할 웹의 허용 범위 밖 값을 보낼 수 있습니다.');}}return rows;}
+function witness(r,a,b){const f=r.g==='requestFields'?r.newField:r.oldField;let v=f?(own(f,'enum')?f.enum.find(x=>!(f.required&&f.type==='string'&&x==='')):({string:'example',number:0,boolean:false,object:{},array:[]})[f.type]):undefined;const receiver=r.g==='requestFields'?r.oldField:r.newField;if(r.kind.startsWith('허용 범위')&&f&&receiver&&own(f,'enum')&&own(receiver,'enum')){const outside=f.enum.find(x=>!receiver.enum.includes(x)&&!(f.required&&f.type==='string'&&x===''));if(outside!==undefined)v=outside;}const omitted=(r.kind==='필수 → 선택'&&r.g==='requestFields')||(r.kind==='선택 → 필수'&&r.g!=='requestFields')||(r.kind==='필드 추가'&&r.g!=='requestFields')||(r.kind==='필드 삭제'&&r.g==='requestFields');let payload=omitted?'해당 필드 생략':v===undefined?'값 예시를 만들 수 없음 — 유효한 송신값을 사람이 선정':short(r.name)+' = '+show(v,r.name);if(r.kind.startsWith('식별자'))payload=(r.g==='requestFields'?'action = '+show(b.action):'event = '+show(a.responseEvent));if(r.kind==='허용 범위 확대'&&r.g==='requestFields'&&f&&!own(f,'enum'))payload=short(r.name)+' = '+(sensitive(r.name)?'[MASKED]':'구 enum 밖의 같은 자료형 값 선택 (사람 확인)');if(r.kind==='허용 범위 축소'&&r.g!=='requestFields'&&f&&!own(f,'enum'))payload=short(r.name)+' = '+(sensitive(r.name)?'[MASKED]':'신 enum 밖의 같은 자료형 값 선택 (사람 확인)');return '변경을 분리해 확인할 부분 예시: '+payload+'\n기대 판정: '+r.status+' — '+r.reason+'\n실제 송신값·파서 처리·화면 동작은 기기에서 별도 확인하세요. 다른 필수 필드는 계약에 맞게 채우세요.';}
+function el(tag,text,cls){const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e;}
+const targetNames = {common:'공통',android:'Android',ios:'iPhone (iOS)'};
+const proposalNames = {pending:'미정 · 담당자 검토',app:'앱 변경 검토',web:'웹 호환 처리 검토',defer:'변경 유예'};
+const targetNotice = '전달 대상 선택이며 OS별 판정이 아닙니다. 플랫폼별 계약·파서가 다르면 각각 입력해 재점검하세요.';
+const appNotice = '앱 변경은 업데이트를 설치한 앱에만 적용됩니다. 이미 설치된 기존 앱에는 적용되지 않으므로 웹 호환 처리·변경 유예·지원 범위 제한을 별도로 검토하세요.';
+let reportContext = null, memoCache = null;
+const memoKey=r=>JSON.stringify([r.g,r.name,r.kind]);
+function rememberMemos(){if(reportContext)memoCache=reportContext;}
+function restoreMemos(context){
+ if(!memoCache||memoCache.scope!==context.scope)return;
+ context.spec={...memoCache.spec};context.owners={...memoCache.owners};
+ const previous=new Map(memoCache.rows.map((r,i)=>[memoKey(r),memoCache.coordination[i]]));
+ context.rows.forEach((r,i)=>{if(riskRow(r)&&previous.has(memoKey(r)))context.coordination[i]={...previous.get(memoKey(r))};});
+ context.inherited=Object.values(context.spec).some(Boolean)||Object.values(context.coordination).some(d=>Object.values(d).some(Boolean));
+}
+function discardMemos(){if((reportContext||memoCache)&&!confirm('샘플 전환·초기화 시 담당자·일정·규격 메모도 지워집니다. 계속하시겠습니까?'))return false;clear();memoCache=null;$('calendarMonth').value=seoulMonth();return true;}
+function targetKey(){return own(targetNames,$('reportTarget').value)?$('reportTarget').value:'common';}
+function riskRow(r){return ['오류','오류 가능','확인 필요'].includes(r.status);}
+function rowPath(r){return r.kind==='식별자 변경'?short(r.name):r.g+'.'+short(r.name);}
+function guidance(r){
+  const request=r.g==='requestFields';
+  if(r.kind==='식별자 변경')return request?
+    ['새 action을 인식하는 요청 분기와 기존 action 유지 여부를 검토합니다.','기존 앱에는 기존 action을 전송하는 분기를 검토합니다.']:
+    ['새 응답 event 송신과 기존 event 지원 범위를 검토합니다.','기존 앱의 기존 event를 수신하는 처리를 검토합니다. 중복 응답 처리도 확인합니다.'];
+  if(r.kind==='자료형 변경')return request?
+    ['새 요청 자료형을 해석하는 수신 모델과 검증 로직을 검토합니다.','기존 앱에는 기존 자료형으로 전송할 수 있는지 검토합니다. 무조건 형변환하지 말고 값의 의미와 손실을 확인합니다.']:
+    ['새 응답 자료형을 생성하는 모델과 직렬화 로직을 검토합니다.','기존 앱의 기존 응답 자료형도 수용할 수 있는지 검토합니다. 무조건 형변환하지 말고 값의 의미와 손실을 확인합니다.'];
+  if(r.kind==='필드 추가')return request?
+    ['추가 요청 필드의 수신·활용 여부와 미지 키 정책을 확인합니다. 확인 필요는 앱 수정 확정이 아닙니다.','기존 앱 파서가 거부하거나 정책을 모르면 해당 필드 전송 유예 또는 지원 확인 후 전송을 검토합니다.']:
+    ['새 필수 응답 필드를 생성하여 송신할 수 있는지 검토합니다.','기존 앱의 응답에는 필드가 없을 수 있습니다. 누락 수용·기능 제한·변경 유예 중 업무 의미에 맞는 방안을 검토합니다.'];
+  if(r.kind==='필드 삭제')return request?
+    ['기존 필수 요청 필드 없이 처리할 수 있는지 검토합니다.','기존 앱에는 기존 필수 필드를 계속 전송하거나 변경을 유예하는 방안을 검토합니다.']:
+    ['기존 응답 필드의 송신 현황을 확인합니다. 변경할 웹 수신 정책을 먼저 검토하며 앱의 송신 중단을 필수로 단정하지 않습니다.','기존 앱이 보내는 잔여 필드를 수용하는 수신 정책을 검토합니다.'];
+  if(r.kind==='필수 → 선택')return ['요청 필드가 생략되어도 처리할 수 있는지 검토합니다.','기존 앱이 요구하는 필수 요청 필드는 생략하지 않는 방안을 검토합니다.'];
+  if(r.kind==='선택 → 필수')return ['응답 필드를 모든 해당 응답 경로에서 보장할 수 있는지 검토합니다.','기존 앱의 응답 필드 생략을 수용하거나 기능을 제한하는 방안을 검토합니다. 기본값은 업무 규칙 확인 후 결정합니다.'];
+  if(r.kind==='허용 범위 확대')return ['새 요청 허용값 또는 제약 제거에 맞는 처리가 가능한지 검토합니다.','기존 앱에는 기존 허용 범위의 값만 전송하는 방안을 검토합니다. 값 대체는 의미 보존 여부를 확인한 뒤 결정합니다.'];
+  if(r.kind==='허용 범위 축소')return ['새 응답 허용 범위 밖의 값이 생성되는 경로를 확인합니다.','기존 앱이 보내는 기존 값을 수용하거나 해당 기능 변경을 유예하는 방안을 검토합니다.'];
+  return ['계약과 실제 앱 구현의 일치 여부를 확인합니다.','기존 계약과 호환되는 웹 처리를 검토합니다.'];
+}
+let selectedRisk=null,proposalPanels=[];
+function selectRisk(value){
+ const entry=proposalPanels.find(x=>String(x.i)===String(value));if(!entry)return;selectedRisk=entry.i;
+ $('riskSelect').value=String(selectedRisk);for(const item of proposalPanels)item.box.hidden=item.i!==selectedRisk;
+}
+$('riskSelect').onchange=()=>selectRisk($('riskSelect').value);
+function renderProposals(){
+  $('proposals').replaceChildren();proposalPanels=[];$('riskSelect').replaceChildren();$('riskPicker').hidden=true;
+  if(!reportContext)return;
+  const risks=reportContext.rows.map((r,i)=>({r,i})).filter(({r})=>riskRow(r));
+  if(!risks.length){$('proposals').append(el('p','선택할 위험 항목이 없습니다. 호환·정보 항목은 앱 수정 필수로 취급하지 않습니다.'));return;}
+  $('riskPicker').hidden=false;
+  for(const {r,i} of risks){
+    const option=el('option',r.status+' · '+briefLabel(r)+' / '+r.kind);option.value=String(i);$('riskSelect').append(option);
+    const box=el('div',undefined,'proposal'),label=el('label',(directions[r.g]||'')+' / '+rowPath(r)+' / '+r.kind+' / '+r.status),select=el('select');
+    select.id='proposal-'+i;label.htmlFor=select.id;
+    for(const [key,name] of Object.entries(proposalNames)){const option=el('option',name);option.value=key;select.append(option);}
+    select.value=reportContext.choices[i]||'pending';
+    select.onchange=()=>{if(!reportContext)return;reportContext.choices[i]=own(proposalNames,select.value)?select.value:'pending';refreshReport();};
+    const [app,web]=guidance(r);
+    const advice=el('details');advice.append(el('summary','앱·웹 수정 방향 자세히 보기'),el('p','앱 측 검토: '+app+' '+appNotice),el('p','React 웹 측 대안: '+web));box.append(label,select,coordinationForm(i),advice);$('proposals').append(box);proposalPanels.push({i,box});
+  }
+  selectRisk(risks.some(x=>x.i===selectedRisk)?selectedRisk:risks[0].i);
+}
+// 협업 메모는 비교 입력과 분리된 일회성 기록입니다. 자동 검증/알림이 아닙니다.
+const progressNames={unknown:'미확인',review:'검토 중',working:'수정 중',testing:'검증 중',released:'배포 완료 (담당자 기입)'};
+const agreementNames={pending:'미합의',discussing:'협의 중',agreed:'합의 완료 (담당자 기입)'};
+const coordinationFields=[
+ ['androidOwner','Android 담당자'],['androidStatus','Android 진행 상태',progressNames],['androidDevDate','Android 개발 배포 예정일','date'],['androidQaDate','Android 품질 배포 예정일','date'],['androidDate','Android 운영 배포 예정일','date'],['androidVersion','Android 목표 앱 버전'],
+ ['iosOwner','iOS 담당자'],['iosStatus','iOS 진행 상태',progressNames],['iosDevDate','iOS 개발 배포 예정일','date'],['iosQaDate','iOS 품질 배포 예정일','date'],['iosDate','iOS 운영 배포 예정일','date'],['iosVersion','iOS 목표 앱 버전']
+];
+const specFields=[
+ ['androidSpec','현재 Android 필드명·규격','memo'],['iosSpec','현재 iOS 필드명·규격','memo'],['commonSpec','통일할 필드명·규격 (제안 또는 합의 내용)','memo'],['coordinator','규격 조율 담당자'],['agreement','규격 합의 상태',agreementNames]
+];
+function coordinationForm(i){
+ const box=el('details',undefined,'coordination');box.append(el('summary',i===null?'Android·iOS 규격 통일 내용 입력':'담당자·앱 배포 일정 입력'));
+ box.append(el('p','예정일은 확정일이 아닙니다. 배포 완료도 모든 사용자 업데이트를 뜻하지 않습니다. Android/iOS 규격이 다르면 각각 별도로 점검하세요.'));
+ const grid=el('div',undefined,'grid'),context=reportContext,data=i===null?context.spec:(context.coordination[i]||={});
+ for(const [key,title,kind] of (i===null?specFields:coordinationFields)){
+  const label=el('label',title),field=el(obj(kind)?'select':kind==='memo'?'textarea':'input');field.id='coord-'+i+'-'+key;label.htmlFor=field.id;
+  if(obj(kind)){for(const [value,text] of Object.entries(kind)){const option=el('option',text);option.value=value;field.append(option);}field.value=data[key]||Object.keys(kind)[0];}
+  else{if(kind!=='memo')field.type=kind==='date'?'date':'text';field.maxLength=kind==='memo'?1000:120;field.value=data[key]||'';if(kind==='date'){field.min='1000-01-01';field.max='9999-12-31';}}
+  field.oninput=()=>{if(reportContext!==context)return;const limit=kind==='memo'?1000:120;if(kind==='date'&&field.value&&!validDate(field.value)){field.value=data[key]||'';$('copyStatus').textContent='1000~9999년의 올바른 날짜를 입력하세요.';return;}if(!obj(kind)&&field.value.length>limit){field.value=data[key]||'';$('copyStatus').textContent='입력 한도 '+limit+'자를 넘어서 반영하지 않았습니다.';return;}data[key]=obj(kind)?(own(kind,field.value)?field.value:Object.keys(kind)[0]):field.value;refreshReport();};
+  label.append(field);grid.append(label);
+ }
+ box.append(grid);return box;
+}
+function coordinationValue(data,key,kind){const value=data[key];return obj(kind)?kind[own(kind,value)?value:Object.keys(kind)[0]]:(value||'미정');}
+function selectedPlatforms(){return targetKey()==='common'?['android','ios']:[targetKey()];}
+function coordinationLines(){
+ const lines=['협업 메모: 자유 입력 · 마스킹 미적용. 직접 입력한 공유용 메모입니다. 자동 수신·알림·검증이 아니며 날짜는 예정일입니다.',appNotice,reportContext.inherited?'재점검으로 이어받은 메모가 있습니다. 담당자·상태·일정·합의 내용을 다시 확인하세요.':''];
+ for(const [key,title,kind] of specFields)lines.push(title+': '+coordinationValue(reportContext.spec,key,kind));
+ reportContext.rows.forEach((r,i)=>{if(!riskRow(r))return;const data=reportContext.coordination[i]||{};lines.push('',rowPath(r)+' / '+r.kind);for(const [key,title,kind] of coordinationFields)if(selectedPlatforms().some(p=>key.startsWith(p)))lines.push(title+': '+coordinationValue(data,key,kind));});
+ return lines;
+}
+function briefLines(){
+ const {rows,choices,coordination,spec,inherited}=reportContext,lines=[];
+ if(inherited)lines.push('재점검 메모: 이전 입력을 이어받았습니다. 담당자·일정·규격 합의 재확인 필요.');
+ rows.forEach((r,i)=>{if(!riskRow(r))return;const d=coordination[i]||{};lines.push('• '+briefLabel(r)+' — '+r.status+' / '+(proposalNames[choices[i]]||proposalNames.pending),'  이유: '+r.reason);
+ for(const p of selectedPlatforms())lines.push('  '+targetNames[p]+': '+(d[p+'Owner']||'담당자 미정')+' / '+coordinationValue(d,p+'Status',progressNames)+' / 운영 예정 '+(d[p+'Date']||'미정'));
+ });
+ if(!rows.some(riskRow))lines.push('위험으로 분류된 변경이 없습니다. 실제 앱 검증은 별도로 진행하세요.');
+ lines.push('규격 조율: '+(spec.coordinator||'담당자 미정')+' / '+coordinationValue(spec,'agreement',agreementNames));
+ return lines;
+}
+function briefLabel(r){return ({requestFields:'요청',successFields:'성공 응답',errorFields:'오류 응답'}[r.g]||'공통')+' · '+rowPath(r);}
+function briefStats(){
+ const {rows,choices,coordination}=reportContext,rank={'오류':0,'오류 가능':1,'확인 필요':2};
+ const risks=rows.map((r,i)=>({r,i})).filter(({r})=>riskRow(r)).sort((a,b)=>rank[a.r.status]-rank[b.r.status]||a.i-b.i);
+ return {risks,pending:risks.filter(({i})=>!choices[i]||choices[i]==='pending').length,missing:risks.reduce((n,{i})=>n+selectedPlatforms().filter(p=>!coordination[i]?.[p+'Owner']?.trim()).length,0)};
+}
+function briefDigestLines(){
+ const {risks,pending,missing}=briefStats();const lines=['검토할 변경 '+risks.length+'건 / 대응 미정 '+pending+'건 / 담당자 빈칸 '+missing+'곳 (선택 플랫폼의 위험 항목별 담당자)'];
+ if(reportContext.inherited)lines.push('이어받은 담당자·일정·합의 메모 재확인 필요.');
+ if(!risks.length)lines.push('위험으로 분류된 변경이 없습니다. 실제 앱 검증은 별도로 진행하세요.');
+ else {lines.push('먼저 확인할 최대 3건 · 오류 → 오류 가능 → 확인 필요 순');for(const {r,i} of risks.slice(0,3))lines.push('• '+r.status+' | '+briefLabel(r)+' / '+r.kind+' | '+(proposalNames[reportContext.choices[i]]||proposalNames.pending));
+ lines.push('전체 '+risks.length+'건의 담당자·일정은 2절, 대응은 3절, 상세 근거는 4절에서 확인하세요.');}
+ return lines;
+}
+function renderBrief(){
+ const box=$('reportBrief'),{risks,pending,missing}=briefStats();box.replaceChildren(el('h3','전달 전, 이것부터 확인하세요'));
+ const metrics=el('div',undefined,'brief-metrics');for(const [title,value,unit] of [['검토할 변경',risks.length,'건'],['대응 미정',pending,'건'],['담당자 빈칸',missing,'곳']]){const metric=el('div');if(title==='담당자 빈칸')metric.title='선택한 플랫폼의 위험 항목별 담당자 수';metric.append(el('span',title),el('strong',value+unit));metrics.append(metric);}box.append(metrics);
+ if(reportContext.inherited)box.append(el('p','이어받은 담당자·일정·합의 메모 재확인 필요.','schedule-warning'));
+ if(risks.length){box.append(el('p','우선 확인할 '+Math.min(3,risks.length)+'건','muted'));const list=el('ol',undefined,'brief-toplist');
+ for(const {r,i} of risks.slice(0,3)){const item=el('li');item.append(el('span',r.status,'badge '+r.status.replaceAll(' ','')),el('strong',briefLabel(r)),el('span',r.kind+' · '+(proposalNames[reportContext.choices[i]]||proposalNames.pending)));list.append(item);}box.append(list);}
+ else box.append(el('p','위험으로 분류된 변경이 없습니다. 실제 앱 검증은 별도로 진행하세요.'));
+ const details=el('details');details.append(el('summary','전체 '+risks.length+'건 · 이유·담당자·운영 일정 보기'),el('p','담당자 빈칸은 선택한 플랫폼의 위험 항목별 담당자 수입니다. 우선 항목은 오류 → 오류 가능 → 확인 필요 순이며 같은 등급은 비교 순서입니다.','muted'));for(const line of briefLines())details.append(el('div',line,'brief-item'));box.append(details);
+ box.append(el('p','규칙 기준 결과 · 실기기 검증 별도 · 자유 입력 메모 마스킹 없음.','muted'));
+}
+
+// 담당자 일괄 입력은 빈칸 보완을 기본으로 하며 기존 개별 설정을 자동으로 덮지 않습니다.
+const ownerFields=[['android','기본 Android 담당자'],['ios','기본 iOS 담당자'],['coordinator','기본 규격 조율 담당자']];
+function renderOwnerForm(){
+ const context=reportContext,box=el('div',undefined,'owner-panel'),grid=el('div',undefined,'grid');
+ box.append(el('h3','담당자 지정'),el('p','항목 선택 → 담당자 입력 → 적용. 필요한 항목만 한꺼번에 지정하세요.','muted'));
+ const advanced=el('details');advanced.id='ownerAdvanced';advanced.append(el('summary','전체 항목에 같은 담당자 지정 · 고급 설정'),el('p','두 플랫폼의 전체 항목에 적용합니다. 빈칸만 채우면 기존 담당자는 유지됩니다.','muted'));
+ for(const [key,title] of ownerFields){const input=el('input');input.id='owner-default-'+key;input.maxLength=120;input.value=context.owners[key]||'';
+ input.oninput=()=>{if(reportContext!==context)return;if(input.value.length>120){input.value=context.owners[key]||'';$('ownerStatus').textContent='담당자는 120자 이내로 입력하세요.';return;}context.owners[key]=input.value;$('ownerStatus').textContent='적용 버튼을 누르면 항목별 담당자에 반영됩니다.';};
+ const label=el('label',title);label.htmlFor=input.id;label.append(input);grid.append(label);}
+ const actions=el('div',undefined,'actions');for(const [mode,title] of [['empty','빈 담당자에 적용'],['all','기존 담당자도 일괄 변경']]){const button=el('button',title);button.onclick=()=>{if(reportContext===context)applyOwners(mode);};actions.append(button);}
+ const selected=el('button','항목을 골라 담당자 지정','primary');selected.id='ownerPickerOpen';selected.onclick=openOwnerPicker;box.append(selected);
+ const status=el('p');status.id='ownerStatus';status.role='status';advanced.append(grid,actions);box.append(advanced,status);$('ownerForm').replaceChildren(box);
+}
+function ownerChanges(context,mode,indices,values,includeCoordinator=false){
+ const changes=[];
+ for(const i of indices){if(!context.rows[i]||!riskRow(context.rows[i]))continue;const data=context.coordination[i]||{};for(const p of ['android','ios']){const value=values[p];if(value?.trim()&&(mode==='all'||!data[p+'Owner']?.trim())&&data[p+'Owner']!==value)changes.push({i,key:p+'Owner',value,replaces:!!data[p+'Owner']?.trim()});}}
+ if(includeCoordinator){const value=values.coordinator;if(value?.trim()&&(mode==='all'||!context.spec.coordinator?.trim())&&context.spec.coordinator!==value)changes.push({i:null,key:'coordinator',value,replaces:!!context.spec.coordinator?.trim()});}
+ return changes;
+}
+function commitOwnerChanges(context,changes){for(const {i,key,value} of changes){const data=i===null?context.spec:(context.coordination[i]||={});data[key]=value;}}
+function applyOwners(mode){
+ if(!reportContext)return;const context=reportContext,changes=ownerChanges(context,mode,context.rows.map((_,i)=>i),context.owners,true);
+ if(!changes.length){$('ownerStatus').textContent='변경할 담당자가 없습니다. 기본 담당자와 적용할 빈칸을 확인하세요.';return;}
+ if(mode==='all'&&!confirm('개별 입력한 담당자도 포함해 '+changes.length+'곳을 변경합니다. 계속하시겠습니까?')){$('ownerStatus').textContent='변경을 취소했습니다. 기존 담당자를 유지합니다.';return;}
+ commitOwnerChanges(context,changes);
+ $('specForm').replaceChildren(coordinationForm(null));renderProposals();refreshReport();$('ownerStatus').textContent=changes.length+'곳에 담당자를 적용했습니다.';
+}
+
+let ownerPickerContext=null,ownerPickerRows=[];
+function closeOwnerPicker(){ownerPickerContext=null;ownerPickerRows=[];$('pickerAndroid').value='';$('pickerIos').value='';if($('ownerPicker').open){$('ownerPicker').close();$('ownerPickerOpen')?.focus();}}
+function pickerPlan(){
+ if(!reportContext||ownerPickerContext!==reportContext)return {error:'점검 결과가 바뀌었습니다. 선택창을 다시 여세요.'};
+ const selected=ownerPickerRows.filter(x=>x.checkbox.checked),values={android:$('pickerAndroid').value,ios:$('pickerIos').value},mode=$('pickerMode').value;
+ if(!selected.length)return {error:'항목을 하나 이상 선택하세요.'};
+ if(Object.values(values).some(v=>v.length>120))return {error:'담당자는 120자 이내로 입력하세요.'};
+ if(!Object.values(values).some(v=>v.trim()))return {error:'Android 또는 iOS 담당자를 입력하세요. 빈칸으로 기존 담당자를 지우지 않습니다.'};
+ if(!['empty','all'].includes(mode))return {error:'기존 담당자 처리 방식을 선택하세요.'};
+ const changes=ownerChanges(reportContext,mode,selected.map(x=>x.i),values);
+ if(!changes.length)return {error:'변경할 담당자가 없습니다. 기존 담당자도 바꾸려면 처리 방식을 변경하세요.'};
+ return {selected,values,changes};
+}
+function pickerCount(){
+ const count=ownerPickerRows.filter(x=>x.checkbox.checked).length;$('pickerCount').textContent=count+' / '+ownerPickerRows.length+'개 선택';const plan=pickerPlan();$('pickerApply').disabled=!!plan.error;
+ $('pickerStatus').textContent=plan.error||('Android '+plan.changes.filter(x=>x.key==='androidOwner').length+'곳 · iOS '+plan.changes.filter(x=>x.key==='iosOwner').length+'곳 변경 / 기존 개별 입력 '+plan.changes.filter(x=>x.replaces).length+'곳 덮어쓰기. 담당자가 빈 플랫폼은 변경하지 않습니다.');
+}
+function openOwnerPicker(){
+ if(!reportContext)return;if(typeof $('ownerPicker').showModal!=='function'){$('ownerStatus').textContent='이 브라우저는 선택창을 지원하지 않습니다. 아래 고급 설정을 펼쳐 전체 적용 버튼을 이용하세요.';return;}
+ ownerPickerContext=reportContext;ownerPickerRows=[];$('pickerRows').replaceChildren();$('pickerStatus').textContent='';$('pickerMode').value='empty';$('pickerAndroid').value=reportContext.owners.android||'';$('pickerIos').value=reportContext.owners.ios||'';
+ for(const {r,i} of briefStats().risks){const label=el('label',undefined,'picker-row'),checkbox=el('input');checkbox.type='checkbox';checkbox.id='pick-row-'+i;checkbox.checked=false;checkbox.onchange=pickerCount;label.htmlFor=checkbox.id;
+ const text=el('span',briefLabel(r)+' / '+r.kind+' / '+r.status);label.append(checkbox,text);$('pickerRows').append(label);ownerPickerRows.push({i,checkbox});}
+ if(!ownerPickerRows.length){ownerPickerContext=null;$('ownerStatus').textContent='담당자를 지정할 위험 항목이 없습니다.';return;}pickerCount();$('ownerPicker').showModal();ownerPickerRows[0].checkbox.focus();
+}
+function applySelectedOwners(){
+ if(!reportContext||ownerPickerContext!==reportContext){closeOwnerPicker();return;}
+ const plan=pickerPlan();if(plan.error){$('pickerStatus').textContent=plan.error;return;}
+ const {selected,values,changes}=plan;commitOwnerChanges(reportContext,changes);
+ for(const p of ['android','ios'])if(values[p].trim())reportContext.owners[p]=values[p];
+ closeOwnerPicker();renderOwnerForm();renderProposals();refreshReport();$('ownerStatus').textContent=selected.length+'개 선택 항목의 담당자 '+changes.length+'곳을 변경했습니다.';$('ownerPickerOpen').focus();
+}
+$('pickerAll').onclick=()=>{for(const x of ownerPickerRows)x.checkbox.checked=true;pickerCount();};$('pickerNone').onclick=()=>{for(const x of ownerPickerRows)x.checkbox.checked=false;pickerCount();};$('pickerAndroid').oninput=pickerCount;$('pickerIos').oninput=pickerCount;$('pickerMode').onchange=pickerCount;$('pickerCancel').onclick=closeOwnerPicker;$('pickerApply').onclick=applySelectedOwners;$('ownerPicker').oncancel=event=>{event.preventDefault();closeOwnerPicker();};
+const scheduleStages=[{suffix:'DevDate',name:'개발 배포',className:'stage-dev'},{suffix:'QaDate',name:'품질 배포',className:'stage-qa'},{suffix:'Date',name:'운영 배포',className:'stage-prod'}];
+let selectedDay='';
+function daysInMonth(year,month){return [31,(year%4===0&&(year%100!==0||year%400===0))?29:28,31,30,31,30,31,31,30,31,30,31][month-1];}
+function validMonth(value){return /^\d{4}-\d{2}$/.test(value)&&+value.slice(0,4)>=1000&&+value.slice(0,4)<=9999&&+value.slice(5)>=1&&+value.slice(5)<=12;}
+function validDate(value){if(typeof value!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(value)||!validMonth(value.slice(0,7)))return false;return +value.slice(8)>=1&&+value.slice(8)<=daysInMonth(+value.slice(0,4),+value.slice(5,7));}
+function seoulMonth(){const parts=new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit'}).formatToParts(new Date());return parts.find(p=>p.type==='year').value+'-'+parts.find(p=>p.type==='month').value;}
+function scheduleEvents(){
+ const events=[];if(!reportContext)return events;
+ reportContext.rows.forEach((r,i)=>{if(!riskRow(r))return;const d=reportContext.coordination[i]||{};for(const platform of selectedPlatforms())for(const stage of scheduleStages){const date=d[platform+stage.suffix];if(validDate(date))events.push({date,platform,stage,path:rowPath(r),kind:r.kind,owner:d[platform+'Owner']||'담당자 미정',i});}});
+ return events.sort((a,b)=>a.date.localeCompare(b.date)||a.platform.localeCompare(b.platform)||a.i-b.i||scheduleStages.indexOf(a.stage)-scheduleStages.indexOf(b.stage));
+}
+function scheduleWarnings(){
+ const warnings=[];if(!reportContext)return warnings;
+ reportContext.rows.forEach((r,i)=>{if(!riskRow(r))return;const d=reportContext.coordination[i]||{};for(const p of selectedPlatforms()){const filled=scheduleStages.map(stage=>({stage,date:d[p+stage.suffix]})).filter(x=>validDate(x.date));for(let j=1;j<filled.length;j++)if(filled[j-1].date>filled[j].date)warnings.push(targetNames[p]+' / '+rowPath(r)+' / '+r.kind+': '+filled[j-1].stage.name+' 예정일이 '+filled[j].stage.name+'보다 늦습니다. 담당자 확인 필요.');}});
+ return warnings;
+}
+function scheduleLines(){const events=scheduleEvents();return [...scheduleWarnings(),...(events.length?events.map(e=>e.date+' | '+targetNames[e.platform]+' | '+e.stage.name+' | '+e.path+' / '+e.kind+' | '+e.owner):['입력된 배포 일정이 없습니다. 미정인 단계는 협업 메모에서 확인하세요.'])];}
+function changeMonth(delta){const value=$('calendarMonth').value;if(!validMonth(value))return;const index=+value.slice(0,4)*12+(+value.slice(5)-1)+delta;if(index<1000*12||index>9999*12+11)return;$('calendarMonth').value=String(Math.floor(index/12)).padStart(4,'0')+'-'+String(index%12+1).padStart(2,'0');selectedDay='';renderSchedule();}
+function renderSchedule(){
+ if(!reportContext)return;$('schedulePanel').hidden=false;
+ if(!validMonth($('calendarMonth').value))$('calendarMonth').value=seoulMonth();
+ const month=$('calendarMonth').value,year=+month.slice(0,4),m=+month.slice(5),events=scheduleEvents(),visible=events.filter(e=>e.date.startsWith(month)),counts=new Map();
+ for(const e of visible)counts.set(e.date,(counts.get(e.date)||0)+1);
+ if(selectedDay&&!selectedDay.startsWith(month))selectedDay='';
+ $('previousMonth').disabled=month==='1000-01';$('nextMonth').disabled=month==='9999-12';$('firstSchedule').disabled=!events.length;
+ $('scheduleStatus').textContent=targetNames[targetKey()]+' · 전체 '+events.length+'건 / '+month+' '+visible.length+'건'+(selectedDay?' / 선택일 '+selectedDay:'')+' · 미입력 날짜는 달력에 표시하지 않습니다.';
+ const table=el('table',undefined,'calendar');table.append(el('caption',year+'년 '+m+'월 · 날짜를 누르면 그날 일정만 표시합니다.'));const head=el('thead'),hr=el('tr');for(const day of ['일','월','화','수','목','금','토']){const th=el('th',day);th.scope='col';hr.append(th);}head.append(hr);table.append(head);
+ const body=el('tbody'),offset=new Date(Date.UTC(year,m-1,1)).getUTCDay(),last=daysInMonth(year,m);
+ for(let week=0;week<6;week++){const tr=el('tr');for(let weekday=0;weekday<7;weekday++){const day=week*7+weekday-offset+1,td=el('td');if(day>=1&&day<=last){const date=month+'-'+String(day).padStart(2,'0'),count=counts.get(date)||0,button=el('button',undefined,date===selectedDay?'picked':'');button.id='calendar-day-'+date;button.ariaLabel=date+' 일정 '+count+'건';button.ariaPressed=String(date===selectedDay);button.append(el('span',String(day)),el('small',count?count+'건':'—'));button.onclick=()=>{selectedDay=date;renderSchedule();$('calendar-day-'+date).focus();};td.append(button);}tr.append(td);}body.append(tr);}table.append(body);$('scheduleCalendar').replaceChildren(table);
+ $('scheduleWarnings').replaceChildren(...scheduleWarnings().map(t=>el('p',t,'schedule-warning')));
+ const list=$('scheduleList');list.replaceChildren(el('h4',selectedDay?selectedDay+' 일정':'이번 달 일정 · 날짜순'));
+ const shown=visible.filter(e=>!selectedDay||e.date===selectedDay);
+ if(!shown.length)list.append(el('p',events.length?'이 기간에는 일정이 없습니다. 첫 일정으로 이동하거나 조회 월을 바꿔 보세요.':'아래 각 변경의 ‘담당자·앱 배포 일정 입력’을 열어 날짜를 입력하세요.','muted'));
+ for(const e of shown){const item=el('div',undefined,'schedule-event '+e.stage.className);item.append(el('strong',e.date+' · '+targetNames[e.platform]+' · '+e.stage.name),el('p',e.path+' / '+e.kind),el('p','담당자: '+e.owner));list.append(item);}
+}
+$('calendarMonth').onchange=()=>{selectedDay='';renderSchedule();};$('previousMonth').onclick=()=>changeMonth(-1);$('nextMonth').onclick=()=>changeMonth(1);$('wholeMonth').onclick=()=>{selectedDay='';renderSchedule();};$('firstSchedule').onclick=()=>{const first=scheduleEvents()[0];if(first){$('calendarMonth').value=first.date.slice(0,7);selectedDay='';renderSchedule();}};
+
+function refreshReport(){
+  $('copyStatus').textContent='';
+  if(!reportContext){$('report').value='';return;}
+  const {base,rows,choices}=reportContext,target=targetNames[targetKey()],risks=rows.filter(riskRow);
+  renderBrief();renderSchedule();
+  const lines=['BridgeCheck 전달 보고서 · '+target,'전달 대상: '+target,targetNotice,'요약: 오류 '+rows.filter(r=>r.status==='오류').length+' / 오류 가능 '+rows.filter(r=>r.status==='오류 가능').length+' / 확인 필요 '+rows.filter(r=>r.status==='확인 필요').length,'대응 제안은 담당자 검토용이며 승인·수정 완료·문제 해결을 의미하지 않습니다. 담당자·일정·규격 메모는 자유 입력이며 마스킹하지 않습니다.','','1. 먼저 확인할 항목',...briefDigestLines(),'','2. 협업 메모 (자유 입력 · 마스킹 미적용)',...coordinationLines(),'','단계별 배포 일정 (선택 플랫폼 · 모든 달)',...scheduleLines(),'','3. 변경별 대응 제안 (미승인)'];
+  rows.forEach((r,i)=>{if(!riskRow(r))return;const [app,web]=guidance(r);lines.push((directions[r.g]||'')+' / '+rowPath(r)+' / '+r.kind,'현재 판정: '+r.status+' — '+r.reason,'선택한 제안: '+(proposalNames[choices[i]]||proposalNames.pending),'앱 측 검토: '+app,appNotice,'React 웹 측 대안: '+web,'변경 유예: 기존 계약 유지 가능 여부와 재개 조건을 담당자가 결정합니다.','');});
+  if(!risks.length)lines.push('대응 제안 대상 없음. 계약상 호환·정보는 앱 수정 필수가 아닙니다.');
+  const platforms=targetKey()==='common'?['Android','iPhone (iOS)']:[target];
+  lines.push('4. 상세 비교 근거와 테스트 예시',base,'','5. QA 체크리스트 (미실행)');
+  for(const platform of platforms)lines.push('[ ] '+platform+': 실제 사용 중인 브리지의 요청 해석·검증과 성공/오류 응답 직렬화·event 전달을 확인합니다.','[ ] '+platform+': 변경할 웹 × 미업데이트 기존 앱, 변경할 웹 × 업데이트 설치 앱을 각각 실행하고 앱 버전·입력·기대값·실제값을 기록합니다.');
+  lines.push('[ ] 각 위험 항목의 테스트 부분 예시를 실제 메시지로 완성해 재현합니다.','[ ] 앱 변경만 선택해도 기존 앱 대응은 별도로 결정합니다. 최소 앱 버전은 도구가 추정하지 않습니다.','[ ] 구버전 웹(앱 내장 번들·캐시)은 이번 점검 범위 밖이므로 별도 확인합니다.','','사람의 판단: 수정 파일·API·코드는 실제 소스를 확인한 담당자가 결정합니다. 공유 전 마스킹과 내용, 배포 전 실제 앱 검증을 확인하세요.');
+  $('report').value=lines.join('\n');$('copy').disabled=false;$('download').disabled=false;
+  $('nextStep').textContent=risks.length&&risks.every(r=>r.status==='확인 필요')?'수신 파서가 모르는 필드를 어떻게 처리하는지 담당자에게 확인하고, 정책을 선택해 다시 점검하세요.':risks.length?'확인할 변경 '+risks.length+'건입니다. 아래 근거를 확인하고 전달 대상·대응 제안을 선택한 뒤 보고서를 내려받으세요.':'위험으로 분류된 변경이 없습니다. 실제 앱 동작 보증은 아니며 기기에서 재검수하세요.';
+}
+$('reportTarget').onchange=refreshReport;
+
+let currentScreen='Input';
+function showScreen(name,focus=true){
+ if(!['Input','Result','Report'].includes(name))return;
+ if(name!=='Input'&&!reportContext)name='Input';
+ currentScreen=name;
+ for(const key of ['Input','Result','Report']){$('screen'+key).hidden=key!==name;$('nav'+key).ariaCurrent=key===name?'step':'false';$('nav'+key).disabled=key!=='Input'&&!reportContext;}
+ if(focus){$('title'+name).focus();$('title'+name).scrollIntoView?.({block:'start'});}
+}
+for(const name of ['Input','Result','Report'])$('nav'+name).onclick=()=>showScreen(name);
+for(const id of ['demoReportLink','resultReportLink'])$(id).onclick=event=>{event.preventDefault();showScreen('Report');};
+
+let inputRevision=0;
+function clear(){closeOwnerPicker();selectedRisk=null;proposalPanels=[];$('riskPicker').hidden=true;$('riskSelect').replaceChildren();rememberMemos();inputRevision++;$('ownerForm').replaceChildren();$('schedulePanel').hidden=true;$('scheduleCalendar').replaceChildren();$('scheduleList').replaceChildren();$('scheduleWarnings').replaceChildren();$('scheduleStatus').textContent='';selectedDay='';$('specForm').replaceChildren();$('copy').disabled=true;$('download').disabled=true;$('nextStep').textContent='입력이 바뀌면 다시 점검한 뒤 보고서를 전달하세요.';reportContext=null;$('proposals').replaceChildren();$('reportBrief').replaceChildren(el('p','점검하면 여기에 핵심 내용이 표시됩니다.')); $('summary').replaceChildren();$('results').replaceChildren();$('examples').replaceChildren();$('report').value='';$('copyStatus').textContent='';showScreen('Input',false);}
+function run(){clear();$('status').textContent='';try{const a=parse($('old').value,'기존 앱 연동 규칙'),b=parse($('new').value,'변경할 웹 연동 규칙'),p={request:$('requestPolicy').value,response:$('responsePolicy').value},rows=compare(a,b,p);for(const s of ['오류','오류 가능','확인 필요','계약상 호환','정보'])$('summary').append(el('p',s+' '+rows.filter(r=>r.status===s).length+'건','badge '+s.replaceAll(' ','')));const table=el('table'),head=el('tr');for(const h of ['방향 / 필드','변경','이전 → 새 규칙','판정 / 근거'])head.append(el('th',h));const thead=el('thead');thead.append(head);table.append(thead);const body=el('tbody');const lines=['BridgeCheck 점검 보고서','기존 앱 연동 규칙: '+show(a.contractVersion)+' / action '+show(a.action)+' / event '+show(a.responseEvent),'변경할 웹 연동 규칙: '+show(b.contractVersion)+' / action '+show(b.action)+' / event '+show(b.responseEvent),'변경할 웹 × 구버전 앱. 구버전 웹(앱 내장 번들·캐시)은 범위 제외.','실제 앱 동작 검증이 아닙니다. 오류는 계약상 비호환 가능성입니다.','파서: 기존 앱 요청 '+policyNames[p.request]+' / 변경할 웹 응답 '+policyNames[p.response],'','변경 목록과 방향별 영향'];for(const r of rows){const path=(directions[r.g]||'메타데이터')+'\n'+(r.kind==='식별자 변경'?short(r.name):r.g+'.'+short(r.name)),tr=el('tr');tr.append(el('td',path,'path'),el('td',r.kind),el('td',r.before+'\n→ '+r.after));const cell=el('td');cell.append(el('span',r.status,'badge '+r.status.replaceAll(' ','')),el('p',r.reason));tr.append(cell);body.append(tr);lines.push(path+' | '+r.kind+' | '+r.before+' → '+r.after+' | '+r.status+' | '+r.reason);}table.append(body);$('results').append(rows.length?table:el('p','의미 있는 계약 변경이 없습니다. 실제 앱 정상 동작을 보증하지 않습니다.','empty'));lines.push('','방향별 요약');for(const g of groups){const list=rows.filter(r=>r.g===g);lines.push(directions[g]+': '+(list.length?['오류','오류 가능','확인 필요','계약상 호환'].map(s=>s+' '+list.filter(r=>r.status===s).length).join(', '):'변경 없음'));}lines.push('','재검수: 기존 앱 미지 키·enum 처리 / 변경할 웹 누락 필드·타입·구 event 처리 / 실제 계약과 구현 일치.','대응: 변경 유예, 기존 형식 유지, 구형 응답 수용, 최소 앱 버전 게이팅. 버전 번호는 사람이 결정.','','테스트 부분 예시 (미실행)');for(const r of rows.filter(r=>r.g!=='metadata')){const text=witness(r,a,b),d=el('details');d.append(el('summary',(directions[r.g]||'')+' / '+short(r.name)+' / '+r.kind),el('pre',text));$('examples').append(d);lines.push((r.kind==='식별자 변경'?short(r.name):r.g+'.'+short(r.name))+' / '+r.kind,text);}lines.push('','사람의 판단: 실제 앱 검증과 배포 승인은 담당자가 수행합니다. 예시는 실행 증거가 아닙니다. 키 기반 마스킹은 모든 개인정보를 탐지하지 않으므로 공유 전 검토하세요.');reportContext={base:lines.join('\n'),rows,choices:{},coordination:{},spec:{},owners:{},scope:JSON.stringify([a.action,b.action]),inherited:false};restoreMemos(reportContext);renderOwnerForm();$('specForm').replaceChildren(coordinationForm(null));renderProposals();refreshReport();$('status').textContent='점검 완료 · '+rows.length+'개 변경 항목 (정보 포함 · event 변경은 성공·오류 응답에 각각 표시)';showScreen('Result');}catch(e){clear();$('status').textContent=e instanceof InputError?e.message:'점검 중 문제가 발생했습니다. 입력을 확인하세요.';}}
+$('compare').onclick=()=>{run();if(!reportContext)$('status').scrollIntoView?.({block:'center'});};$('reset').onclick=()=>{if(!discardMemos())return;resetBuilder();for(const id of ['old','new']){$(id+'File').value='';$(id+'FileStatus').textContent='';}$('old').value='';$('new').value='';$('reportTarget').value='common';$('status').textContent='초기화했습니다.';$('requestPolicy').value='unknown';$('responsePolicy').value='unknown';};for(const id of ['old','new','requestPolicy','responsePolicy'])$(id).addEventListener('input',()=>{clear();$('status').textContent='입력이 변경되었습니다. 다시 점검하세요.';});$('copy').onclick=async()=>{if(!$('report').value){$('copyStatus').textContent='먼저 점검을 실행하세요.';return;}try{await navigator.clipboard.writeText($('report').value);$('copyStatus').textContent='보고서를 복사했습니다.';}catch{const details=$('report').closest?.('details');if(details)details.open=true;$('report').focus();$('report').select();$('copyStatus').textContent='자동 복사가 지원되지 않습니다. 선택된 내용을 직접 복사하세요.';}};
+
+// 입력 문자열이 Markdown 문법이나 HTML로 해석되지 않도록 길이가 충분한 코드 블록에 넣습니다.
+function reportMarkdown(text) {
+  const runs = text.match(/`+/g) || [];
+  const fence = '`'.repeat(runs.reduce((max, run) => Math.max(max, run.length + 1), 3));
+  return '# BridgeCheck 점검 보고서\n\n' + fence + 'text\n' + text + '\n' + fence + '\n';
+}
+$('download').onclick = () => {
+  const report = $('report').value;
+  if (!report) { $('copyStatus').textContent = '먼저 점검을 실행하세요.'; return; }
+  let url, link;
+  try {
+    const blob = new Blob([reportMarkdown(report)], {type: 'text/markdown;charset=utf-8'});
+    url = URL.createObjectURL(blob);
+    link = document.createElement('a');
+    link.href = url;
+    link.download = 'bridgecheck-report-'+targetKey()+'.md';
+    document.body.append(link);
+    link.click();
+    $('copyStatus').textContent = '다운로드를 요청했습니다: '+link.download;
+  } catch {
+    $('copyStatus').textContent = '다운로드하지 못했습니다. 보고서를 직접 복사하세요.';
+  } finally {
+    if (link) link.remove();
+    if (url) setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+};
+
+const sampleA={"contractVersion": "1.0", "action": "openCamera", "responseEvent": "cameraResult", "requestFields": [{"name": "quality", "type": "string", "required": true, "enum": ["low", "high"]}, {"name": "saveToAlbum", "type": "boolean", "required": false}], "successFields": [{"name": "photoId", "type": "string", "required": true}], "errorFields": [{"name": "code", "type": "string", "required": true}, {"name": "message", "type": "string", "required": true}]};
+const sampleB={"contractVersion": "1.0", "action": "openCamera", "responseEvent": "cameraResultV2", "requestFields": [{"name": "quality", "type": "string", "required": true, "enum": ["low", "high", "medium"]}, {"name": "saveToAlbum", "type": "boolean", "required": true}, {"name": "timeoutMs", "type": "number", "required": false}], "successFields": [{"name": "photoId", "type": "number", "required": true}, {"name": "thumbnailUrl", "type": "string", "required": true}], "errorFields": [{"name": "code", "type": "string", "required": true}]};
+$('sample').onclick=()=>{if(!discardMemos())return;$('old').value=JSON.stringify(sampleA,null,2);$('new').value=JSON.stringify(sampleB,null,2);$('status').textContent='샘플을 넣었습니다. 변경 점검하기를 누르세요.';};
+function loadDemo(kind){
+  if(!discardMemos())return;
+  const before=JSON.parse(JSON.stringify(sampleA));
+  let after=JSON.parse(JSON.stringify(sampleA));
+  if(kind==='full')after=JSON.parse(JSON.stringify(sampleB));
+  else if(kind==='compatible')after.successFields.push({name:'thumbnailUrl',type:'string',required:false});
+  else after.requestFields[0].enum.push('medium');
+  $('old').value=JSON.stringify(before,null,2);
+  $('new').value=JSON.stringify(after,null,2);
+  $('requestPolicy').value='unknown';$('responsePolicy').value='unknown';$('reportTarget').value='common';
+  run();
+}
+$('demo').onclick=()=>loadDemo($('demoCase').value);
+
+/* 입력 도우미는 계약을 추정하지 않으며 기존 parse를 공통 검증기로 사용합니다. */
+const inputNames={old:'기존 앱 연동 규칙',new:'변경할 웹 연동 규칙'};
+const fieldGroupNames={requestFields:'요청 필드',successFields:'성공 응답 필드',errorFields:'오류 응답 필드'};
+const fileTickets={old:0,new:0};
+function inputMessage(error){return error instanceof InputError?error.message:'처리하지 못했습니다. 입력을 확인하고 다시 시도하세요.';}
+function replaceInput(id,text){
+  parse(text,inputNames[id]);
+  if($(id).value && $(id).value!==text && !confirm(inputNames[id]+' 입력을 바꾸면 기존 결과와 대응 제안이 지워집니다. 바꾸시겠습니까?'))return false;
+  clear();$(id).value=text;$(id+'FileStatus').textContent='';
+  $('status').textContent=inputNames[id]+'을 준비했습니다. 바뀐 부분을 확인하고 변경 점검하기를 누르세요.';
+  return true;
+}
+$('copyOld').onclick=()=>{try{parse($('old').value,'기존 앱 연동 규칙');replaceInput('new',$('old').value);}catch(e){$('status').textContent=inputMessage(e);}};
+async function importContract(id,file){
+  if(!file)return;
+  const ticket=++fileTickets[id],revision=inputRevision,initial=$(id).value;
+  $(id+'FileStatus').textContent='파일을 읽는 중입니다.';
+  try{
+    if(file.size>1048576)throw new InputError('파일은 1 MiB 이하여야 합니다.');
+    const text=await file.text();
+    if(ticket!==fileTickets[id])return;
+    if(revision!==inputRevision||initial!==$(id).value){$(id+'FileStatus').textContent='읽는 동안 입력이나 결과가 바뀌어 취소했습니다. 다시 선택하세요.';return;}
+    parse(text,inputNames[id]);
+    const done=replaceInput(id,text);
+    $(id+'FileStatus').textContent=done?'파일을 불러왔습니다. 기존 결과는 지워졌습니다.':'파일 반영을 취소했습니다. 기존 입력을 유지합니다.';
+  }catch(e){if(ticket===fileTickets[id]&&revision===inputRevision)$(id+'FileStatus').textContent=inputMessage(e);}
+  finally{if(ticket===fileTickets[id])$(id+'File').value='';}
+}
+for(const id of ['old','new'])$(id+'File').onchange=()=>importContract(id,$(id+'File').files[0]);
+let builderBase={},builderRows={},builderCounter=0,builderDirty=false;
+function markDraft(){builderDirty=true;$('builderStatus').textContent='초안이 변경됐습니다. 입력창에 반영해야 점검에 사용됩니다.';}
+function labeled(labelText,control){const label=el('label',labelText);label.htmlFor=control.id;label.append(control);return label;}
+function addBuilderRow(group,field={name:'',type:'string',required:false}){
+  if(Object.values(builderRows).reduce((n,list)=>n+list.length,0)>=150)throw new InputError('작성 도우미는 최대 150개 필드까지 지원합니다. 더 큰 계약은 JSON 입력창을 사용하세요.');
+  const id='bf-'+(++builderCounter),box=el('div',undefined,'field-row');
+  const name=el('input'),type=el('select'),required=el('input'),values=el('textarea'),remove=el('button','삭제');
+  name.id=id+'-name';name.value=field.name;type.id=id+'-type';required.id=id+'-required';required.type='checkbox';required.checked=!!field.required;
+  values.id=id+'-enum';values.value=own(field,'enum')?JSON.stringify(field.enum):'';values.placeholder='예: ["low","high"]';
+  for(const key of ['string','number','boolean','object','array']){const option=el('option',key);option.value=key;type.append(option);}type.value=field.type;
+  const record={box,name,type,required,values};builderRows[group].push(record);
+  remove.onclick=()=>{builderRows[group]=builderRows[group].filter(r=>r!==record);box.remove();markDraft();};
+  for(const control of [name,type,required,values])control.oninput=markDraft;
+  box.append(labeled('필드 이름',name),labeled('자료형',type),labeled('필수',required),labeled('허용값 · 선택',values),remove);
+  $('builder-'+group).append(box);
+}
+function fillBuilder(contract){
+  if(groups.reduce((n,g)=>n+contract[g].length,0)>150)throw new InputError('작성 도우미는 최대 150개 필드까지 지원합니다. JSON 입력창을 사용하세요.');
+  builderBase=JSON.parse(JSON.stringify(contract));builderRows={};$('builderFields').replaceChildren();
+  $('builderVersion').value=contract.contractVersion;$('builderAction').value=contract.action;$('builderEvent').value=contract.responseEvent;
+  for(const group of groups){
+    builderRows[group]=[];const section=el('section'),list=el('div'),add=el('button','필드 추가');list.id='builder-'+group;
+    section.append(el('h3',fieldGroupNames[group]),list,add);$('builderFields').append(section);
+    add.onclick=()=>{try{addBuilderRow(group);markDraft();}catch(e){$('builderStatus').textContent=inputMessage(e);}};
+    for(const field of contract[group])addBuilderRow(group,field);
+  }
+  builderDirty=false;$('builderStatus').textContent='초안을 준비했습니다. 수정 후 선택한 입력창에 반영하세요.';
+}
+function resetBuilder(){fillBuilder({contractVersion:'',action:'',responseEvent:'',requestFields:[],successFields:[],errorFields:[]});$('builderTarget').value='old';}
+function builderContract(){
+  const contract={...builderBase,contractVersion:$('builderVersion').value,action:$('builderAction').value,responseEvent:$('builderEvent').value};
+  for(const group of groups)contract[group]=builderRows[group].map((r,i)=>{
+    const f={name:r.name.value,type:r.type.value,required:!!r.required.checked};
+    if(r.values.value.trim()){
+      try{f.enum=JSON.parse(r.values.value);}catch{throw new InputError(fieldGroupNames[group]+' '+(i+1)+'번째 필드: 허용값은 JSON 배열로 입력하세요. 예: ["low","high"]');}
+    }
+    return f;
+  });
+  return parse(JSON.stringify(contract),'작성 도우미');
+}
+$('builderLoad').onclick=()=>{try{const id=$('builderTarget').value,contract=parse($(id).value,inputNames[id]);if(builderDirty&&!confirm('작성 중인 초안을 선택한 입력 내용으로 바꾸시겠습니까?'))return;fillBuilder(contract);}catch(e){$('builderStatus').textContent=inputMessage(e);}};
+$('builderBlank').onclick=()=>{if(builderDirty&&!confirm('작성 중인 초안을 지우시겠습니까?'))return;const target=$('builderTarget').value;resetBuilder();$('builderTarget').value=target;};
+$('builderApply').onclick=()=>{try{const id=$('builderTarget').value,text=JSON.stringify(builderContract(),null,2);if(replaceInput(id,text)){builderDirty=false;$('builderStatus').textContent=inputNames[id]+'에 반영했습니다. 변경 점검하기를 누르세요.';}else $('builderStatus').textContent='반영을 취소했습니다. 초안은 유지됩니다.';}catch(e){$('builderStatus').textContent=inputMessage(e);}};
+$('builderTarget').onchange=()=>{$('builderStatus').textContent='반영 대상만 변경했습니다. 초안 내용은 유지됩니다. 필요한 경우 선택한 입력창에서 불러오세요.';};
+for(const id of ['builderVersion','builderAction','builderEvent'])$(id).oninput=markDraft;
+resetBuilder();
+
+</script></html>

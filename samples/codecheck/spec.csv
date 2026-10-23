@@ -1,0 +1,3 @@
+기능명,응답 이벤트
+openCamera,cameraResult
+getLocation,locationResult

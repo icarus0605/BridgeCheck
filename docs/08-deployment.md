@@ -24,3 +24,13 @@
 - 최종 합의 digest a5bda0d7e89d3efca071a051888e535d5c86ff56f71f3a2cee9f1c8ab355fe4d.
 - 익명 HTTP200 및 로컬 index 바이트 일치. index SHA256 f8063c330c8f28f09247ebcefeb3d71081a79528d974ea5bfbd231db78400224.
 - 공개 브라우저 제목 focus 유지/outline none, 위험 7옵션 중 선택한 proposal-5만 표시 확인. 보고서에는 전체 항목을 유지합니다.
+
+## 2026-10-23 코드·명세 점검 / 엑셀 일정 배포
+
+- production https://bridgecheck.vercel.app
+- deployment dpl_4vxtVaT3ptwTVVGMpg485wgFhURu READY.
+- 최종 합의 digest 39316869bf7c64946e249e2424a8f5f82717a2b9b52ae5d080bea3cc7c4482c1.
+- index SHA256 4c2e11bde97d0901bffd3099c80d752b840d49aedbd85098c1066cb9bf7c548d. index/contracts/core/app/style/SheetJS/license 7파일 익명 HTTP200 및 로컬 동일성 확인.
+- 첫 배포에서 디렉터리 ignore 규칙 때문에 JS/CSS404를 발견하고 즉시 스테이징 whitelist를 수정하여 위 최종 배포로 교체했습니다. 최종 공개 브라우저 예제 실행·엑셀 다운로드 정상 확인.
+- `.env.local`, samples/codecheck/spec.csv, scripts/verify.cjs는404. 런타임 파일만 배포했습니다.
+- 기존 GitHub 업로드/외부 공개 사이트 업데이트 지시 범위로 반영. 실제 OS 공유폴더 저장과 회사 공유 권한은 미검증이며 사용자 환경에서 선택이 필요합니다.

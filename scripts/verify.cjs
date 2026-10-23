@@ -22,12 +22,12 @@ const context = {
   externalB: JSON.parse(fs.readFileSync(path.join(root, 'samples/contract-v2.json')))
 };
 for(const id of ['requestPolicy','responsePolicy']){
-  const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
+  const html=fs.readFileSync(path.join(root,'contracts.html'),'utf8');
   const select=html.split('<select id="'+id+'">')[1].split('</select>')[0];
   assert.deepEqual([...select.matchAll(/<option value="([^"]+)">[^<]+<\/option>/g)].map(m=>m[1]),['unknown','ignore','reject']);
 }
 vm.createContext(context);
-const source = fs.readFileSync(path.join(root, 'index.html'), 'utf8').split('<script>')[1].split('</script>')[0];
+const source = fs.readFileSync(path.join(root, 'contracts.html'), 'utf8').split('<script>')[1].split('</script>')[0];
 vm.runInContext(source, context);
 let passed = 0;
 function check(name, code) {
@@ -240,3 +240,6 @@ check('선택창 담당자 적용 범위·취소·입력검증·context 무효�
   passed++;console.log('PASS 파일 입력 검증·크기 선검사·편집/연속선택/초기화 경합');
   console.log(`${passed} 검증 묶음 통과. 브라우저·실기기 검증을 대체하지 않습니다.`);
 })().catch(error=>{console.error(error);process.exitCode=1;});
+
+// 명세↔코드 및 일정 파일 워크플로 회귀 검증.
+require('./codecheck.test.cjs');

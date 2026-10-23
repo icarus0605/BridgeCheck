@@ -94,5 +94,21 @@
     "verdict": "no-further-changes",
     "scope": "제목 포커스 테두리 수정·오류 항목 단일 선택 상세·검증·문서",
     "evidence": "2026-10-23 동일 최종본 추가 수정사항 없습니다. 24묶음+하네스12상태 통과. 실제 브라우저7옵션·상세1개·5→0→5 담당자유지 및 보고서 포함·제목 포커스유지/outline제거·가로넘침없음 확인."
+  },
+  {
+    "reviewer": "Claude",
+    "recordedBy": "manual",
+    "digest": "39316869bf7c64946e249e2424a8f5f82717a2b9b52ae5d080bea3cc7c4482c1",
+    "verdict": "no-further-changes",
+    "scope": "코드·명세 점검 UI/분석기/엑셀 일정/폴더 저장, 회귀검증 및 README/PRD/context/harness 전환 문서",
+    "evidence": "2026-10-23 실제 채팅 응답: 해당 digest 최종본에 추가 수정사항 없습니다. option·애너테이션·message.name·DOM 이벤트 수정 및 날짜/CSV/하네스 경로 대조. 브라우저 증거는 Codex 보고에 근거, Claude 직접 실행 아님. Excel 앱 직접 편집과 실제 OS 공유폴더 미검증 인정. 출처 https://claude.ai/chat/3c3274be-264e-4f83-971f-d07602fd88e4"
+  },
+  {
+    "reviewer": "Codex",
+    "recordedBy": "manual",
+    "digest": "39316869bf7c64946e249e2424a8f5f82717a2b9b52ae5d080bea3cc7c4482c1",
+    "verdict": "no-further-changes",
+    "scope": "코드·명세 점검 UI/분석기/엑셀 일정/폴더 저장, 회귀검증 및 README/PRD/context/harness 전환 문서",
+    "evidence": "2026-10-23 동일 최종본 추가 수정사항 없음. 기존 회귀 및 새11묶음과 하네스12상태 통과. 실제 브라우저 XLSX 양식/3플랫폼 소스 업로드, 숫자 날짜와 12행 다운로드, 일정 미리보기/덮어쓰기 차단/재점검 보존 확인. 실제 OS 공유폴더와 Excel 앱 직접 편집 미검증을 명시."
   }
 ]

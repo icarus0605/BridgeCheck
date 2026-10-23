@@ -5,14 +5,14 @@
 ## 실행
 
 1. PRD를 기준으로 수정합니다.
-2. `node scripts/harness.cjs check`: 계약·사용성 검증 24묶음과 하네스 상태 검증을 각각 최대 15초 실행합니다. 실패하면 원인을 고치고 다시 실행합니다. 자동 코드 수정이나 무한 재시도는 하지 않습니다.
+2. `node scripts/harness.cjs check`: 기존 계약·사용성 검증과 새 코드점검·엑셀·폴더 검증을 포함한 검사 및 하네스 상태 검증을 각각 최대 15초 실행합니다. 실패하면 원인을 고치고 다시 실행합니다. 자동 코드 수정이나 무한 재시도는 하지 않습니다.
 3. 출력의 digest와 같은 파일을 Claude·Codex가 교차검토합니다. 구체적인 지적을 수정하고 2단계부터 반복합니다. 같은 최종본에 둘 다 추가 수정사항 없음을 명시해야 합니다.
 4. 실제 응답을 확인한 작업자가 `output/harness/reviews.json`에 recordedBy(manual), reviewer(Claude/Codex), digest, verdict(no-further-changes), scope(검토 범위), evidence(실제 응답·출처)를 전사합니다. 미수신 답변은 작성하지 않습니다.
 5. `node scripts/harness.cjs status`: 검사 실패, 변경, 검토 누락을 구분합니다. 모두 충족해도 AWAITING_HUMAN_APPROVAL에서 멈춥니다. 종료코드 1은 보류, 2는 하네스 자체 오류입니다. 종료코드 0은 기술 검토 증거 충족이며 배포 허가가 아닙니다.
 
 ## 증거와 범위
 
-SHA256 범위: index.html, README.md, .gitignore, docs/02-prd.md, docs/03-context.md, 이 문서, scripts/ 전체, samples/ 전체. 파일 내용·추가·삭제를 반영하고 검사 전후 해시가 다르면 실패합니다. 필수 파일 누락이나 범위 내 심볼릭 링크도 차단합니다.
+SHA256 범위: index.html, contracts.html, README.md, .gitignore, docs/02-prd.md, docs/03-context.md, 이 문서, scripts/ 전체, samples/ 전체. 파일 내용·추가·삭제를 반영하고 검사 전후 해시가 다르면 실패합니다. 필수 파일 누락이나 범위 내 심볼릭 링크도 차단합니다.
 
 output/harness/<실행 UUID>.json은 실행마다 새로 만들고 latest.json은 최근 실행을 가리키는 사본입니다. 결과·검토 기록은 자기참조를 피하기 위해 해시 대상에서 제외합니다. 검토 로그, 발표 PDF, legacy, AGENTS.md 등도 해시 범위 밖이며 이 하네스 통과로 검증됐다고 말하지 않습니다. 범위 변경은 harness.cjs 자체 해시를 바꿔 재검토를 요구합니다.
 

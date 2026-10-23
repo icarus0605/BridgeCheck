@@ -7,7 +7,7 @@ const root = path.resolve(__dirname, '..');
 const out = path.join(root, 'output/harness');
 const sha = value => crypto.createHash('sha256').update(value).digest('hex');
 function snapshot() {
-  const names = ['index.html', 'README.md', '.gitignore', 'docs/02-prd.md', 'docs/03-context.md', 'docs/07-harness.md'];
+  const names = ['index.html', 'contracts.html', 'README.md', '.gitignore', 'docs/02-prd.md', 'docs/03-context.md', 'docs/07-harness.md'];
   function walk(dir) {
     if (!fs.lstatSync(path.join(root,dir)).isDirectory()) throw new Error('검증 디렉터리가 일반 디렉터리가 아닙니다.');
     for (const e of fs.readdirSync(path.join(root, dir), { withFileTypes: true })) {
