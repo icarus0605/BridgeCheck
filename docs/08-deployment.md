@@ -46,3 +46,11 @@
 - dpl_68UsBJiihS8FmVW9xHKjo7wEwPix READY. https://bridgecheck.vercel.app
 - 최종 합의 digest 51c0fd09825fb302ad7e50159271d6f5587e897f63d1beab024bac3fd04c2782.
 - 변경 런타임3파일 HTTP200·로컬 일치. 공개 사이트에서 명세 CSV+React1파일로4행, 미업로드 Android/iOS 미검증 표기와 React만 선택목록에 존재함을 확인했습니다.
+
+## 2026-10-23 담당자 목록 배포
+
+- 사용자가 “바로바로 커밋까지 해야해 배포화면에서 볼수있게”라고 지시하여 교차검토 완료 전에 커밋 4fee07d를 푸시하고 배포했습니다.
+- dpl_EP7b5LLunti5dZ7Zo7S59JS87ock READY. https://bridgecheck.vercel.app
+- 변경 런타임4파일 HTTP200·로컬 SHA256 일치, .env.local 404 확인.
+- 공개 사이트에서 samples/demo 업로드로 29항목, 일정 엑셀 불러오기 후 김안드4·이아이3·미지정22, 담당자 추가와 김안드 항목만 보기 확인.
+- 이 배포본의 Claude·Codex 교차검토 합의는 아직 기록되지 않았습니다.
